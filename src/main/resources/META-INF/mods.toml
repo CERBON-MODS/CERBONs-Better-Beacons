@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[46,)"
+license="GNU General Public License v3.0"
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+[[mods]]
+modId="better_beacons"
+version="${file.jarVersion}"
+displayName="CERBON's Better Beacons"
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
+#logoFile="examplemod.png"
+#credits="Thanks for this example mod goes to Java"
+authors="CerbonXD"
+description='''Overhauls Minecraft's beacons.'''
+
+[[dependencies.better_beacons]]
+    modId="forge"
+    mandatory=true
+    versionRange="[46,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.better_beacons]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20,1.21)"
+    ordering="NONE"
+    side="BOTH"
