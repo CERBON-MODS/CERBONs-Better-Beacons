@@ -25,7 +25,7 @@ public class BeaconBlockEntityMixin {
     @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = new MobEffect[][]{{MobEffects.MOVEMENT_SPEED, MobEffects.LUCK}, {MobEffects.DIG_SPEED, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST, MobEffects.DAMAGE_RESISTANCE}, {MobEffects.NIGHT_VISION, MobEffects.REGENERATION, MobEffects.HEALTH_BOOST}};
     @Shadow @Final private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
 
-    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1), cancellable = true)
+    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1))
     private static void better_beacons_setHealthBoostEffectAmplifierTo1(Level pLevel, BlockPos pPos, int pLevels, MobEffect pPrimary, @NotNull MobEffect pSecondary, @NotNull CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) @NotNull Player player1){
         if (pSecondary.equals(MobEffects.HEALTH_BOOST)){
             player1.addEffect(new MobEffectInstance(pSecondary, j, 1 , true, true));
