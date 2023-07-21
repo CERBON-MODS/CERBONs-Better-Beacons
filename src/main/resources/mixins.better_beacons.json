@@ -5,6 +5,8 @@
   "refmap": "mixins.better_beacons.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "blockEntity.BeaconBlockEntityMixin",
+    "effect.HealthBoostMobEffectMixin"
   ],
   "client": [
   ],
