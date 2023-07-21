@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(HealthBoostMobEffect.class)
-public class HealthBoostMobEffectMixin {
+public abstract class HealthBoostMobEffectMixin {
 
     @WrapWithCondition(method = "removeAttributeModifiers", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V"))
     private boolean better_beacons_makeHealthBoostEffectDontResetHealthIfItsTheSameAmplifier(LivingEntity livingEntity, float maxHealth, @NotNull LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
