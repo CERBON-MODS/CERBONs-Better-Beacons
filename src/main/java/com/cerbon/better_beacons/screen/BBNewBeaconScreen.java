@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.screen;
 
+import com.cerbon.better_beacons.util.BBConstants;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -150,13 +151,16 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     public class BeaconCancelButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
         public BeaconCancelButton(int pX, int pY) {
             super(pX, pY, 112, 220, CommonComponents.GUI_CANCEL);
+            this.setTooltip(BBConstants.CANCEL_BUTTON_TOOLTIP);
         }
 
         public void onPress() {
+            BBNewBeaconScreen.this.minecraft.getConnection().send(new ServerboundSetBeaconPacket(Optional.empty(), Optional.empty()));
             BBNewBeaconScreen.this.minecraft.player.closeContainer();
         }
 
         public void updateStatus(int pBeaconTier) {
+            this.active = BBNewBeaconScreen.this.menu.hasPayment() && BBNewBeaconScreen.this.minecraft.player.hasEffect(BBNewBeaconScreen.this.primary);
         }
     }
 
@@ -164,6 +168,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     public class BeaconConfirmButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
         protected BeaconConfirmButton(int pX, int pY) {
             super(pX, pY, 90, 220, CommonComponents.GUI_DONE);
+            this.setTooltip(BBConstants.CONFIRM_BUTTON_TOOLTIP);
         }
 
         public void onPress() {
