@@ -35,7 +35,6 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
     public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
     public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
-    public static final Component BEACON_RANGE_LABEL = Component.translatable("block.better_beacons.beacon.range.label");
     private final List<BBNewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
     @Nullable
     MobEffect primary;
@@ -115,7 +114,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 62, 10, 14737632);
         pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 169, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, BEACON_RANGE_LABEL, 77, 105, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 77, 105, 14737632);
         pGuiGraphics.drawCenteredString(this.font, "++", 23, 106, 14737632);
         pGuiGraphics.drawCenteredString(this.font, "--", 131, 106, 14737632);
     }
