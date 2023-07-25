@@ -16,10 +16,10 @@ public class BBMenuTypes {
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, BBConstants.MOD_ID);
 
     public static final RegistryObject<MenuType<BBNewBeaconMenu>> NEW_BEACON_MENU =
-            registerMenuType(BBNewBeaconMenu::new, "new_beacon_menu");
+            registerMenuType(BBNewBeaconMenu::new);
 
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name){
-        return MENU_TYPE.register(name, () -> IForgeMenuType.create(factory));
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory){
+        return MENU_TYPE.register("new_beacon_menu", () -> IForgeMenuType.create(factory));
     }
 
     public static void register(IEventBus eventBus){

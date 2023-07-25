@@ -41,6 +41,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         }
     };
 
+    @SuppressWarnings("unused")
     public BBNewBeaconMenu(int pContainerId, Container pContainer, FriendlyByteBuf friendlyByteBuf) {
         this(pContainerId, pContainer, new SimpleContainerData(3), ContainerLevelAccess.NULL);
     }
@@ -111,7 +112,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
                 }
 
                 slot.onQuickCraft(itemstack1, itemstack);
-            } else if (this.moveItemStackTo(itemstack1, 0, 1, false)) { //Forge Fix Shift Clicking in beacons with stacks larger then 1.
+            } else if (this.moveItemStackTo(itemstack1, 0, 1, false)) { //Forge Fix Shift Clicking in beacons with stacks larger than 1.
                 return ItemStack.EMPTY;
             } else if (pIndex >= 1 && pIndex < 28) {
                 if (!this.moveItemStackTo(itemstack1, 28, 37, false)) {
@@ -155,6 +156,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         return MobEffect.byId(this.beaconData.get(2));
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public void updateEffects(Optional<MobEffect> pPrimaryEffect, Optional<MobEffect> pSecondaryEffect) {
         if (this.paymentSlot.hasItem()) {
             this.beaconData.set(1, pPrimaryEffect.map(MobEffect::getId).orElse(-1));

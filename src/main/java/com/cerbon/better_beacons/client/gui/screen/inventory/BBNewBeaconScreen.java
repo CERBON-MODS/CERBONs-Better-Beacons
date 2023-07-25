@@ -107,12 +107,10 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
     void updateButtons() {
         int i = this.menu.getLevels();
-        this.beaconButtons.forEach((p_169615_) -> {
-            p_169615_.updateStatus(i);
-        });
+        this.beaconButtons.forEach((p_169615_) -> p_169615_.updateStatus(i));
     }
 
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+    protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 62, 10, 14737632);
         pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 169, 10, 14737632);
         pGuiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 77, 105, 14737632);
@@ -121,7 +119,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     }
 
     @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(@NotNull GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         pGuiGraphics.blit(BEACON_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
@@ -147,6 +145,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         void updateStatus(int pBeaconTier);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @OnlyIn(Dist.CLIENT)
     public class BeaconCancelButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
         public BeaconCancelButton(int pX, int pY) {
@@ -164,6 +163,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @OnlyIn(Dist.CLIENT)
     public class BeaconConfirmButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
         protected BeaconConfirmButton(int pX, int pY) {
@@ -198,10 +198,10 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         protected void setEffect(MobEffect pEffect) {
             this.effect = pEffect;
             this.sprite = Minecraft.getInstance().getMobEffectTextures().get(pEffect);
-            this.setTooltip(Tooltip.create(this.createEffectDescription(pEffect), (Component)null));
+            this.setTooltip(Tooltip.create(this.createEffectDescription(pEffect), null));
         }
 
-        protected MutableComponent createEffectDescription(MobEffect pEffect) {
+        protected MutableComponent createEffectDescription(@NotNull MobEffect pEffect) {
             return Component.translatable(pEffect.getDescriptionId());
         }
 
@@ -217,7 +217,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             }
         }
 
-        protected void renderIcon(GuiGraphics pGuiGraphics) {
+        protected void renderIcon(@NotNull GuiGraphics pGuiGraphics) {
             pGuiGraphics.blit(this.getX() + 2, this.getY() + 2, 0, 18, 18, this.sprite);
         }
 
@@ -226,7 +226,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             this.setSelected(this.effect == (this.isPrimary ? BBNewBeaconScreen.this.primary : BBNewBeaconScreen.this.secondary));
         }
 
-        protected MutableComponent createNarrationMessage() {
+        protected @NotNull MutableComponent createNarrationMessage() {
             return this.createEffectDescription(this.effect);
         }
     }
@@ -243,13 +243,13 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             super(pX, pY, 22, 22, pMessage);
         }
 
-        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            int i = 219;
+        public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+//            int i = 219;
             int j = 0;
             if (!this.active) {
                 j += this.width * 2;
             } else if (this.selected) {
-                j += this.width * 1;
+                j += this.width;
             } else if (this.isHoveredOrFocused()) {
                 j += this.width * 3;
             }
@@ -268,7 +268,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             this.selected = pSelected;
         }
 
-        public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
+        public void updateWidgetNarration(@NotNull NarrationElementOutput pNarrationElementOutput) {
             this.defaultButtonNarrationText(pNarrationElementOutput);
         }
     }
@@ -284,7 +284,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             this.iconY = p_169666_;
         }
 
-        protected void renderIcon(GuiGraphics p_283624_) {
+        protected void renderIcon(@NotNull GuiGraphics p_283624_) {
             p_283624_.blit(BBNewBeaconScreen.BEACON_LOCATION, this.getX() + 2, this.getY() + 2, this.iconX, this.iconY, 18, 18);
         }
     }
@@ -295,7 +295,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             super(pX, pY, pEffect, false, 3);
         }
 
-        protected MutableComponent createEffectDescription(MobEffect pEffect) {
+        protected MutableComponent createEffectDescription(@NotNull MobEffect pEffect) {
             return Component.translatable(pEffect.getDescriptionId()).append(" II");
         }
 
@@ -307,7 +307,6 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             } else {
                 this.visible = false;
             }
-
         }
     }
 }
