@@ -1,5 +1,6 @@
-package com.cerbon.better_beacons.screen;
+package com.cerbon.better_beacons.menu.custom;
 
+import com.cerbon.better_beacons.menu.BBMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;

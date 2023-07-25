@@ -1,6 +1,6 @@
 package com.cerbon.better_beacons.mixin.blockEntity;
 
-import com.cerbon.better_beacons.screen.BBNewBeaconMenu;
+import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

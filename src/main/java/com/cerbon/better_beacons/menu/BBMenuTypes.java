@@ -1,5 +1,6 @@
-package com.cerbon.better_beacons.screen;
+package com.cerbon.better_beacons.menu;
 
+import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;

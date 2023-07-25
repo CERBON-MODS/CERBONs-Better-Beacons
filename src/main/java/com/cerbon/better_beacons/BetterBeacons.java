@@ -1,8 +1,8 @@
 package com.cerbon.better_beacons;
 
 import com.cerbon.better_beacons.config.BBCommonConfigs;
-import com.cerbon.better_beacons.screen.BBMenuTypes;
-import com.cerbon.better_beacons.screen.BBNewBeaconScreen;
+import com.cerbon.better_beacons.menu.BBMenuTypes;
+import com.cerbon.better_beacons.client.gui.screen.inventory.BBNewBeaconScreen;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;

@@ -1,7 +1,7 @@
 package com.cerbon.better_beacons.mixin.packet;
 
 import com.cerbon.better_beacons.BetterBeacons;
-import com.cerbon.better_beacons.screen.BBNewBeaconMenu;
+import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
 import net.minecraft.server.level.ServerPlayer;
