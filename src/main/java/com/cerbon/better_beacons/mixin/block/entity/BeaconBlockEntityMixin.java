@@ -1,4 +1,4 @@
-package com.cerbon.better_beacons.mixin.blockEntity;
+package com.cerbon.better_beacons.mixin.block.entity;
 
 import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.llamalad7.mixinextras.sugar.Local;
