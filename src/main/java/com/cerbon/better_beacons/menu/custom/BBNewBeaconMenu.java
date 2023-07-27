@@ -1,6 +1,10 @@
 package com.cerbon.better_beacons.menu.custom;
 
 import com.cerbon.better_beacons.menu.BBMenuTypes;
+import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBContainerData;
+import com.cerbon.better_beacons.util.BBSimpleContainerData;
+import com.cerbon.better_beacons.util.BBUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -43,17 +47,19 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
 
     @SuppressWarnings("unused")
     public BBNewBeaconMenu(int pContainerId, Container pContainer, FriendlyByteBuf friendlyByteBuf) {
-        this(pContainerId, pContainer, new SimpleContainerData(3), ContainerLevelAccess.NULL);
+        this(pContainerId, pContainer, new SimpleContainerData(3), new BBSimpleContainerData(4), ContainerLevelAccess.NULL);
     }
 
     private final BBNewBeaconMenu.PaymentSlot paymentSlot;
     private final ContainerLevelAccess access;
     private final ContainerData beaconData;
+    private final BBContainerData bbBeaconData;
 
-    public BBNewBeaconMenu(int pContainerId, Container pContainer, ContainerData pBeaconData, ContainerLevelAccess pAccess) {
+    public BBNewBeaconMenu(int pContainerId, Container pContainer, ContainerData pBeaconData, BBContainerData bbBeaconData, ContainerLevelAccess pAccess) {
         super(BBMenuTypes.NEW_BEACON_MENU.get(), pContainerId);
         checkContainerDataCount(pBeaconData, 3);
         this.beaconData = pBeaconData;
+        this.bbBeaconData = bbBeaconData;
         this.access = pAccess;
         this.paymentSlot = new PaymentSlot(this.beacon, 0, 153, 109);
         this.addSlot(this.paymentSlot);
@@ -161,6 +167,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         if (this.paymentSlot.hasItem()) {
             this.beaconData.set(1, pPrimaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, pSecondaryEffect.map(MobEffect::getId).orElse(-1));
+            this.bbBeaconData.setStringData(BBConstants.PAYMENT_ITEM_DATA_NAME, BBUtils.getItemNameWithCreatorModId(this.paymentSlot.getItem()));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }
