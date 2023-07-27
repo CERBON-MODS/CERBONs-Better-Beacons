@@ -47,7 +47,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
 
     @SuppressWarnings("unused")
     public BBNewBeaconMenu(int pContainerId, Container pContainer, FriendlyByteBuf friendlyByteBuf) {
-        this(pContainerId, pContainer, new SimpleContainerData(3), new BBSimpleContainerData(4), ContainerLevelAccess.NULL);
+        this(pContainerId, pContainer, new SimpleContainerData(3), new BBSimpleContainerData(), ContainerLevelAccess.NULL);
     }
 
     private final BBNewBeaconMenu.PaymentSlot paymentSlot;

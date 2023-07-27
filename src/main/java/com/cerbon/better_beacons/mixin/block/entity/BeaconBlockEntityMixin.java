@@ -51,28 +51,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Unique private String better_beacons_PaymentItem;
     @Unique private BBContainerData better_beacons_dataAccess = new BBContainerData() {
         @Override
-        public String getStringData(String dataName) {
-            if (dataName.equals(BBConstants.PAYMENT_ITEM_DATA_NAME)) {
-                return better_beacons_PaymentItem;
-            }
-            return dataName;
-        }
-
-        @Override
         public void setStringData(String dataName, String value) {
             if (dataName.equals(BBConstants.PAYMENT_ITEM_DATA_NAME)){
                 better_beacons_PaymentItem = value;
             }
-        }
-
-        @Override
-        public boolean getBooleanData(String dataName) {
-            return false;
-        }
-
-        @Override
-        public void setBooleanData(String dataName, boolean value) {
-
         }
     };
 
