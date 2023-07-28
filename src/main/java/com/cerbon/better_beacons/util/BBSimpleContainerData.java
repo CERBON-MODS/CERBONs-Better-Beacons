@@ -5,5 +5,5 @@ public class BBSimpleContainerData implements BBContainerData{
     public BBSimpleContainerData(){}
 
     @Override
-    public void setStringData(String dataName, String value) {}
+    public void setString(String key, String value) {}
 }

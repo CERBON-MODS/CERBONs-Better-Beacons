@@ -51,8 +51,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Unique private String better_beacons_PaymentItem;
     @Unique private BBContainerData better_beacons_dataAccess = new BBContainerData() {
         @Override
-        public void setStringData(String dataName, String value) {
-            if (dataName.equals(BBConstants.PAYMENT_ITEM_DATA_NAME)){
+        public void setString(String key, String value) {
+            if (key.equals(BBConstants.PAYMENT_ITEM_KEY)){
                 BeaconBlockEntityMixin.this.better_beacons_PaymentItem = value;
             }
         }
@@ -65,14 +65,14 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag pTag, CallbackInfo ci){
         if (this.better_beacons_PaymentItem != null){
-            pTag.putString(BBConstants.PAYMENT_ITEM_DATA_NAME, this.better_beacons_PaymentItem);
+            pTag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
         }
     }
 
     @Inject(method = "load", at = @At("TAIL"))
     private void better_beacons_readCustomData(CompoundTag pTag, CallbackInfo ci){
-        if (pTag.contains(BBConstants.PAYMENT_ITEM_DATA_NAME)){
-            this.better_beacons_PaymentItem = pTag.getString(BBConstants.PAYMENT_ITEM_DATA_NAME);
+        if (pTag.contains(BBConstants.PAYMENT_ITEM_KEY)){
+            this.better_beacons_PaymentItem = pTag.getString(BBConstants.PAYMENT_ITEM_KEY);
         }
     }
 

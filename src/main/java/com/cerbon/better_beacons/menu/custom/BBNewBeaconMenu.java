@@ -167,7 +167,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         if (this.paymentSlot.hasItem()) {
             this.beaconData.set(1, pPrimaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, pSecondaryEffect.map(MobEffect::getId).orElse(-1));
-            this.bbBeaconData.setStringData(BBConstants.PAYMENT_ITEM_DATA_NAME, BBUtils.getItemNameWithCreatorModId(this.paymentSlot.getItem()));
+            this.bbBeaconData.setString(BBConstants.PAYMENT_ITEM_KEY, BBUtils.getItemNameWithCreatorModId(this.paymentSlot.getItem()));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }

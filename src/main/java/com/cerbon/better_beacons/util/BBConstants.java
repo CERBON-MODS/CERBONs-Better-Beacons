@@ -7,7 +7,7 @@ public class BBConstants {
     public static final String MOD_ID = "better_beacons";
     public static final String COMMON_CONFIG_NAME = MOD_ID + ".toml";
 
-    public static final String PAYMENT_ITEM_DATA_NAME = "BBPaymentItem";
+    public static final String PAYMENT_ITEM_KEY = "BBPaymentItem";
 
     public static final Component BEACON_RANGE_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.beacon_range.label");
 
