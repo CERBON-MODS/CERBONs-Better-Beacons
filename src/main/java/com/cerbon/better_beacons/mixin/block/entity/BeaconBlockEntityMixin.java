@@ -94,11 +94,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return defaultRange;
     }
 
-    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1))
+    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1), cancellable = true)
     private static void better_beacons_setHealthBoostEffectAmplifierTo1(Level pLevel, BlockPos pPos, int pLevels, MobEffect pPrimary, @NotNull MobEffect pSecondary, @NotNull CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) @NotNull Player player1){
-        if (pSecondary.equals(MobEffects.HEALTH_BOOST)){
-            player1.addEffect(new MobEffectInstance(pSecondary, j, 1 , true, true));
-        }
+        player1.addEffect(new MobEffectInstance(pSecondary, j, pSecondary.equals(MobEffects.HEALTH_BOOST) ? 1 : 0 , true, true));
+        ci.cancel();
     }
 
     @SuppressWarnings("DataFlowIssue")
