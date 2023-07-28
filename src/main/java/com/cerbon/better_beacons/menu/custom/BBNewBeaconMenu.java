@@ -162,6 +162,10 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         return MobEffect.byId(this.beaconData.get(2));
     }
 
+    public boolean isEffectsActive(){
+        return MobEffect.byId(this.beaconData.get(1)) != null;
+    }
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public void updateEffects(Optional<MobEffect> pPrimaryEffect, Optional<MobEffect> pSecondaryEffect) {
         if (this.paymentSlot.hasItem()) {

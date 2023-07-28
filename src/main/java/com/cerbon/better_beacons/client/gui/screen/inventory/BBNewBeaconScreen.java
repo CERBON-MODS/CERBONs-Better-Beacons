@@ -41,6 +41,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     MobEffect primary;
     @Nullable
     MobEffect secondary;
+    boolean isEffectsActive;
 
     public BBNewBeaconScreen(BBNewBeaconMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -57,6 +58,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             public void dataChanged(@NotNull AbstractContainerMenu p_169628_, int p_169629_, int p_169630_) {
                 BBNewBeaconScreen.this.primary = pMenu.getPrimaryEffect();
                 BBNewBeaconScreen.this.secondary = pMenu.getSecondaryEffect();
+                BBNewBeaconScreen.this.isEffectsActive = pMenu.isEffectsActive();
             }
         });
     }
@@ -159,7 +161,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         }
 
         public void updateStatus(int pBeaconTier) {
-            this.active = BBNewBeaconScreen.this.menu.hasPayment() && BBNewBeaconScreen.this.minecraft.player.hasEffect(BBNewBeaconScreen.this.primary);
+            this.active = BBNewBeaconScreen.this.menu.hasPayment() && BBNewBeaconScreen.this.isEffectsActive && BBNewBeaconScreen.this.primary != null;
         }
     }
 
