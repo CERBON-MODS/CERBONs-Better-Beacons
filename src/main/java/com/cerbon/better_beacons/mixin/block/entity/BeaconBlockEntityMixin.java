@@ -2,7 +2,7 @@ package com.cerbon.better_beacons.mixin.block.entity;
 
 import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.BBContainerData;
+import com.cerbon.better_beacons.world.inventory.BBContainerData;
 import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;

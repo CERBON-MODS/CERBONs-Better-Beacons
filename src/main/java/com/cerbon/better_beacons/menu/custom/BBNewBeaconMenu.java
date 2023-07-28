@@ -2,8 +2,8 @@ package com.cerbon.better_beacons.menu.custom;
 
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.BBContainerData;
-import com.cerbon.better_beacons.util.BBSimpleContainerData;
+import com.cerbon.better_beacons.world.inventory.BBContainerData;
+import com.cerbon.better_beacons.world.inventory.BBSimpleContainerData;
 import com.cerbon.better_beacons.util.BBUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
