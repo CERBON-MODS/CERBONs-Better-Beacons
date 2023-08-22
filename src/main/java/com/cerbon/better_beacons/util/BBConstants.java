@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 
 public class BBConstants {
     public static final String MOD_ID = "better_beacons";
-    public static final String COMMON_CONFIG_NAME = MOD_ID + ".toml";
+    public static final String COMMON_CONFIG_NAME = MOD_ID + "-common.toml";
 
     public static final String PAYMENT_ITEM_KEY = "BBPaymentItem";
 
