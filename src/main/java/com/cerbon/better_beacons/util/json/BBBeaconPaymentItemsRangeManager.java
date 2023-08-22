@@ -12,6 +12,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> resources, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
+    protected void apply(@NotNull Map<ResourceLocation, JsonElement> resources, @NotNull ResourceManager pResourceManager, @NotNull ProfilerFiller pProfiler) {
         allValuesLists.clear();
         resources.forEach((resourceLocation, jsonElement) -> {
             try {
