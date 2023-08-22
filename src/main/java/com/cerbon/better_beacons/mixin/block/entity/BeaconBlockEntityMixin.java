@@ -2,6 +2,8 @@ package com.cerbon.better_beacons.mixin.block.entity;
 
 import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.world.inventory.BBContainerData;
 import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -77,19 +79,20 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
-    private static double better_beacons_increaseRangeDependingOnThePaymentItem(double defaultRange, Level pLevel, BlockPos pPos, int pLevels, @Nullable MobEffect pPrimary, @Nullable MobEffect pSecondary){
+    private static double better_beacons_increaseRangeDependingOnPaymentItem(double defaultRange, Level pLevel, BlockPos pPos, int pLevels, @Nullable MobEffect pPrimary, @Nullable MobEffect pSecondary){
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity && ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem() != null){
-            return switch (((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem()) {
-                case "minecraft:copper_ingot" -> defaultRange + 0;
-                case "minecraft:iron_ingot" -> defaultRange + 10;
-                case "minecraft:gold_ingot" -> defaultRange + 20;
-                case "minecraft:emerald" -> defaultRange + 25;
-                case "minecraft:diamond" -> defaultRange + 40;
-                case "minecraft:netherite_ingot" -> defaultRange + 60;
-                default -> defaultRange;
-            };
+        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity){
+            String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
+
+            if (paymentItem != null){
+                return BBBeaconPaymentItemsRangeManager.getAllValuesLists().stream()
+                        .flatMap(valuesList -> valuesList.values().stream())
+                        .filter(value -> paymentItem.equals(BBUtils.getItemNameWithCreatorModId(value.item())))
+                        .mapToDouble(value -> defaultRange + value.range())
+                        .findFirst()
+                        .orElse(defaultRange);
+            }
         }
         return defaultRange;
     }
