@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
 public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBeaconBlockEntityMixin {
-    @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = new MobEffect[][]{{MobEffects.MOVEMENT_SPEED, MobEffects.LUCK}, {MobEffects.DIG_SPEED, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST, MobEffects.DAMAGE_RESISTANCE}, {MobEffects.NIGHT_VISION, MobEffects.REGENERATION, MobEffects.HEALTH_BOOST}};
+    @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = BBUtils.getBeaconEffectsFromConfigFile();
     @Shadow @Final @SuppressWarnings("unused") private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
     @Shadow private LockCode lockKey;
     @Shadow @Final private ContainerData dataAccess;
