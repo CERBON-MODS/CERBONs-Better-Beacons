@@ -76,7 +76,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
-    private static double better_beacons_increaseRangeDependingOnPaymentItem(double defaultRange, Level pLevel, BlockPos pPos, int pLevels, @Nullable MobEffect pPrimary, @Nullable MobEffect pSecondary){
+    private static double better_beacons_increaseRangeBasedOnPaymentItem(double defaultRange, Level pLevel, BlockPos pPos, int pLevels, @Nullable MobEffect pPrimary, @Nullable MobEffect pSecondary){
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity){
