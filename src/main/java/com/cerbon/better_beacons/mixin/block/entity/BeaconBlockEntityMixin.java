@@ -85,7 +85,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             if (paymentItem != null){
                 return BBBeaconPaymentItemsRangeManager.getAllValuesLists().stream()
                         .flatMap(valuesList -> valuesList.values().stream())
-                        .filter(value -> paymentItem.equals(BBUtils.getItemNameWithCreatorModId(value.item())))
+                        .filter(value -> paymentItem.equals(BBUtils.getItemNameWithCreatorModId(value.item())) && value.range() >= 0)
                         .mapToDouble(value -> defaultRange + value.range())
                         .findFirst()
                         .orElse(defaultRange);
