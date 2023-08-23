@@ -48,14 +48,14 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow private LockCode lockKey;
     @Shadow @Final private ContainerData dataAccess;
 
-    @Shadow public abstract Component getDisplayName();
-
     @Unique private String better_beacons_PaymentItem;
     @Unique private BBContainerData better_beacons_dataAccess = (key, value) -> {
         if (key.equals(BBConstants.PAYMENT_ITEM_KEY)){
             BeaconBlockEntityMixin.this.better_beacons_PaymentItem = value;
         }
     };
+
+    @Shadow public abstract Component getDisplayName();
 
     public BeaconBlockEntityMixin(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
