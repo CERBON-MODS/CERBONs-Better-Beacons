@@ -15,11 +15,9 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 import java.util.Optional;
 
 public class BBNewBeaconMenu extends AbstractContainerMenu {
@@ -173,7 +171,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         if (this.paymentSlot.hasItem()) {
             this.beaconData.set(1, pPrimaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, pSecondaryEffect.map(MobEffect::getId).orElse(-1));
-            this.bbBeaconData.setString(BBConstants.PAYMENT_ITEM_KEY, BBUtils.getItemNameWithCreatorModId(this.paymentSlot.getItem().getItem()));
+            this.bbBeaconData.setString(BBConstants.PAYMENT_ITEM_KEY, BBUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem()));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }

@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Objects;
 
 public class BBUtils {
-    public static String getItemNameWithCreatorModId(Item item){
+    public static String getItemKeyAsString(Item item){
         return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString();
     }
 
