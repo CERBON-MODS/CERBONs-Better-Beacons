@@ -161,7 +161,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         }
 
         public void updateStatus(int pBeaconTier) {
-            this.active = BBNewBeaconScreen.this.menu.hasPayment() && BBNewBeaconScreen.this.isEffectsActive && BBNewBeaconScreen.this.primary != null;
+            this.active = BBNewBeaconScreen.this.isEffectsActive && BBNewBeaconScreen.this.primary != null;
         }
     }
 

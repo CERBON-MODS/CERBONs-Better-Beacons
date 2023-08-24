@@ -26,7 +26,10 @@ public abstract class ServerGamePacketListenerImplMixin {
                 return;
             }
 
-            beaconMenu.updateEffects(pPacket.getPrimary(), pPacket.getSecondary());
+            if (pPacket.getPrimary().isPresent())
+                beaconMenu.updateEffects(pPacket.getPrimary(), pPacket.getSecondary());
+            else
+                beaconMenu.removeActiveEffects();
         }
     }
 }

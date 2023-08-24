@@ -175,7 +175,12 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }
+    }
 
+    public void removeActiveEffects(){
+        this.beaconData.set(1 , -1);
+        this.beaconData.set(2, -1);
+        this.access.execute(Level::blockEntityChanged);
     }
 
     public boolean hasPayment() {
