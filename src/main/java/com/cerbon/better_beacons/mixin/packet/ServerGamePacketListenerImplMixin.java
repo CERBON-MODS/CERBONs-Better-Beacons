@@ -20,16 +20,16 @@ public abstract class ServerGamePacketListenerImplMixin {
 
     @Inject(method = "handleSetBeaconPacket", at = @At(value = "TAIL"))
     private void better_beacons_handleBeaconPacketOnNewMenu(ServerboundSetBeaconPacket pPacket, CallbackInfo ci, @Local(ordinal = 0) AbstractContainerMenu abstractContainerMenu){
-        if(abstractContainerMenu instanceof BBNewBeaconMenu beaconMenu){
+        if(abstractContainerMenu instanceof BBNewBeaconMenu newBeaconMenu){
             if (!this.player.containerMenu.stillValid(this.player)) {
                 BetterBeacons.LOGGER.debug("Player {} interacted with invalid menu {}", this.player, this.player.containerMenu);
                 return;
             }
 
             if (pPacket.getPrimary().isPresent())
-                beaconMenu.updateEffects(pPacket.getPrimary(), pPacket.getSecondary());
+                newBeaconMenu.updateEffects(pPacket.getPrimary(), pPacket.getSecondary());
             else
-                beaconMenu.removeActiveEffects();
+                newBeaconMenu.removeActiveEffects();
         }
     }
 }
