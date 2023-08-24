@@ -35,7 +35,7 @@ public class BetterBeacons {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BBCommonConfigs.SPEC, BBConstants.COMMON_CONFIG_NAME);
     }
 
-    public void onClientSetup(FMLClientSetupEvent event){
+    private void onClientSetup(FMLClientSetupEvent event){
         MenuScreens.register(BBMenuTypes.NEW_BEACON_MENU.get(), BBNewBeaconScreen::new);
     }
 
