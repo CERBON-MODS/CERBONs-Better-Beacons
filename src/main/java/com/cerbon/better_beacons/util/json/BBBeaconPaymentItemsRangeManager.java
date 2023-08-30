@@ -58,7 +58,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
     }
 
     private void addToItemRangeMap(ValuesListCodec valuesList){
-        valuesList.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), entry.range()));
+        valuesList.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), Math.max(entry.range(), 0)));
     }
 
     public static BBBeaconPaymentItemsRangeManager getInstance() {
