@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons.util.json;
 
 import com.cerbon.better_beacons.BetterBeacons;
+import com.cerbon.better_beacons.util.BBUtils;
 import com.google.gson.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -14,7 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
 
     private static final String DIRECTORY = "payment_items_range";
 
-    // A list containing the "values" list of all the json files
-    private static final List<ValuesListEntry> allValuesLists = new ArrayList<>();
+    private static final HashMap<String, Integer> itemRangeMap = new HashMap<>();
 
     public record ValuesListEntry(List<ItemRangeEntry> values){
         public static final Codec<ValuesListEntry> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
@@ -46,22 +46,26 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
 
     @Override
     protected void apply(@NotNull Map<ResourceLocation, JsonElement> resources, @NotNull ResourceManager pResourceManager, @NotNull ProfilerFiller pProfiler) {
-        allValuesLists.clear();
+        itemRangeMap.clear();
         resources.forEach((resourceLocation, jsonElement) -> {
             try {
                 DataResult<ValuesListEntry> dataResult = ValuesListEntry.CODEC.parse(JsonOps.INSTANCE, jsonElement);
-                dataResult.resultOrPartial(result -> {}).ifPresent(allValuesLists::add);
+                dataResult.resultOrPartial(result -> {}).ifPresent(this::addToItemRangeMap);
             }catch (Exception e){
-                BetterBeacons.LOGGER.error("Better Beacons Error: Couldn't parse beacons payment items range file {}", resourceLocation, e);
+                BetterBeacons.LOGGER.error("Better Beacons Error: Couldn't parse beacon payment items range file {}", resourceLocation, e);
             }
         });
+    }
+
+    private void addToItemRangeMap(ValuesListEntry valuesListEntry){
+        valuesListEntry.values().forEach(value -> itemRangeMap.put(BBUtils.getItemKeyAsString(value.item()), value.range()));
     }
 
     public static BBBeaconPaymentItemsRangeManager getInstance() {
         return INSTANCE;
     }
 
-    public static List<ValuesListEntry> getAllValuesLists() {
-        return allValuesLists;
+    public static HashMap<String, Integer> getItemRangeMap(){
+        return itemRangeMap;
     }
 }

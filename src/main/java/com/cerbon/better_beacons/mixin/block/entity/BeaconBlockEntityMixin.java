@@ -83,12 +83,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
 
             if (paymentItem != null){
-                return BBBeaconPaymentItemsRangeManager.getAllValuesLists().stream()
-                        .flatMap(valuesList -> valuesList.values().stream())
-                        .filter(value -> paymentItem.equals(BBUtils.getItemKeyAsString(value.item())) && value.range() >= 0)
-                        .mapToDouble(value -> defaultRange + value.range())
-                        .findFirst()
-                        .orElse(defaultRange);
+                return BBBeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(paymentItem, 0) + defaultRange;
             }
         }
         return defaultRange;
