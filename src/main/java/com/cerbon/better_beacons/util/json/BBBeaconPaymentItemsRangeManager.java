@@ -27,17 +27,17 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
 
     private static final HashMap<String, Integer> itemRangeMap = new HashMap<>();
 
-    public record ValuesListEntry(List<ItemRangeEntry> values){
-        public static final Codec<ValuesListEntry> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-                ItemRangeEntry.CODEC.listOf().fieldOf("values").forGetter(ValuesListEntry::values)
-        ).apply(instance, instance.stable(ValuesListEntry::new)));
+    public record ValuesListCodec(List<ItemRangeCodec> values){
+        public static final Codec<ValuesListCodec> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                ItemRangeCodec.CODEC.listOf().fieldOf("values").forGetter(ValuesListCodec::values)
+        ).apply(instance, instance.stable(ValuesListCodec::new)));
     }
 
-    public record ItemRangeEntry(Item item, int range) {
-        public static final Codec<ItemRangeEntry> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-                ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemRangeEntry::item),
-                Codec.INT.fieldOf("range").forGetter(ItemRangeEntry::range)
-        ).apply(instance, instance.stable(ItemRangeEntry::new)));
+    public record ItemRangeCodec(Item item, int range) {
+        public static final Codec<ItemRangeCodec> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemRangeCodec::item),
+                Codec.INT.fieldOf("range").forGetter(ItemRangeCodec::range)
+        ).apply(instance, instance.stable(ItemRangeCodec::new)));
     }
 
     public BBBeaconPaymentItemsRangeManager() {
@@ -49,7 +49,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
         itemRangeMap.clear();
         resources.forEach((resourceLocation, jsonElement) -> {
             try {
-                DataResult<ValuesListEntry> dataResult = ValuesListEntry.CODEC.parse(JsonOps.INSTANCE, jsonElement);
+                DataResult<ValuesListCodec> dataResult = ValuesListCodec.CODEC.parse(JsonOps.INSTANCE, jsonElement);
                 dataResult.resultOrPartial(result -> {}).ifPresent(this::addToItemRangeMap);
             }catch (Exception e){
                 BetterBeacons.LOGGER.error("Better Beacons Error: Couldn't parse beacon payment items range file {}", resourceLocation, e);
@@ -57,8 +57,8 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
         });
     }
 
-    private void addToItemRangeMap(ValuesListEntry valuesListEntry){
-        valuesListEntry.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), entry.range()));
+    private void addToItemRangeMap(ValuesListCodec valuesList){
+        valuesList.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), entry.range()));
     }
 
     public static BBBeaconPaymentItemsRangeManager getInstance() {
