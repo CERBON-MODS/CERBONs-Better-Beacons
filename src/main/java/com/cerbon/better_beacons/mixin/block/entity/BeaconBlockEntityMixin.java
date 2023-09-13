@@ -3,17 +3,14 @@ package com.cerbon.better_beacons.mixin.block.entity;
 import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
 import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.world.inventory.BBContainerData;
-import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -25,7 +22,6 @@ import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -87,12 +83,6 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             }
         }
         return defaultRange;
-    }
-
-    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1), cancellable = true)
-    private static void better_beacons_setHealthBoostEffectAmplifierTo1(Level pLevel, BlockPos pPos, int pLevels, MobEffect pPrimary, @NotNull MobEffect pSecondary, @NotNull CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) @NotNull Player player1){
-        player1.addEffect(new MobEffectInstance(pSecondary, j, pSecondary.equals(MobEffects.HEALTH_BOOST) ? 1 : 0 , true, true));
-        ci.cancel();
     }
 
     @SuppressWarnings("DataFlowIssue")

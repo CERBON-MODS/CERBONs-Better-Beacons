@@ -29,8 +29,8 @@ public class BBCommonConfigs {
                 .defineList("Level 3 Effects", List.of("minecraft:strength", "minecraft:resistance"), entry -> entry instanceof String);
 
         SECONDARY_EFFECTS = BUILDER
-                .comment("This is a list that contains the secondary effects that a beacon has when at level 4. I would recommend a maximum of four effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:night_vision\", \"minecraft:regeneration\", \"minecraft:health_boost\"")
-                .defineList("Secondary Effects", List.of("minecraft:night_vision", "minecraft:regeneration", "minecraft:health_boost"), entry -> entry instanceof String);
+                .comment("This is a list that contains the secondary effects that a beacon has when at level 4. I would recommend a maximum of four effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:night_vision\", \"minecraft:regeneration\", \"minecraft:fire_resistance\"")
+                .defineList("Secondary Effects", List.of("minecraft:night_vision", "minecraft:regeneration", "minecraft:fire_resistance"), entry -> entry instanceof String);
 
         SPEC = BUILDER.build();
     }
