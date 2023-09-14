@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class BeaconRedirectionAndTransparency {
     public static int horizontalMoveLimit = BBCommonConfigs.HORIZONTAL_MOVE_LIMIT.get();
@@ -33,7 +34,7 @@ public class BeaconRedirectionAndTransparency {
         BlockPos currPos = beaconPos;
 
         int horizontalMoves = horizontalMoveLimit;
-        int targetHeight = level.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
+        int targetHeight = Objects.requireNonNull(level).getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
         boolean broke = false;
         boolean didRedirection = false;
