@@ -27,12 +27,12 @@ public class BeaconRedirectionAndTransparency {
         if(!enabled)
             return 0;
 
-        Level world = beacon.getLevel();
+        Level level = beacon.getLevel();
         BlockPos beaconPos = beacon.getBlockPos();
         BlockPos currPos = beaconPos;
 
         int horizontalMoves = horizontalMoveLimit;
-        int targetHeight = world.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
+        int targetHeight = level.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
         boolean broke = false;
 
@@ -47,9 +47,9 @@ public class BeaconRedirectionAndTransparency {
         Collection<BlockPos> seenPositions = new HashSet<>();
         boolean hardColorSet = false;
 
-        while(world.isInWorldBounds(currPos) && horizontalMoves > 0) {
+        while(level.isInWorldBounds(currPos) && horizontalMoves > 0) {
             if(currSegment.dir == Direction.UP && currSegment.dir != lastDir) {
-                int heightmapVal = world.getHeight(Heightmap.Types.WORLD_SURFACE, currPos.getX(), currPos.getZ());
+                int heightmapVal = level.getHeight(Heightmap.Types.WORLD_SURFACE, currPos.getX(), currPos.getZ());
                 if(heightmapVal == (currPos.getY() + 1)) {
                     currSegment.setHeight(heightmapVal + 1000);
                     break;
@@ -64,9 +64,9 @@ public class BeaconRedirectionAndTransparency {
                 horizontalMoves--;
             else horizontalMoves = horizontalMoveLimit;
 
-            BlockState blockstate = world.getBlockState(currPos);
+            BlockState blockstate = level.getBlockState(currPos);
             Block block = blockstate.getBlock();
-            float[] targetColor = blockstate.getBeaconColorMultiplier(world, currPos, beaconPos);
+            float[] targetColor = blockstate.getBeaconColorMultiplier(level, currPos, beaconPos);
             float targetAlpha = -1;
 
             if(allowTintedGlassTransparency) {
@@ -115,7 +115,7 @@ public class BeaconRedirectionAndTransparency {
             } else {
                 boolean bedrock = blockstate.is(BBConstants.BEACON_TRANSPARENT); //Bedrock blocks don't stop beacon beams
 
-                if(!bedrock && blockstate.getLightBlock(world, currPos) >= 15) {
+                if(!bedrock && blockstate.getLightBlock(level, currPos) >= 15) {
                     broke = true;
                     break;
                 }
@@ -134,7 +134,7 @@ public class BeaconRedirectionAndTransparency {
 
         }
 
-        if(horizontalMoves == 0 || currPos.getY() <= world.getMinBuildHeight())
+        if(horizontalMoves == 0 || currPos.getY() <= level.getMinBuildHeight())
             broke = true;
 
         final String tag = "better_beacons:redirected";
