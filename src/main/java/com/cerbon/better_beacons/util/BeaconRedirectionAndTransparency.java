@@ -21,7 +21,6 @@ public class BeaconRedirectionAndTransparency {
     public static boolean allowRedirecting = BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
     public static boolean allowTintedGlassTransparency = BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
 
-
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
     public static int tickBeacon(BeaconBlockEntity beacon) {
@@ -66,7 +65,6 @@ public class BeaconRedirectionAndTransparency {
             if(currSegment.dir.getAxis().isHorizontal())
                 horizontalMoves--;
             else horizontalMoves = horizontalMoveLimit;
-
 
 
             BlockState blockstate = level.getBlockState(currPos);
