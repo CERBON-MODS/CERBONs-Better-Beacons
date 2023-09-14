@@ -2,7 +2,6 @@ package com.cerbon.better_beacons.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BBCommonConfigs {
@@ -10,7 +9,7 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_REDIRECTION_AND_TRANSPARENCY;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
@@ -33,9 +32,13 @@ public class BBCommonConfigs {
         BUILDER.pop();
 
         BUILDER.push("Redirection && Transparency");
-        ENABLE_BEACON_REDIRECTION_AND_TRANSPARENCY = BUILDER
-                .comment("Sets if the beacon beam can be redirected and become transparent when conditions are met. DEFAULT: True")
-                .define("Enable Redirection && Transparency", true);
+        ENABLE_BEACON_BEAM_REDIRECTION = BUILDER
+                .comment("Sets if the beacon beam can be redirected. DEFAULT: True")
+                .define("Enable Beacon Beam Redirection", true);
+
+        ENABLE_BEACON_BEAM_TRANSPARENCY = BUILDER
+                .comment("Sets if the beacon beam can become transparent. DEFAULT: True")
+                .define("Enable Beacon Beam Transparency", true);
 
         HORIZONTAL_MOVE_LIMIT = BUILDER
                 .comment("Sets the maximum amount of blocks that the beacon beam can extend while horizontal. DEFAULT: 64")

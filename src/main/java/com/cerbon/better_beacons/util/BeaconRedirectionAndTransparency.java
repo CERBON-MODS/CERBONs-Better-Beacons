@@ -18,13 +18,14 @@ import java.util.HashSet;
 
 public class BeaconRedirectionAndTransparency {
     public static int horizontalMoveLimit = BBCommonConfigs.HORIZONTAL_MOVE_LIMIT.get();
-    public static boolean enabled = BBCommonConfigs.ENABLE_BEACON_REDIRECTION_AND_TRANSPARENCY.get();
-    public static boolean allowTintedGlassTransparency = true;
+    public static boolean allowRedirecting = BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
+    public static boolean allowTintedGlassTransparency = BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
+
 
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
     public static int tickBeacon(BeaconBlockEntity beacon) {
-        if(!enabled)
+        if(!allowRedirecting && !allowTintedGlassTransparency)
             return 0;
 
         Level level = beacon.getLevel();
@@ -35,6 +36,7 @@ public class BeaconRedirectionAndTransparency {
         int targetHeight = level.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
         boolean broke = false;
+        boolean didRedirection = false;
 
         beacon.checkingBeamSections.clear();
 
@@ -59,10 +61,13 @@ public class BeaconRedirectionAndTransparency {
                 lastDir = currSegment.dir;
             }
 
+
             currPos = currPos.relative(currSegment.dir);
             if(currSegment.dir.getAxis().isHorizontal())
                 horizontalMoves--;
             else horizontalMoves = horizontalMoveLimit;
+
+
 
             BlockState blockstate = level.getBlockState(currPos);
             Block block = blockstate.getBlock();
@@ -74,7 +79,7 @@ public class BeaconRedirectionAndTransparency {
                     targetAlpha = (alpha < 0.3F ? 0F : (alpha / 2F));
             }
 
-            if(isRedirectingBlock(block)) {
+            if(isRedirectingBlock(block) && allowRedirecting) {
                 Direction dir = blockstate.getValue(BlockStateProperties.FACING);
                 if(dir == currSegment.dir)
                     currSegment.increaseHeight();
@@ -85,6 +90,7 @@ public class BeaconRedirectionAndTransparency {
 
                     currColor = new float[]{(currColor[0] + targetColor[0] * 3) / 4.0F, (currColor[1] + targetColor[1] * 3) / 4.0F, (currColor[2] + targetColor[2] * 3) / 4.0F};
                     alpha = 1F;
+                    didRedirection = true;
                     lastDir = currSegment.dir;
                     currSegment = new ExtendedBeamSegment(dir, currPos.subtract(beaconPos), currColor, alpha);
                 }
@@ -149,15 +155,9 @@ public class BeaconRedirectionAndTransparency {
             beacon.lastCheckY = targetHeight;
         }
 
-//        if(!beacon.getPersistentData().getBoolean(tag) && didRedirection && !beacon.checkingBeamSections.isEmpty()) {
-//            beacon.getPersistentData().putBoolean(tag, true);
-//
-//            int i = beaconPos.getX();
-//            int j = beaconPos.getY();
-//            int k = beaconPos.getZ();
-//            for(ServerPlayer serverplayer : beacon.getLevel().getEntitiesOfClass(ServerPlayer.class, (new AABB((double)i, (double)j, (double)k, (double)i, (double)(j - 4), (double)k)).inflate(10.0D, 5.0D, 10.0D)))
-//                redirectTrigger.trigger(serverplayer);
-//        }
+        if(!beacon.getPersistentData().getBoolean(tag) && didRedirection && !beacon.checkingBeamSections.isEmpty()) {
+            beacon.getPersistentData().putBoolean(tag, true);
+        }
 
         return Integer.MAX_VALUE;
     }
