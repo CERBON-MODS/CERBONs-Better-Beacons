@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -76,7 +75,7 @@ public class BeaconRedirectionAndTransparency {
             float targetAlpha = -1;
 
             if(allowTintedGlassTransparency) {
-                if(block == Blocks.TINTED_GLASS)
+                if(block.defaultBlockState().is(BBConstants.BEACON_TRANSPARENCY))
                     targetAlpha = (alpha < 0.3F ? 0F : (alpha / 2F));
             }
 
@@ -164,7 +163,7 @@ public class BeaconRedirectionAndTransparency {
     }
 
     private static boolean isRedirectingBlock(Block block) {
-        return block == Blocks.AMETHYST_CLUSTER;
+        return block.defaultBlockState().is(BBConstants.BEACON_REDIRECT);
     }
 
     public static class ExtendedBeamSegment extends BeaconBlockEntity.BeaconBeamSection {

@@ -14,6 +14,8 @@ public class BBConstants {
     public static final String PAYMENT_ITEM_KEY = "BBPaymentItem";
 
     public static final TagKey<Block> BEACON_TRANSPARENT = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_transparent"));
+    public static final TagKey<Block> BEACON_TRANSPARENCY = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_transparency"));
+    public static final TagKey<Block> BEACON_REDIRECT = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_redirect"));
 
     public static final Component BEACON_RANGE_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.beacon_range.label");
     public static final Component TERTIARY_POWER_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.tertiary_power.label");
