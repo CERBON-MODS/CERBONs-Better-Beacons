@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.util;
 
+import com.cerbon.better_beacons.config.BBCommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -16,10 +17,9 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class BeaconRedirectionAndTransparency {
-    public static int horizontalMoveLimit = 64;
+    public static int horizontalMoveLimit = BBCommonConfigs.HORIZONTAL_MOVE_LIMIT.get();
+    public static boolean enabled = BBCommonConfigs.ENABLE_BEACON_REDIRECTION_AND_TRANSPARENCY.get();
     public static boolean allowTintedGlassTransparency = true;
-
-    public static boolean enabled = true;
 
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
