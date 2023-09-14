@@ -61,7 +61,7 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
         this.beaconData = pBeaconData;
         this.bbBeaconData = bbBeaconData;
         this.access = pAccess;
-        this.paymentSlot = new PaymentSlot(this.beacon, 0, 153, 109);
+        this.paymentSlot = new PaymentSlot(this.beacon, 0, 151, 109);
         this.addSlot(this.paymentSlot);
         this.addDataSlots(pBeaconData);
 //        int i = 36;
@@ -69,12 +69,12 @@ public class BBNewBeaconMenu extends AbstractContainerMenu {
 
         for(int k = 0; k < 3; ++k) {
             for(int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(pContainer, l + k * 9 + 9, 36 + l * 18, 137 + k * 18));
+                this.addSlot(new Slot(pContainer, l + k * 9 + 9, 48 + l * 18, 137 + k * 18));
             }
         }
 
         for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(pContainer, i1, 36 + i1 * 18, 195));
+            this.addSlot(new Slot(pContainer, i1, 48 + i1 * 18, 195));
         }
 
     }

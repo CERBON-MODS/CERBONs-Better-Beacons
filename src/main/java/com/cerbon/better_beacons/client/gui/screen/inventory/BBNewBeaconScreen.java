@@ -33,7 +33,7 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> {
-    static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
+    static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon2.png");
     public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
     public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
     private final List<BBNewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
@@ -45,7 +45,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
     public BBNewBeaconScreen(BBNewBeaconMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        this.imageWidth = 230;
+        this.imageWidth = 256;
         this.imageHeight = 219;
         pMenu.addSlotListener(new ContainerListener() {
             /**
@@ -71,8 +71,8 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     protected void init() {
         super.init();
         this.beaconButtons.clear();
-        this.addBeaconButton(new BBNewBeaconScreen.BeaconConfirmButton(this.leftPos + 172, this.topPos + 106));
-        this.addBeaconButton(new BBNewBeaconScreen.BeaconCancelButton(this.leftPos + 197, this.topPos + 106));
+        this.addBeaconButton(new BBNewBeaconScreen.BeaconConfirmButton(this.leftPos + 171, this.topPos + 106));
+        this.addBeaconButton(new BBNewBeaconScreen.BeaconCancelButton(this.leftPos + 196, this.topPos + 106));
 
         for(int i = 0; i <= 2; ++i) {
             int j = BeaconBlockEntity.BEACON_EFFECTS[i].length;
@@ -80,7 +80,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
             for(int l = 0; l < j; ++l) {
                 MobEffect mobeffect = BeaconBlockEntity.BEACON_EFFECTS[i][l];
-                BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 76 + l * 24 - k / 2, this.topPos + 22 + i * 25, mobeffect, true, i);
+                BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 70 + l * 24 - k / 2, this.topPos + 22 + i * 25, mobeffect, true, i);
                 beaconscreen$beaconpowerbutton.active = false;
                 this.addBeaconButton(beaconscreen$beaconpowerbutton);
             }
@@ -92,12 +92,12 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
         for(int l1 = 0; l1 < j1; ++l1) {
             MobEffect mobeffect1 = BeaconBlockEntity.BEACON_EFFECTS[3][l1];
-            BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 167 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, 3);
+            BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 163 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, 3);
             beaconscreen$beaconpowerbutton2.active = false;
             this.addBeaconButton(beaconscreen$beaconpowerbutton2);
         }
 
-        BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new BBNewBeaconScreen.BeaconUpgradePowerButton(this.leftPos + 156, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
+        BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new BBNewBeaconScreen.BeaconUpgradePowerButton(this.leftPos + 152, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
         beaconscreen$beaconpowerbutton1.visible = false;
         this.addBeaconButton(beaconscreen$beaconpowerbutton1);
     }
@@ -113,11 +113,12 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     }
 
     protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 62, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 169, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 77, 105, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, "++", 23, 106, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, "--", 131, 106, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 59, 10, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 164, 10, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 74, 105, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, "++", 20, 106, 14737632);
+        pGuiGraphics.drawCenteredString(this.font, "--", 128, 106, 14737632);
     }
 
     @Override
@@ -127,12 +128,12 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         pGuiGraphics.blit(BEACON_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
         pGuiGraphics.pose().pushPose();
         pGuiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
-        pGuiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 14, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.DIAMOND), i + 35, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.EMERALD), i + 33 + 22, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), i + 33 + 44, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), i + 34 + 66, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), i + 34 + 88, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 12, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.DIAMOND), i + 33, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.EMERALD), i + 31 + 22, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), i + 31 + 44, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), i + 31 + 66, j + 114);
+        pGuiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), i + 31 + 88, j + 114);
         pGuiGraphics.pose().popPose();
     }
 
