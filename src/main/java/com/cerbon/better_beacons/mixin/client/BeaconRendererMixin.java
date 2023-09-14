@@ -15,7 +15,7 @@ public class BeaconRendererMixin {
 
     @Inject(method = "render(Lnet/minecraft/world/level/block/entity/BeaconBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V", at = @At("HEAD"), cancellable = true)
     public void render(BeaconBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, CallbackInfo callbackInfo) {
-        if(BBBeaconRenderer.render(tileEntityIn, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn))
+        if(BBBeaconRenderer.render(tileEntityIn, partialTicks, matrixStackIn, bufferIn))
             callbackInfo.cancel();
     }
 }

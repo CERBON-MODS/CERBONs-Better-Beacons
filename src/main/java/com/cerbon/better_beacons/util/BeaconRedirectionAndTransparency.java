@@ -19,12 +19,12 @@ public class BeaconRedirectionAndTransparency {
     public static int horizontalMoveLimit = 64;
     public static boolean allowTintedGlassTransparency = true;
 
-    public static boolean staticEnabled = true;
+    public static boolean enabled = true;
 
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
     public static int tickBeacon(BeaconBlockEntity beacon) {
-        if(!staticEnabled)
+        if(!enabled)
             return 0;
 
         Level world = beacon.getLevel();
@@ -35,7 +35,6 @@ public class BeaconRedirectionAndTransparency {
         int targetHeight = world.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
         boolean broke = false;
-        boolean didRedirection = false;
 
         beacon.checkingBeamSections.clear();
 
@@ -46,7 +45,6 @@ public class BeaconRedirectionAndTransparency {
         ExtendedBeamSegment currSegment = new ExtendedBeamSegment(Direction.UP, Vec3i.ZERO, currColor, alpha);
 
         Collection<BlockPos> seenPositions = new HashSet<>();
-        boolean check = true;
         boolean hardColorSet = false;
 
         while(world.isInWorldBounds(currPos) && horizontalMoves > 0) {
@@ -81,14 +79,12 @@ public class BeaconRedirectionAndTransparency {
                 if(dir == currSegment.dir)
                     currSegment.increaseHeight();
                 else {
-                    check = true;
                     beacon.checkingBeamSections.add(currSegment);
 
                     targetColor = currColor;
 
                     currColor = new float[]{(currColor[0] + targetColor[0] * 3) / 4.0F, (currColor[1] + targetColor[1] * 3) / 4.0F, (currColor[2] + targetColor[2] * 3) / 4.0F};
                     alpha = 1F;
-                    didRedirection = true;
                     lastDir = currSegment.dir;
                     currSegment = new ExtendedBeamSegment(dir, currPos.subtract(beaconPos), currColor, alpha);
                 }
@@ -96,7 +92,6 @@ public class BeaconRedirectionAndTransparency {
                 if(Arrays.equals(targetColor, currColor) && targetAlpha == alpha)
                     currSegment.increaseHeight();
                 else {
-                    check = true;
                     beacon.checkingBeamSections.add(currSegment);
 
                     float[] mixedColor = currColor;
@@ -131,14 +126,12 @@ public class BeaconRedirectionAndTransparency {
                     continue;
             }
 
-            if(check) {
-                boolean added = seenPositions.add(currPos);
-                if(!added) {
-                    broke = true;
-                    break;
-                }
-
+            boolean added = seenPositions.add(currPos);
+            if(!added) {
+                broke = true;
+                break;
             }
+
         }
 
         if(horizontalMoves == 0 || currPos.getY() <= world.getMinBuildHeight())
@@ -179,21 +172,11 @@ public class BeaconRedirectionAndTransparency {
         public final Vec3i offset;
         public final float alpha;
 
-        private boolean isTurn = false;
-
         public ExtendedBeamSegment(Direction dir, Vec3i offset, float[] colorsIn, float alpha) {
             super(colorsIn);
             this.offset = offset;
             this.dir = dir;
             this.alpha = alpha;
-        }
-
-        public void makeTurn() {
-            isTurn = true;
-        }
-
-        public boolean isTurn() {
-            return isTurn;
         }
 
         @Override

@@ -15,13 +15,14 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BBBeaconRenderer {
-    public static boolean render(BeaconBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if (!BeaconRedirectionAndTransparency.staticEnabled)
+    public static boolean render(BeaconBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn) {
+        if (!BeaconRedirectionAndTransparency.enabled)
             return false;
 
-        long i = tileEntityIn.getLevel().getGameTime();
+        long i = Objects.requireNonNull(tileEntityIn.getLevel()).getGameTime();
         List<BeaconBlockEntity.BeaconBeamSection> list = tileEntityIn.getBeamSections();
 
         for (BeaconBlockEntity.BeaconBeamSection segment : list) {
@@ -61,28 +62,28 @@ public class BBBeaconRenderer {
         float v2 = -1.0F + partAngle;
         float v1 = (float)height * textureScale * (0.5F / beamRadius) + v2;
 
-        renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, alpha < 1F)), r, g, b, alpha, height, 0.0F, beamRadius, beamRadius, 0.0F, -beamRadius, 0.0F, 0.0F, -beamRadius, 0.0F, 1.0F, v1, v2);
+        renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, alpha < 1F)), r, g, b, alpha, height, 0.0F, beamRadius, beamRadius, 0.0F, -beamRadius, 0.0F, 0.0F, -beamRadius, v1, v2);
         matrixStackIn.popPose();
         v1 = (float)height * textureScale + v2;
-        renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), r, g, b, alpha * 0.125F, height, -glowRadius, -glowRadius, glowRadius, -glowRadius, -glowRadius, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, v1, v2);
+        renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), r, g, b, alpha * 0.125F, height, -glowRadius, -glowRadius, glowRadius, -glowRadius, -glowRadius, glowRadius, glowRadius, glowRadius, v1, v2);
         matrixStackIn.popPose();
     }
 
-    private static void renderPart(PoseStack matrixStackIn, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int height, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float u1, float u2, float v1, float v2) {
+    private static void renderPart(PoseStack matrixStackIn, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int height, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float v1, float v2) {
         PoseStack.Pose pose = matrixStackIn.last();
         Matrix4f matrix4f = pose.pose();
         Matrix3f matrix3f = pose.normal();
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, 0, height, x1, y1, x2, y2, u1, u2, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, 0, height, x4, y4, x3, y3, u1, u2, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, 0, height, x2, y2, x4, y4, u1, u2, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, 0, height, x3, y3, x1, y1, u1, u2, v1, v2);
+        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x1, y1, x2, y2, v1, v2);
+        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x4, y4, x3, y3, v1, v2);
+        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x2, y2, x4, y4, v1, v2);
+        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x3, y3, x1, y1, v1, v2);
     }
 
-    private static void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int yMin, int yMax, float x1, float z1, float x2, float z2, float u1, float u2, float v1, float v2) {
-        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x1, z1, u2, v1);
-        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x1, z1, u2, v2);
-        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x2, z2, u1, v2);
-        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, u1, v1);
+    private static void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int yMax, float x1, float z1, float x2, float z2, float v1, float v2) {
+        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x1, z1, (float) 1.0, v1);
+        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, 0, x1, z1, (float) 1.0, v2);
+        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, 0, x2, z2, (float) 0.0, v2);
+        addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, (float) 0.0, v1);
     }
 
     private static void addVertex(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int y, float x, float z, float texU, float texV) {
