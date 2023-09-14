@@ -9,10 +9,7 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL2_EFFECTS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL3_EFFECTS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SECONDARY_EFFECTS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS;
 
     static {
         BUILDER.push("Beacon Effects");
