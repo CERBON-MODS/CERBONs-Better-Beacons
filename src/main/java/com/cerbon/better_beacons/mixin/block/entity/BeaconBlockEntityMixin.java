@@ -3,6 +3,7 @@ package com.cerbon.better_beacons.mixin.block.entity;
 import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
 import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.world.inventory.BBContainerData;
@@ -26,9 +27,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -69,6 +68,12 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         if (pTag.contains(BBConstants.PAYMENT_ITEM_KEY)){
             this.better_beacons_PaymentItem = pTag.getString(BBConstants.PAYMENT_ITEM_KEY);
         }
+    }
+
+    // This captures the for loop inside tick that computes the beacon segments
+    @ModifyConstant(method = "tick", constant = @Constant(intValue = 0, ordinal = 0))
+    private static int tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
+        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
     }
 
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))

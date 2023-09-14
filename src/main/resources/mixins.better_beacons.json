@@ -9,6 +9,7 @@
     "packet.ServerGamePacketListenerImplMixin"
   ],
   "client": [
+    "client.BeaconRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
