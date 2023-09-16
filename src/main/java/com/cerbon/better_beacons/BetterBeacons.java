@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons;
 
 import com.cerbon.better_beacons.config.BBCommonConfigs;
+import com.cerbon.better_beacons.effect.BBEffects;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.client.gui.screen.inventory.BBNewBeaconScreen;
 import com.cerbon.better_beacons.util.BBConstants;
@@ -29,6 +30,7 @@ public class BetterBeacons {
         modEventBus.addListener(this::onClientSetup);
 
         BBMenuTypes.register(modEventBus);
+        BBEffects.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
