@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons.effect;
 
 import com.cerbon.better_beacons.effect.custom.LongReachEffect;
+import com.cerbon.better_beacons.effect.custom.PatrolNullifierEffect;
 import com.cerbon.better_beacons.effect.custom.PhantomBaneEffect;
 import com.cerbon.better_beacons.util.BBConstants;
 import net.minecraft.world.effect.MobEffect;
@@ -18,6 +19,9 @@ public class BBEffects {
 
     public static final RegistryObject<MobEffect> PHANTOM_BANE = MOB_EFFECTS.register("phantom_bane",
             () -> new PhantomBaneEffect(MobEffectCategory.BENEFICIAL, 3124687));
+
+    public static final RegistryObject<MobEffect> PATROL_NULLIFIER = MOB_EFFECTS.register("patrol_nullifier",
+            () -> new PatrolNullifierEffect(MobEffectCategory.BENEFICIAL, 9120331));
 
     public static final RegistryObject<MobEffect> LONG_REACH = MOB_EFFECTS.register("long_reach",
             () -> new LongReachEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
