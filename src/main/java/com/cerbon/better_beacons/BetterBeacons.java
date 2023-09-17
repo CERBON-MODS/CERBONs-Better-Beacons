@@ -4,7 +4,7 @@ import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
+import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,6 +40,6 @@ public class BetterBeacons {
     }
 
     private void registerDatapackListener(final AddReloadListenerEvent event){
-        event.addListener(BBBeaconPaymentItemsRangeManager.getInstance());
+        event.addListener(BeaconPaymentItemsRangeManager.getInstance());
     }
 }

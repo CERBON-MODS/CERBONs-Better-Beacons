@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadListener {
+public class BeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
-    private static final BBBeaconPaymentItemsRangeManager INSTANCE = new BBBeaconPaymentItemsRangeManager();
+    private static final BeaconPaymentItemsRangeManager INSTANCE = new BeaconPaymentItemsRangeManager();
 
     private static final String DIRECTORY = "payment_items_range";
 
@@ -40,7 +40,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
         ).apply(instance, instance.stable(ItemRangeCodec::new)));
     }
 
-    public BBBeaconPaymentItemsRangeManager() {
+    public BeaconPaymentItemsRangeManager() {
         super(GSON, DIRECTORY);
     }
 
@@ -61,7 +61,7 @@ public class BBBeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadLi
         valuesList.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), Math.max(entry.range(), 0)));
     }
 
-    public static BBBeaconPaymentItemsRangeManager getInstance() {
+    public static BeaconPaymentItemsRangeManager getInstance() {
         return INSTANCE;
     }
 

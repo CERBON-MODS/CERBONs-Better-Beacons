@@ -5,7 +5,7 @@ import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
-import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
+import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.world.inventory.BBContainerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -83,7 +83,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
 
             if (paymentItem != null)
-                return BBBeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(paymentItem, 0) + defaultRange;
+                return BeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(paymentItem, 0) + defaultRange;
         }
         return defaultRange;
     }
