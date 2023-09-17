@@ -1,8 +1,13 @@
 {
   "block.minecraft.beacon.better_beacons.beacon_range.label": "Beacon Range",
+  "block.minecraft.beacon.better_beacons.tertiary_power.label": "T.P.",
 
   "block.minecraft.beacon.better_beacons.confirm_button.tooltip": "Apply selected effects",
   "block.minecraft.beacon.better_beacons.cancel_button.tooltip": "Remove active effects",
-  "block.minecraft.beacon.better_beacons.tertiary_power.label": "T.P."
+
+  "effect.better_beacons.phantom_bane": "Phantom Bane",
+  "effect.better_beacons.patrol_nullifier": "Patrol Nullifier",
+  "effect.better_beacons.long_reach": "Long Reach"
+
 
 }
