@@ -1,7 +1,7 @@
 package com.cerbon.better_beacons.mixin.packet;
 
 import com.cerbon.better_beacons.BetterBeacons;
-import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
+import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +20,7 @@ public abstract class ServerGamePacketListenerImplMixin {
 
     @Inject(method = "handleSetBeaconPacket", at = @At(value = "TAIL"))
     private void better_beacons_handleBeaconPacketOnNewMenu(ServerboundSetBeaconPacket pPacket, CallbackInfo ci, @Local(ordinal = 0) AbstractContainerMenu abstractContainerMenu){
-        if(abstractContainerMenu instanceof BBNewBeaconMenu newBeaconMenu){
+        if(abstractContainerMenu instanceof NewBeaconMenu newBeaconMenu){
             if (!this.player.containerMenu.stillValid(this.player)) {
                 BetterBeacons.LOGGER.debug("Player {} interacted with invalid menu {}", this.player, this.player.containerMenu);
                 return;

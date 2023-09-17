@@ -1,6 +1,6 @@
 package com.cerbon.better_beacons.mixin.block.entity;
 
-import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
+import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
@@ -53,20 +53,20 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Shadow public abstract Component getDisplayName();
 
-    public BeaconBlockEntityMixin(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-        super(pType, pPos, pBlockState);
+    public BeaconBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
-    private void better_beacons_addCustomData(CompoundTag pTag, CallbackInfo ci){
+    private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
         if (this.better_beacons_PaymentItem != null)
-            pTag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
+            tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
     }
 
     @Inject(method = "load", at = @At("TAIL"))
-    private void better_beacons_readCustomData(@NotNull CompoundTag pTag, CallbackInfo ci){
-        if (pTag.contains(BBConstants.PAYMENT_ITEM_KEY))
-            this.better_beacons_PaymentItem = pTag.getString(BBConstants.PAYMENT_ITEM_KEY);
+    private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci){
+        if (tag.contains(BBConstants.PAYMENT_ITEM_KEY))
+            this.better_beacons_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
     }
 
     // This captures the for loop inside tick that computes the beacon segments
@@ -76,8 +76,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
-    private static double better_beacons_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level pLevel, BlockPos pPos, int pLevels, @Nullable MobEffect pPrimary, @Nullable MobEffect pSecondary){
-        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+    private static double better_beacons_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level level, BlockPos pos, int levels, @Nullable MobEffect primary, @Nullable MobEffect secondary){
+        BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity){
             String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
@@ -89,8 +89,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
-    private void better_beacons_addNewBeaconMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
-        cir.setReturnValue(BaseContainerBlockEntity.canUnlock(pPlayer, this.lockKey, this.getDisplayName()) ? new BBNewBeaconMenu(pContainerId, pPlayerInventory, this.dataAccess, this.better_beacons_dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
+    private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
+        cir.setReturnValue(BaseContainerBlockEntity.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, this.better_beacons_dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
     }
 
     @Override

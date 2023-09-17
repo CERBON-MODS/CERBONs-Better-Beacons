@@ -2,7 +2,7 @@ package com.cerbon.better_beacons;
 
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
-import com.cerbon.better_beacons.client.gui.screen.inventory.BBNewBeaconScreen;
+import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.json.BBBeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
@@ -36,7 +36,7 @@ public class BetterBeacons {
     }
 
     private void onClientSetup(FMLClientSetupEvent event){
-        MenuScreens.register(BBMenuTypes.NEW_BEACON_MENU.get(), BBNewBeaconScreen::new);
+        MenuScreens.register(BBMenuTypes.NEW_BEACON_MENU.get(), NewBeaconScreen::new);
     }
 
     private void registerDatapackListener(final AddReloadListenerEvent event){

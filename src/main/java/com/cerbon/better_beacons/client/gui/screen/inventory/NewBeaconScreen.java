@@ -1,6 +1,6 @@
 package com.cerbon.better_beacons.client.gui.screen.inventory;
 
-import com.cerbon.better_beacons.menu.custom.BBNewBeaconMenu;
+import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
@@ -32,76 +32,75 @@ import java.util.List;
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
-public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> {
-    static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon2.png");
+public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
+    private static final ResourceLocation BEACON_TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/beacon2.png");
     public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
     public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
-    private final List<BBNewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
-    @Nullable
-    MobEffect primary;
-    @Nullable
-    MobEffect secondary;
+    private final List<NewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
+    @Nullable MobEffect primary;
+    @Nullable MobEffect secondary;
     boolean isEffectsActive;
 
-    public BBNewBeaconScreen(BBNewBeaconMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+    public NewBeaconScreen(NewBeaconMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
         this.imageWidth = 256;
         this.imageHeight = 219;
-        pMenu.addSlotListener(new ContainerListener() {
+
+        menu.addSlotListener(new ContainerListener() {
             /**
              * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
              * contents of that slot.
              */
-            public void slotChanged(@NotNull AbstractContainerMenu p_97973_, int p_97974_, @NotNull ItemStack p_97975_) {
-            }
+            public void slotChanged(@NotNull AbstractContainerMenu p_97973_, int p_97974_, @NotNull ItemStack p_97975_) {}
 
             public void dataChanged(@NotNull AbstractContainerMenu p_169628_, int p_169629_, int p_169630_) {
-                BBNewBeaconScreen.this.primary = pMenu.getPrimaryEffect();
-                BBNewBeaconScreen.this.secondary = pMenu.getSecondaryEffect();
-                BBNewBeaconScreen.this.isEffectsActive = pMenu.isEffectsActive();
+                NewBeaconScreen.this.primary = menu.getPrimaryEffect();
+                NewBeaconScreen.this.secondary = menu.getSecondaryEffect();
+                NewBeaconScreen.this.isEffectsActive = menu.isEffectsActive();
             }
         });
     }
 
-    private <T extends AbstractWidget & BBNewBeaconScreen.BeaconButton> void addBeaconButton(T pBeaconButton) {
-        this.addRenderableWidget(pBeaconButton);
-        this.beaconButtons.add(pBeaconButton);
+    private <T extends AbstractWidget & NewBeaconScreen.BeaconButton> void addBeaconButton(T beaconButton) {
+        this.addRenderableWidget(beaconButton);
+        this.beaconButtons.add(beaconButton);
     }
 
+    @Override
     protected void init() {
         super.init();
         this.beaconButtons.clear();
-        this.addBeaconButton(new BBNewBeaconScreen.BeaconConfirmButton(this.leftPos + 171, this.topPos + 106));
-        this.addBeaconButton(new BBNewBeaconScreen.BeaconCancelButton(this.leftPos + 196, this.topPos + 106));
+        this.addBeaconButton(new NewBeaconScreen.BeaconConfirmButton(this.leftPos + 171, this.topPos + 106));
+        this.addBeaconButton(new NewBeaconScreen.BeaconCancelButton(this.leftPos + 196, this.topPos + 106));
 
-        for(int i = 0; i <= 2; ++i) {
+        for(int i = 0; i <= 2; i++) {
             int j = BeaconBlockEntity.BEACON_EFFECTS[i].length;
             int k = j * 22 + (j - 1) * 2;
 
-            for(int l = 0; l < j; ++l) {
+            for(int l = 0; l < j; l++) {
                 MobEffect mobeffect = BeaconBlockEntity.BEACON_EFFECTS[i][l];
-                BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 70 + l * 24 - k / 2, this.topPos + 22 + i * 25, mobeffect, true, i);
+                NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton = new NewBeaconScreen.BeaconPowerButton(this.leftPos + 70 + l * 24 - k / 2, this.topPos + 22 + i * 25, mobeffect, true, i);
                 beaconscreen$beaconpowerbutton.active = false;
                 this.addBeaconButton(beaconscreen$beaconpowerbutton);
             }
         }
 
-//        int i1 = 3;
         int j1 = BeaconBlockEntity.BEACON_EFFECTS[3].length;
         int k1 = j1 * 22 + (j1 - 1) * 2;
 
-        for(int l1 = 0; l1 < j1; ++l1) {
+        for(int l1 = 0; l1 < j1; l1++) {
             MobEffect mobeffect1 = BeaconBlockEntity.BEACON_EFFECTS[3][l1];
-            BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new BBNewBeaconScreen.BeaconPowerButton(this.leftPos + 163 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, 3);
+            NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new NewBeaconScreen.BeaconPowerButton(this.leftPos + 163 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, 3);
             beaconscreen$beaconpowerbutton2.active = false;
             this.addBeaconButton(beaconscreen$beaconpowerbutton2);
         }
 
-        BBNewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new BBNewBeaconScreen.BeaconUpgradePowerButton(this.leftPos + 152, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
+        NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new NewBeaconScreen.BeaconUpgradePowerButton(this.leftPos + 152, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
         beaconscreen$beaconpowerbutton1.visible = false;
         this.addBeaconButton(beaconscreen$beaconpowerbutton1);
     }
 
+    @Override
     public void containerTick() {
         super.containerTick();
         this.updateButtons();
@@ -109,9 +108,10 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
     void updateButtons() {
         int i = this.menu.getLevels();
-        this.beaconButtons.forEach((p_169615_) -> p_169615_.updateStatus(i));
+        this.beaconButtons.forEach(button -> button.updateStatus(i));
     }
 
+    @Override
     protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 59, 10, 14737632);
         pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 164, 10, 14737632);
@@ -125,7 +125,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     protected void renderBg(@NotNull GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        pGuiGraphics.blit(BEACON_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        pGuiGraphics.blit(BEACON_TEXTURE_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
         pGuiGraphics.pose().pushPose();
         pGuiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
         pGuiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 12, j + 114);
@@ -137,6 +137,7 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
         pGuiGraphics.pose().popPose();
     }
 
+    @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -150,52 +151,52 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
 
     @SuppressWarnings("DataFlowIssue")
     @OnlyIn(Dist.CLIENT)
-    public class BeaconCancelButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
-        public BeaconCancelButton(int pX, int pY) {
-            super(pX, pY, 112, 220, CommonComponents.GUI_CANCEL);
+    public class BeaconCancelButton extends NewBeaconScreen.BeaconSpriteScreenButton {
+        public BeaconCancelButton(int x, int y) {
+            super(x, y, 112, 220, CommonComponents.GUI_CANCEL);
             this.setTooltip(BBConstants.CANCEL_BUTTON_TOOLTIP);
         }
 
         public void onPress() {
-            BBNewBeaconScreen.this.minecraft.getConnection().send(new ServerboundSetBeaconPacket(Optional.empty(), Optional.empty()));
-            BBNewBeaconScreen.this.minecraft.player.closeContainer();
+            NewBeaconScreen.this.minecraft.getConnection().send(new ServerboundSetBeaconPacket(Optional.empty(), Optional.empty()));
+            NewBeaconScreen.this.minecraft.player.closeContainer();
         }
 
         public void updateStatus(int pBeaconTier) {
-            this.active = BBNewBeaconScreen.this.isEffectsActive && BBNewBeaconScreen.this.primary != null;
+            this.active = NewBeaconScreen.this.isEffectsActive && NewBeaconScreen.this.primary != null;
         }
     }
 
     @SuppressWarnings("DataFlowIssue")
     @OnlyIn(Dist.CLIENT)
-    public class BeaconConfirmButton extends BBNewBeaconScreen.BeaconSpriteScreenButton {
-        protected BeaconConfirmButton(int pX, int pY) {
-            super(pX, pY, 90, 220, CommonComponents.GUI_DONE);
+    public class BeaconConfirmButton extends NewBeaconScreen.BeaconSpriteScreenButton {
+        protected BeaconConfirmButton(int x, int y) {
+            super(x, y, 90, 220, CommonComponents.GUI_DONE);
             this.setTooltip(BBConstants.CONFIRM_BUTTON_TOOLTIP);
         }
 
         public void onPress() {
-            BBNewBeaconScreen.this.minecraft.getConnection().send(new ServerboundSetBeaconPacket(Optional.ofNullable(BBNewBeaconScreen.this.primary), Optional.ofNullable(BBNewBeaconScreen.this.secondary)));
-            BBNewBeaconScreen.this.minecraft.player.closeContainer();
+            NewBeaconScreen.this.minecraft.getConnection().send(new ServerboundSetBeaconPacket(Optional.ofNullable(NewBeaconScreen.this.primary), Optional.ofNullable(NewBeaconScreen.this.secondary)));
+            NewBeaconScreen.this.minecraft.player.closeContainer();
         }
 
-        public void updateStatus(int pBeaconTier) {
-            this.active = BBNewBeaconScreen.this.menu.hasPayment() && BBNewBeaconScreen.this.primary != null;
+        public void updateStatus(int beaconTier) {
+            this.active = NewBeaconScreen.this.menu.hasPayment() && NewBeaconScreen.this.primary != null;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public class BeaconPowerButton extends BBNewBeaconScreen.BeaconScreenButton {
+    public class BeaconPowerButton extends NewBeaconScreen.BeaconScreenButton {
         private final boolean isPrimary;
         protected final int tier;
         private MobEffect effect;
         private TextureAtlasSprite sprite;
 
-        public BeaconPowerButton(int pX, int pY, MobEffect pEffect, boolean pIsPrimary, int pTier) {
-            super(pX, pY);
-            this.isPrimary = pIsPrimary;
-            this.tier = pTier;
-            this.setEffect(pEffect);
+        public BeaconPowerButton(int x, int y, MobEffect effect, boolean isPrimary, int tier) {
+            super(x, y);
+            this.isPrimary = isPrimary;
+            this.tier = tier;
+            this.setEffect(effect);
         }
 
         protected void setEffect(MobEffect pEffect) {
@@ -204,29 +205,28 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             this.setTooltip(Tooltip.create(this.createEffectDescription(pEffect), null));
         }
 
-        protected MutableComponent createEffectDescription(@NotNull MobEffect pEffect) {
-            return Component.translatable(pEffect.getDescriptionId());
+        protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
+            return Component.translatable(effect.getDescriptionId());
         }
 
         public void onPress() {
             if (!this.isSelected()) {
-                if (this.isPrimary) {
-                    BBNewBeaconScreen.this.primary = this.effect;
-                } else {
-                    BBNewBeaconScreen.this.secondary = this.effect;
-                }
+                if (this.isPrimary)
+                    NewBeaconScreen.this.primary = this.effect;
+                else
+                    NewBeaconScreen.this.secondary = this.effect;
 
-                BBNewBeaconScreen.this.updateButtons();
+                NewBeaconScreen.this.updateButtons();
             }
         }
 
-        protected void renderIcon(@NotNull GuiGraphics pGuiGraphics) {
-            pGuiGraphics.blit(this.getX() + 2, this.getY() + 2, 0, 18, 18, this.sprite);
+        protected void renderIcon(@NotNull GuiGraphics guiGraphics) {
+            guiGraphics.blit(this.getX() + 2, this.getY() + 2, 0, 18, 18, this.sprite);
         }
 
-        public void updateStatus(int pBeaconTier) {
-            this.active = this.tier < pBeaconTier;
-            this.setSelected(this.effect == (this.isPrimary ? BBNewBeaconScreen.this.primary : BBNewBeaconScreen.this.secondary));
+        public void updateStatus(int beaconTier) {
+            this.active = this.tier < beaconTier;
+            this.setSelected(this.effect == (this.isPrimary ? NewBeaconScreen.this.primary : NewBeaconScreen.this.secondary));
         }
 
         protected @NotNull MutableComponent createNarrationMessage() {
@@ -235,30 +235,29 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
     }
 
     @OnlyIn(Dist.CLIENT)
-    abstract static class BeaconScreenButton extends AbstractButton implements BBNewBeaconScreen.BeaconButton {
+    abstract static class BeaconScreenButton extends AbstractButton implements NewBeaconScreen.BeaconButton {
         private boolean selected;
 
-        protected BeaconScreenButton(int pX, int pY) {
-            super(pX, pY, 22, 22, CommonComponents.EMPTY);
+        protected BeaconScreenButton(int x, int y) {
+            super(x, y, 22, 22, CommonComponents.EMPTY);
         }
 
-        protected BeaconScreenButton(int pX, int pY, Component pMessage) {
-            super(pX, pY, 22, 22, pMessage);
+        protected BeaconScreenButton(int x, int y, Component pMessage) {
+            super(x, y, 22, 22, pMessage);
         }
 
-        public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-//            int i = 219;
+        public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
             int j = 0;
-            if (!this.active) {
-                j += this.width * 2;
-            } else if (this.selected) {
-                j += this.width;
-            } else if (this.isHoveredOrFocused()) {
-                j += this.width * 3;
-            }
 
-            pGuiGraphics.blit(BBNewBeaconScreen.BEACON_LOCATION, this.getX(), this.getY(), j, 219, this.width, this.height);
-            this.renderIcon(pGuiGraphics);
+            if (!this.active)
+                j += this.width * 2;
+            else if (this.selected)
+                j += this.width;
+            else if (this.isHoveredOrFocused())
+                j += this.width * 3;
+
+            guiGraphics.blit(NewBeaconScreen.BEACON_TEXTURE_LOCATION, this.getX(), this.getY(), j, 219, this.width, this.height);
+            this.renderIcon(guiGraphics);
         }
 
         protected abstract void renderIcon(GuiGraphics pGuiGraphics);
@@ -271,42 +270,42 @@ public class BBNewBeaconScreen extends AbstractContainerScreen<BBNewBeaconMenu> 
             this.selected = pSelected;
         }
 
-        public void updateWidgetNarration(@NotNull NarrationElementOutput pNarrationElementOutput) {
-            this.defaultButtonNarrationText(pNarrationElementOutput);
+        public void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+            this.defaultButtonNarrationText(narrationElementOutput);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public abstract static class BeaconSpriteScreenButton extends BBNewBeaconScreen.BeaconScreenButton {
+    public abstract static class BeaconSpriteScreenButton extends NewBeaconScreen.BeaconScreenButton {
         private final int iconX;
         private final int iconY;
 
-        protected BeaconSpriteScreenButton(int p_169663_, int p_169664_, int p_169665_, int p_169666_, Component p_169667_) {
-            super(p_169663_, p_169664_, p_169667_);
-            this.iconX = p_169665_;
-            this.iconY = p_169666_;
+        protected BeaconSpriteScreenButton(int x, int y, int iconX, int iconY, Component component) {
+            super(x, y, component);
+            this.iconX = iconX;
+            this.iconY = iconY;
         }
 
-        protected void renderIcon(@NotNull GuiGraphics p_283624_) {
-            p_283624_.blit(BBNewBeaconScreen.BEACON_LOCATION, this.getX() + 2, this.getY() + 2, this.iconX, this.iconY, 18, 18);
+        protected void renderIcon(@NotNull GuiGraphics guiGraphics) {
+            guiGraphics.blit(NewBeaconScreen.BEACON_TEXTURE_LOCATION, this.getX() + 2, this.getY() + 2, this.iconX, this.iconY, 18, 18);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public class BeaconUpgradePowerButton extends BBNewBeaconScreen.BeaconPowerButton {
-        public BeaconUpgradePowerButton(int pX, int pY, MobEffect pEffect) {
-            super(pX, pY, pEffect, false, 3);
+    public class BeaconUpgradePowerButton extends NewBeaconScreen.BeaconPowerButton {
+        public BeaconUpgradePowerButton(int x, int y, MobEffect effect) {
+            super(x, y, effect, false, 3);
         }
 
-        protected MutableComponent createEffectDescription(@NotNull MobEffect pEffect) {
-            return Component.translatable(pEffect.getDescriptionId()).append(" II");
+        protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
+            return Component.translatable(effect.getDescriptionId()).append(" II");
         }
 
-        public void updateStatus(int pBeaconTier) {
-            if (BBNewBeaconScreen.this.primary != null) {
+        public void updateStatus(int beaconTier) {
+            if (NewBeaconScreen.this.primary != null) {
                 this.visible = true;
-                this.setEffect(BBNewBeaconScreen.this.primary);
-                super.updateStatus(pBeaconTier);
+                this.setEffect(NewBeaconScreen.this.primary);
+                super.updateStatus(beaconTier);
             } else {
                 this.visible = false;
             }
