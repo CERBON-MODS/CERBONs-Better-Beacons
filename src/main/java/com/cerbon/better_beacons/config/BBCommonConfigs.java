@@ -15,12 +15,12 @@ public class BBCommonConfigs {
     static {
         BUILDER.push("Beacon Effects");
         LEVEL1_EFFECTS = BUILDER
-                .comment("This is a list that contains the effects that a beacon has when at level 1. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:speed\", \"minecraft:luck\"")
-                .defineList("Level 1 Effects", List.of("minecraft:speed", "minecraft:luck"), entry -> entry instanceof String);
+                .comment("This is a list that contains the effects that a beacon has when at level 1. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:speed\", \"minecraft:jump_boost\"")
+                .defineList("Level 1 Effects", List.of("minecraft:speed", "minecraft:jump_boost"), entry -> entry instanceof String);
 
         LEVEL2_EFFECTS = BUILDER
-                .comment("This is a list that contains the effects that a beacon has when at level 2. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:haste\", \"minecraft:jump_boost\"")
-                .defineList("Level 2 Effects", List.of("minecraft:haste", "minecraft:jump_boost"), entry -> entry instanceof String);
+                .comment("This is a list that contains the effects that a beacon has when at level 2. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:haste\", \"better_beacons:long_reach\"")
+                .defineList("Level 2 Effects", List.of("minecraft:haste", "better_beacons:long_reach"), entry -> entry instanceof String);
 
         LEVEL3_EFFECTS = BUILDER
                 .comment("This is a list that contains the effects that a beacon has when at level 3. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:strength\", \"minecraft:resistance\"")
