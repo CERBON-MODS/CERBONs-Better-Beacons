@@ -164,7 +164,6 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return constant + 1;
     }
 
-
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
     private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
         cir.setReturnValue(BaseContainerBlockEntity.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, this.better_beacons_dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
