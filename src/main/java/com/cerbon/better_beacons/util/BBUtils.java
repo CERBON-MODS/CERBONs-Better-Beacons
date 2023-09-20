@@ -14,11 +14,11 @@ public class BBUtils {
     }
 
     public static MobEffect[][] getBeaconEffectsFromConfigFile(){
-        MobEffect[] level1Effects = BBCommonConfigs.LEVEL1_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
-        MobEffect[] level2Effects = BBCommonConfigs.LEVEL2_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
-        MobEffect[] level3Effects = BBCommonConfigs.LEVEL3_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
-        MobEffect[] secondaryEffects = BBCommonConfigs.SECONDARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
-        MobEffect[] tertiaryEffects = BBCommonConfigs.TERTIARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
+        MobEffect[] level1Effects = BBCommonConfigs.LEVEL1_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).filter(Objects::nonNull).toArray(MobEffect[]::new);
+        MobEffect[] level2Effects = BBCommonConfigs.LEVEL2_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).filter(Objects::nonNull).toArray(MobEffect[]::new);
+        MobEffect[] level3Effects = BBCommonConfigs.LEVEL3_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).filter(Objects::nonNull).toArray(MobEffect[]::new);
+        MobEffect[] secondaryEffects = BBCommonConfigs.SECONDARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).filter(Objects::nonNull).toArray(MobEffect[]::new);
+        MobEffect[] tertiaryEffects = BBCommonConfigs.TERTIARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).filter(Objects::nonNull).toArray(MobEffect[]::new);
         return new MobEffect[][]{level1Effects, level2Effects, level3Effects, secondaryEffects, tertiaryEffects};
     }
 
