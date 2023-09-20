@@ -31,15 +31,9 @@ public class BeaconC2SPacket {
     }
 
     public void write(FriendlyByteBuf buffer){
-        buffer.writeOptional(this.primary, (buffer1, effect) -> {
-            buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect);
-        });
-        buffer.writeOptional(this.secondary, (buffer1, effect) -> {
-            buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect);
-        });
-        buffer.writeOptional(this.tertiary, (buffer1, effect) -> {
-            buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect);
-        });
+        buffer.writeOptional(this.primary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
+        buffer.writeOptional(this.secondary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
+        buffer.writeOptional(this.tertiary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier){
