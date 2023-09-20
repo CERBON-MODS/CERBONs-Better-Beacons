@@ -159,33 +159,11 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         }
     }
 
-    @Inject(method = "updateBase", at = @At("HEAD"), cancellable = true)
-    private static void better_beacons_updateBase(Level pLevel, int posX, int posY, int posZ, CallbackInfoReturnable<Integer> cir){
-        int i = 0;
-
-        for(int j = 1; j <= 5; i = j++) { //Modified J <= 4 to J <= 5
-            int y = posY - j;
-
-            if (y < pLevel.getMinBuildHeight())
-                break;
-
-
-            boolean flag = true;
-
-            for(int x = posX - j; x <= posX + j && flag; x++) {
-                for(int z = posZ - j; z <= posZ + j; z++) {
-                    if (!pLevel.getBlockState(new BlockPos(x, y, z)).is(BlockTags.BEACON_BASE_BLOCKS)) {
-                        flag = false;
-                        break;
-                    }
-                }
-            }
-
-            if (!flag)
-                break;
-        }
-        cir.setReturnValue(i);
+    @ModifyConstant(method = "updateBase", constant = @Constant(intValue = 4))
+    private static int better_beacons_makeBeaconBaseGoesTillLevelFive(int constant){
+        return constant + 1;
     }
+
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
     private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
