@@ -123,6 +123,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
     }
 
+    // This captures the variable d0 in the target method and adds to it value the payment item range
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
     private static double better_beacons_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level level, BlockPos pos, int levels, @Nullable MobEffect primary, @Nullable MobEffect secondary){
         BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -158,6 +159,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         }
     }
 
+    // This captures the first for loop in the target method and changes the condition from j<=4 to j<=5
     @ModifyConstant(method = "updateBase", constant = @Constant(intValue = 4))
     private static int better_beacons_makeBeaconBaseGoesTillLevelFive(int constant){
         return constant + 1;

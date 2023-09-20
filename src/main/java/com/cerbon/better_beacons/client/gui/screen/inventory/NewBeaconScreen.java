@@ -73,9 +73,11 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     protected void init() {
         super.init();
         this.beaconButtons.clear();
+
         this.addBeaconButton(new NewBeaconScreen.BeaconConfirmButton(this.leftPos + 171, this.topPos + 106));
         this.addBeaconButton(new NewBeaconScreen.BeaconCancelButton(this.leftPos + 196, this.topPos + 106));
 
+        // Primary powers
         for(int i = 0; i <= 2; i++) {
             int j = BeaconBlockEntity.BEACON_EFFECTS[i].length;
             int k = j * 22 + (j - 1) * 2;
@@ -88,6 +90,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             }
         }
 
+        // Secondary Powers
         int j1 = BeaconBlockEntity.BEACON_EFFECTS[3].length;
         int k1 = j1 * 22 + (j1 - 1) * 2;
 
@@ -98,6 +101,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.addBeaconButton(beaconscreen$beaconpowerbutton2);
         }
 
+        // Tertiary Powers
         int j2 = BeaconBlockEntity.BEACON_EFFECTS[4].length;
 
         for (int i = 0; i < j2; i++){
@@ -107,6 +111,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.addBeaconButton(beaconscreen$beaconpowerbutton3);
         }
 
+        // Upgrade button (Secondary Effect)
         NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new NewBeaconScreen.BeaconUpgradePowerButton(this.leftPos + 152, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
         beaconscreen$beaconpowerbutton1.visible = false;
         this.addBeaconButton(beaconscreen$beaconpowerbutton1);
