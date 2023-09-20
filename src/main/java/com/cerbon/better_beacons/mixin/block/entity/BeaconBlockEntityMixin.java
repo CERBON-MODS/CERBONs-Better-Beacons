@@ -161,8 +161,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     // This captures the first for loop in the target method and changes the condition from j<=4 to j<=5
     @ModifyConstant(method = "updateBase", constant = @Constant(intValue = 4))
-    private static int better_beacons_makeBeaconBaseGoesTillLevelFive(int constant){
-        return constant + 1;
+    private static int better_beacons_makeBeaconBaseGoesTillLevelFive(int j){
+        return j + 1;
     }
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
