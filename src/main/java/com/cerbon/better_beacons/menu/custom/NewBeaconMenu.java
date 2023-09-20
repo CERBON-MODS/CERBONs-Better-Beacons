@@ -37,12 +37,12 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     private final BBContainerData bbBeaconData;
 
     public NewBeaconMenu(int containerId, Container container, @SuppressWarnings("unused") FriendlyByteBuf friendlyByteBuf) {
-        this(containerId, container, new SimpleContainerData(3), new BBSimpleContainerData(), ContainerLevelAccess.NULL);
+        this(containerId, container, new SimpleContainerData(4), new BBSimpleContainerData(), ContainerLevelAccess.NULL);
     }
 
     public NewBeaconMenu(int containerId, Container container, ContainerData beaconData, BBContainerData bbBeaconData, ContainerLevelAccess access) {
         super(BBMenuTypes.NEW_BEACON_MENU.get(), containerId);
-        checkContainerDataCount(beaconData, 3);
+        checkContainerDataCount(beaconData, 4);
 
         this.beaconData = beaconData;
         this.bbBeaconData = bbBeaconData;
@@ -142,15 +142,21 @@ public class NewBeaconMenu extends AbstractContainerMenu {
         return MobEffect.byId(this.beaconData.get(2));
     }
 
+    @Nullable
+    public MobEffect getTertiaryEffect(){
+        return MobEffect.byId(this.beaconData.get(3));
+    }
+
     public boolean isEffectsActive(){
         return MobEffect.byId(this.beaconData.get(1)) != null;
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public void updateEffects(Optional<MobEffect> primaryEffect, Optional<MobEffect> secondaryEffect) {
+    public void updateEffects(Optional<MobEffect> primaryEffect, Optional<MobEffect> secondaryEffect, Optional<MobEffect> tertiaryEffect) {
         if (this.paymentSlot.hasItem()) {
             this.beaconData.set(1, primaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, secondaryEffect.map(MobEffect::getId).orElse(-1));
+            this.beaconData.set(3, tertiaryEffect.map(MobEffect::getId).orElse(-1));
             this.bbBeaconData.setString(BBConstants.PAYMENT_ITEM_KEY, BBUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem()));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
@@ -160,6 +166,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     public void removeActiveEffects(){
         this.beaconData.set(1 , -1);
         this.beaconData.set(2, -1);
+        this.beaconData.set(3, -1);
         this.access.execute(Level::blockEntityChanged);
     }
 

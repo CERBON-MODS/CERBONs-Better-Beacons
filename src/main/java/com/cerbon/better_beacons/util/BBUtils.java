@@ -18,7 +18,8 @@ public class BBUtils {
         MobEffect[] level2Effects = BBCommonConfigs.LEVEL2_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
         MobEffect[] level3Effects = BBCommonConfigs.LEVEL3_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
         MobEffect[] secondaryEffects = BBCommonConfigs.SECONDARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
-        return new MobEffect[][]{level1Effects, level2Effects, level3Effects, secondaryEffects};
+        MobEffect[] tertiaryEffects = BBCommonConfigs.TERTIARY_EFFECTS.get().stream().map(BBUtils::getMobEffectByKey).toArray(MobEffect[]::new);
+        return new MobEffect[][]{level1Effects, level2Effects, level3Effects, secondaryEffects, tertiaryEffects};
     }
 
     public static MobEffect getMobEffectByKey(String key){
