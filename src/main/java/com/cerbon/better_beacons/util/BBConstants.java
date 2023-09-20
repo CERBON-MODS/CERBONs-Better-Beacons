@@ -23,4 +23,6 @@ public class BBConstants {
 
     public static final Tooltip CONFIRM_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.confirm_button.tooltip"));
     public static final Tooltip CANCEL_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button.tooltip"));
+
+    public static final String BEACONS_FOR_ALL = "beaconsforall";
 }

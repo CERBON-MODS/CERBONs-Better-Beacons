@@ -7,6 +7,7 @@ import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.world.inventory.BBContainerData;
+import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +17,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -134,15 +137,25 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return defaultRange;
     }
 
-    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 0))
-    private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) Player player){
+    @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;", shift = At.Shift.BY, by = 2))
+    private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) AABB aabb) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
             MobEffect tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getTertiaryPower();
 
-            if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null)
-                player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+            if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null) {
+                for (Player player : players)
+                    player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+
+                //Add compatibility with beacons for all mod
+                if (BBUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
+                    List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
+
+                    for (LivingEntity livingEntity : livingEntities)
+                        livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                }
+            }
         }
     }
 

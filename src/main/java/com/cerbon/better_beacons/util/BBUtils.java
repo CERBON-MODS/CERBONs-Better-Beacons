@@ -4,11 +4,16 @@ import com.cerbon.better_beacons.config.BBCommonConfigs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
 public class BBUtils {
+    public static boolean isModLoaded(String modId){
+        return ModList.get().isLoaded(modId);
+    }
+
     public static String getItemKeyAsString(Item item){
         return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString();
     }
