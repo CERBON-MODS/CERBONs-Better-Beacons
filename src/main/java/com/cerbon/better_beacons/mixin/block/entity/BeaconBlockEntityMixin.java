@@ -135,16 +135,14 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 0))
-    private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players){
+    private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) Player player){
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
             MobEffect tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getTertiaryPower();
 
-            if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null){
-                for (Player player : players)
-                    player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
-            }
+            if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null)
+                player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
         }
     }
 
