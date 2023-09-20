@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "block.entity.BeaconBlockEntityMixin",
-    "packet.ServerGamePacketListenerImplMixin",
     "spawner.PatrolSpawnerMixin",
     "spawner.PhantomSpawnerMixin"
   ],
