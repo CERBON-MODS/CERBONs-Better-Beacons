@@ -41,7 +41,7 @@ public class BetterBeacons {
     }
 
     private void onClientSetup(FMLClientSetupEvent event){
-        MenuScreens.register(BBMenuTypes.NEW_BEACON_MENU.get(), NewBeaconScreen::new);
+        event.enqueueWork(() -> MenuScreens.register(BBMenuTypes.NEW_BEACON_MENU.get(), NewBeaconScreen::new));
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event){
