@@ -53,9 +53,9 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
              * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
              * contents of that slot.
              */
-            public void slotChanged(@NotNull AbstractContainerMenu p_97973_, int p_97974_, @NotNull ItemStack p_97975_) {}
+            public void slotChanged(@NotNull AbstractContainerMenu containerToSend, int dataSlotIndex, @NotNull ItemStack itemStack) {}
 
-            public void dataChanged(@NotNull AbstractContainerMenu p_169628_, int p_169629_, int p_169630_) {
+            public void dataChanged(@NotNull AbstractContainerMenu containerMenu, int dataSlotIndex, int value) {
                 NewBeaconScreen.this.primary = menu.getPrimaryEffect();
                 NewBeaconScreen.this.secondary = menu.getSecondaryEffect();
                 NewBeaconScreen.this.tertiary = menu.getTertiaryEffect();
@@ -129,41 +129,41 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     }
 
     @Override
-    protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 59, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 164, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 74, 105, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, "++", 20, 106, 14737632);
-        pGuiGraphics.drawCenteredString(this.font, "--", 128, 106, 14737632);
+    protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, 59, 10, 14737632);
+        guiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 164, 10, 14737632);
+        guiGraphics.drawCenteredString(this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
+        guiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 74, 105, 14737632);
+        guiGraphics.drawCenteredString(this.font, "++", 20, 106, 14737632);
+        guiGraphics.drawCenteredString(this.font, "--", 128, 106, 14737632);
     }
 
     @Override
-    protected void renderBg(@NotNull GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        pGuiGraphics.blit(BEACON_TEXTURE_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        pGuiGraphics.pose().pushPose();
-        pGuiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
-        pGuiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 12, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.DIAMOND), i + 33, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.EMERALD), i + 31 + 22, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), i + 31 + 44, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), i + 31 + 66, j + 114);
-        pGuiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), i + 31 + 88, j + 114);
-        pGuiGraphics.pose().popPose();
+        guiGraphics.blit(BEACON_TEXTURE_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
+        guiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 12, j + 114);
+        guiGraphics.renderItem(new ItemStack(Items.DIAMOND), i + 33, j + 114);
+        guiGraphics.renderItem(new ItemStack(Items.EMERALD), i + 31 + 22, j + 114);
+        guiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), i + 31 + 44, j + 114);
+        guiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), i + 31 + 66, j + 114);
+        guiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), i + 31 + 88, j + 114);
+        guiGraphics.pose().popPose();
     }
 
     @Override
-    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pGuiGraphics);
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @OnlyIn(Dist.CLIENT)
     public interface BeaconButton {
-        void updateStatus(int pBeaconTier);
+        void updateStatus(int beaconTier);
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -179,7 +179,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             NewBeaconScreen.this.minecraft.player.closeContainer();
         }
 
-        public void updateStatus(int pBeaconTier) {
+        public void updateStatus(int beaconTier) {
             this.active = NewBeaconScreen.this.isEffectsActive && NewBeaconScreen.this.primary != null;
         }
     }
@@ -269,8 +269,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             super(x, y, 22, 22, CommonComponents.EMPTY);
         }
 
-        protected BeaconScreenButton(int x, int y, Component pMessage) {
-            super(x, y, 22, 22, pMessage);
+        protected BeaconScreenButton(int x, int y, Component message) {
+            super(x, y, 22, 22, message);
         }
 
         public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -287,14 +287,14 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.renderIcon(guiGraphics);
         }
 
-        protected abstract void renderIcon(GuiGraphics pGuiGraphics);
+        protected abstract void renderIcon(GuiGraphics guiGraphics);
 
         public boolean isSelected() {
             return this.selected;
         }
 
-        public void setSelected(boolean pSelected) {
-            this.selected = pSelected;
+        public void setSelected(boolean selected) {
+            this.selected = selected;
         }
 
         public void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
