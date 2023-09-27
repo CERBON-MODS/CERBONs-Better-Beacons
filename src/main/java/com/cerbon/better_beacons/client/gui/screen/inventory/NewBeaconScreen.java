@@ -218,10 +218,10 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.setEffect(effect);
         }
 
-        protected void setEffect(MobEffect pEffect) {
-            this.effect = pEffect;
-            this.sprite = Minecraft.getInstance().getMobEffectTextures().get(pEffect);
-            this.setTooltip(Tooltip.create(this.createEffectDescription(pEffect), null));
+        protected void setEffect(MobEffect effect) {
+            this.effect = effect;
+            this.sprite = Minecraft.getInstance().getMobEffectTextures().get(effect);
+            this.setTooltip(Tooltip.create(this.createEffectDescription(effect), null));
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
