@@ -7,7 +7,10 @@
 
   "effect.better_beacons.phantom_bane": "Phantom Bane",
   "effect.better_beacons.patrol_nullifier": "Patrol Nullifier",
-  "effect.better_beacons.long_reach": "Long Reach"
+  "effect.better_beacons.long_reach": "Long Reach",
+
+  "beacon.isLocked": "%s is locked! You need one of the following keys to unlock it: %s",
+  "beacon.unlocked": "You have successfully unlocked the %s!"
 
 
 }

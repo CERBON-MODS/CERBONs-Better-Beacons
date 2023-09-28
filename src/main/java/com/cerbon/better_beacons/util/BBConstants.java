@@ -13,6 +13,7 @@ public class BBConstants {
 
     public static final String PAYMENT_ITEM_KEY = "BBPaymentItem";
     public static final String TERTIARY_POWER_KEY = "BBTertiary";
+    public static final String UNLOCKED_BEACON_KEY = "BBUnlockedBeacon";
 
     public static final TagKey<Block> BEACON_TRANSPARENT = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_transparent"));
     public static final TagKey<Block> BEACON_TRANSPARENCY = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_transparency"));

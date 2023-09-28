@@ -8,8 +8,8 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS, KEYS;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, LOCK_BEACON;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
@@ -47,6 +47,15 @@ public class BBCommonConfigs {
         HORIZONTAL_MOVE_LIMIT = BUILDER
                 .comment("Sets the maximum amount of blocks that the beacon beam can extend while horizontal. DEFAULT: 64")
                 .define("Horizontal Move Limit", 64);
+        BUILDER.pop();
+
+        BUILDER.push("Lock Beacon");
+        LOCK_BEACON = BUILDER
+                .comment("Sets if the beacon needs a special item (Key) to open it for the first time. DEFAULT: False")
+                .define("Lock Beacon", false);
+        KEYS = BUILDER
+                .comment("You can put in this list all items that can be used to unlock the beacon. Example: [\"minecraft:stick\", \"minecraft:bone\"]. DEFAULT: Nothing")
+                .defineList("Keys", List.of(), entry -> entry instanceof String);
 
         SPEC = BUILDER.build();
     }
