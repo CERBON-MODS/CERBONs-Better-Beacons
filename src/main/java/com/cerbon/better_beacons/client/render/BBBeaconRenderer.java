@@ -19,9 +19,6 @@ import java.util.Objects;
 
 public class BBBeaconRenderer {
     public static boolean render(BeaconBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn) {
-        if (!BeaconRedirectionAndTransparency.allowRedirecting && !BeaconRedirectionAndTransparency.allowTintedGlassTransparency)
-            return false;
-
         long i = Objects.requireNonNull(tileEntityIn.getLevel()).getGameTime();
         List<BeaconBlockEntity.BeaconBeamSection> list = tileEntityIn.getBeamSections();
 

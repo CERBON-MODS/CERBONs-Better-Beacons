@@ -24,9 +24,6 @@ public class BeaconRedirectionAndTransparency {
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
     public static int tickBeacon(BeaconBlockEntity beacon) {
-        if(!allowRedirecting && !allowTintedGlassTransparency)
-            return 0;
-
         Level level = beacon.getLevel();
         BlockPos beaconPos = beacon.getBlockPos();
         BlockPos currPos = beaconPos;
