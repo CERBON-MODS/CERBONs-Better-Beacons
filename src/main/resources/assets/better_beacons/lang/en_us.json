@@ -4,7 +4,7 @@
 
   "block.minecraft.beacon.better_beacons.confirm_button.tooltip": "Apply selected effects",
   "block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip": "Remove active effects",
-  "block.minecraft.beacon.better_beacons.cancel_button_close_gui.tooltip": "Close container",
+  "block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip": "Close container",
 
   "effect.better_beacons.phantom_bane": "Phantom Bane",
   "effect.better_beacons.patrol_nullifier": "Patrol Nullifier",

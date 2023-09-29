@@ -177,7 +177,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
                 if (BBClientConfigs.CANCEL_BUTTON_REMOVE_EFFECTS.get())
                     this.setTooltip(BBConstants.CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP);
                 else
-                    this.setTooltip(BBConstants.CANCEL_BUTTON_CLOSE_GUI_TOOLTIP);
+                    this.setTooltip(BBConstants.CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP);
         }
 
         public void onPress() {
