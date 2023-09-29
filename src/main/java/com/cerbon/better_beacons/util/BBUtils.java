@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -20,12 +21,12 @@ public class BBUtils {
         return ModList.get().isLoaded(modId);
     }
 
-    public static boolean canUnlock(Player player, Component displayName){
+    public static boolean canUnlock(Player player, LockCode code, Component displayName){
         if (BBCommonConfigs.LOCK_BEACON.get() && !player.getPersistentData().getBoolean(BBConstants.UNLOCKED_BEACON_KEY)){
             List<? extends String> keys = BBCommonConfigs.KEYS.get();
-            String mainHandItem = getItemKeyAsString(player.getMainHandItem().getItem());
+            String mainHandItemKey = getItemKeyAsString(player.getMainHandItem().getItem());
 
-            if (!player.isSpectator() && !keys.contains(mainHandItem)){
+            if (!player.isSpectator() && (!keys.contains(mainHandItemKey) || !code.unlocksWith(player.getMainHandItem()))){
                 player.displayClientMessage(Component.translatable("beacon.isLocked", displayName, BBCommonConfigs.KEYS.get()).withStyle(ChatFormatting.RED), true);
                 player.playNotifySound(SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return false;
