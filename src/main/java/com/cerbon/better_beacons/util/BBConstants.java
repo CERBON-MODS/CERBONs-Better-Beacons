@@ -24,7 +24,8 @@ public class BBConstants {
     public static final Component TERTIARY_POWER_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.tertiary_power.label");
 
     public static final Tooltip CONFIRM_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.confirm_button.tooltip"));
-    public static final Tooltip CANCEL_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button.tooltip"));
+    public static final Tooltip CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip"));
+    public static final Tooltip CANCEL_BUTTON_CLOSE_GUI_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_close_gui.tooltip"));
 
     public static final String BEACONS_FOR_ALL = "beaconsforall";
 }
