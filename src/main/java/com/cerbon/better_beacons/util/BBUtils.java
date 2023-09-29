@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
