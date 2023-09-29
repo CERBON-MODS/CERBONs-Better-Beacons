@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons;
 
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
+import com.cerbon.better_beacons.config.BBClientConfigs;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.effect.BBEffects;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
@@ -37,7 +38,8 @@ public class BetterBeacons {
 
         MinecraftForge.EVENT_BUS.register(this);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BBCommonConfigs.SPEC, BBConstants.COMMON_CONFIG_NAME);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BBClientConfigs.SPEC, BBConstants.MOD_ID + "/" + BBConstants.CLIENT_CONFIG_NAME);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BBCommonConfigs.SPEC, BBConstants.MOD_ID + "/" + BBConstants.COMMON_CONFIG_NAME);
     }
 
     private void onClientSetup(FMLClientSetupEvent event){

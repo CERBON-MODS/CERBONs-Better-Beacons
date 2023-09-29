@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 public class BBConstants {
     public static final String MOD_ID = "better_beacons";
     public static final String COMMON_CONFIG_NAME = MOD_ID + "-common.toml";
+    public static final String CLIENT_CONFIG_NAME = MOD_ID + "-client.toml";
 
     public static final String PAYMENT_ITEM_KEY = "BBPaymentItem";
     public static final String TERTIARY_POWER_KEY = "BBTertiary";
