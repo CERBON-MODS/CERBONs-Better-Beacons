@@ -2,11 +2,16 @@ package com.cerbon.better_beacons.mixin.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BeaconBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -17,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+
+import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 @Mixin(BeaconBlock.class)
@@ -46,6 +53,17 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+    }
+
+    @Override
+    public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
+        BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+        Level level = Objects.requireNonNull(blockEntity).getLevel();
+
+        if (blockEntity instanceof BeaconBlockEntity && level != null)
+            return level.getDirectSignalTo(pos);
+
+        return 0;
     }
 
     @Override
