@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 @SuppressWarnings("deprecation")
 @Mixin(BeaconBlock.class)
 public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
-    @Unique private static final DirectionProperty BETTER_BEACON_FACING = HorizontalDirectionalBlock.FACING;
+    @Unique private static final DirectionProperty BETTER_BEACONS_FACING = HorizontalDirectionalBlock.FACING;
     @Unique private static final BooleanProperty BETTER_BEACONS_WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected BeaconBlockMixin(Properties properties) {
@@ -35,7 +35,7 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(BETTER_BEACON_FACING, context.getHorizontalDirection().getOpposite()).setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        return this.defaultBlockState().setValue(BETTER_BEACONS_FACING, context.getHorizontalDirection().getOpposite()).setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     @Override
@@ -53,6 +53,6 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BETTER_BEACON_FACING, BETTER_BEACONS_WATERLOGGED);
+        builder.add(BETTER_BEACONS_FACING, BETTER_BEACONS_WATERLOGGED);
     }
 }
