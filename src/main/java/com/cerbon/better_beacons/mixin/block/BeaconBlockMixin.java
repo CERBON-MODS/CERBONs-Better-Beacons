@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.mixin.block;
 
+import com.cerbon.better_beacons.config.BBCommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -37,18 +38,21 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        if (BBCommonConfigs.ENABLE_WATERLOGGING.get()){
+            FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+            return this.defaultBlockState().setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        }
+        return super.getStateForPlacement(context);
     }
 
     @Override
     public @NotNull FluidState getFluidState(BlockState state) {
-        return state.getValue(BETTER_BEACONS_WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        return state.getValue(BETTER_BEACONS_WATERLOGGED) && BBCommonConfigs.ENABLE_WATERLOGGING.get() ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     public @NotNull BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-        if (state.getValue(BETTER_BEACONS_WATERLOGGED))
+        if (state.getValue(BETTER_BEACONS_WATERLOGGED) && BBCommonConfigs.ENABLE_WATERLOGGING.get())
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
@@ -56,12 +60,13 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
-        BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
-        Level level = Objects.requireNonNull(blockEntity).getLevel();
+        if (BBCommonConfigs.ENABLE_CONDUCT_REDSTONE.get()){
+            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+            Level level = Objects.requireNonNull(blockEntity).getLevel();
 
-        if (blockEntity instanceof BeaconBlockEntity && level != null)
-            return level.getDirectSignalTo(pos);
-
+            if (blockEntity instanceof BeaconBlockEntity && level != null)
+                return level.getDirectSignalTo(pos);
+        }
         return 0;
     }
 

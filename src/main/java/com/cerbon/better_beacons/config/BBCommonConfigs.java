@@ -9,7 +9,7 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS, KEYS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, LOCK_BEACON;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
@@ -48,6 +48,15 @@ public class BBCommonConfigs {
                 .comment("Sets the maximum amount of blocks that the beacon beam can extend while horizontal. DEFAULT: 64")
                 .define("Horizontal Move Limit", 64);
         BUILDER.pop();
+
+        BUILDER.push("Waterlogging && Redstone");
+        ENABLE_WATERLOGGING = BUILDER
+                .comment("Sets if the beacon can be waterlogged. DEFAULT: True")
+                .define("Enable Waterlogging", true);
+
+        ENABLE_CONDUCT_REDSTONE = BUILDER
+                .comment("Sets if the beacon can conduct redstone. DEFAULT: True")
+                .define("Enable Conduct Redstone", true);
 
         BUILDER.push("Lock Beacon");
         LOCK_BEACON = BUILDER
