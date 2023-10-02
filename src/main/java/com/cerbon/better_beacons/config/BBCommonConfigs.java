@@ -57,6 +57,7 @@ public class BBCommonConfigs {
         ENABLE_CONDUCT_REDSTONE = BUILDER
                 .comment("Sets if the beacon can conduct redstone. DEFAULT: True")
                 .define("Enable Conduct Redstone", true);
+        BUILDER.pop();
 
         BUILDER.push("Lock Beacon");
         LOCK_BEACON = BUILDER
