@@ -2,6 +2,7 @@ package com.cerbon.better_beacons.mixin.block.entity;
 
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.*;
+import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -9,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -34,10 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
@@ -51,6 +51,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow public MobEffect secondaryPower;
     @Unique private MobEffect better_beacons_tertiaryPower;
     @Unique private String better_beacons_PaymentItem;
+    @Unique private int better_beacons_upgrade_amplifier = 1;
     @Shadow @Final private ContainerData dataAccess = new ContainerData() {
         @Override
         public int get(int index) {
@@ -100,6 +101,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
         tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getIdFromNullable(this.better_beacons_tertiaryPower));
+        tag.putInt(BBConstants.UPGRADE_AMPLIFIER_KEY, this.better_beacons_upgrade_amplifier);
 
         if (this.better_beacons_PaymentItem != null)
             tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
@@ -108,6 +110,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "load", at = @At("TAIL"))
     private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
         this.better_beacons_tertiaryPower = getValidEffectById(tag.getInt(BBConstants.TERTIARY_POWER_KEY));
+        this.better_beacons_upgrade_amplifier = tag.getInt(BBConstants.UPGRADE_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)){
             this.better_beacons_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
@@ -135,6 +138,16 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return defaultRange;
     }
 
+    @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 1, ordinal = 0))
+    private static int better_beacons_setAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
+            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getUpgradeAmplifier();
+
+        return amplifier;
+    }
+
     @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;", shift = At.Shift.BY, by = 2))
     private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) AABB aabb) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -157,10 +170,49 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         }
     }
 
-    // This captures the first for loop in the target method and changes the condition from j<=4 to j<=5
-    @ModifyConstant(method = "updateBase", constant = @Constant(intValue = 4))
-    private static int better_beacons_makeBeaconBaseGoesTillLevelFive(int j){
-        return j + 1;
+    @Inject(method = "updateBase", at = @At("HEAD"), cancellable = true)
+    private static void better_beacons_makeBeaconBaseGoesTillLevelFiveAndChangeAmplifierBasedOnTheBeaconBaseBlock(Level level, int beaconX, int beaconY, int beaconZ, CallbackInfoReturnable<Integer> cir){
+        BlockEntity blockEntity = level.getBlockEntity(new BlockPos(beaconX, beaconY, beaconZ));
+        int pyramidLevel = 0;
+
+        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
+            BlockState firstBlockState = null;
+            boolean canIncreaseAmplifier = true;
+
+            for(int pyramidHeight = 1; pyramidHeight <= 5; pyramidLevel = pyramidHeight++) {
+                int y = beaconY - pyramidHeight;
+                if (y < level.getMinBuildHeight()) break;
+
+                boolean flag = true;
+                for(int x = beaconX - pyramidHeight; x <= beaconX + pyramidHeight && flag; x++) {
+                    for(int z = beaconZ - pyramidHeight; z <= beaconZ + pyramidHeight; z++) {
+                        BlockState currentBlockState = level.getBlockState(new BlockPos(x, y, z));
+
+                        if (!currentBlockState.is(BlockTags.BEACON_BASE_BLOCKS)) {
+                            flag = false;
+                            break;
+                        }
+
+                        if (firstBlockState == null) {
+                            firstBlockState = currentBlockState;
+
+                        }else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier) {
+                            HashMap<String, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
+                            String currentBlockKey = BBUtils.getBlockKeyAsString(currentBlockState.getBlock());
+
+                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(blockAmplifierMap.getOrDefault(currentBlockKey, 1));
+
+                        }else {
+                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(1);
+                            canIncreaseAmplifier = false;
+                        }
+                    }
+                }
+
+                if (!flag) break;
+            }
+        }
+        cir.setReturnValue(pyramidLevel);
     }
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
@@ -176,5 +228,15 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Override
     public MobEffect better_beacons_getTertiaryPower(){
         return this.better_beacons_tertiaryPower;
+    }
+
+    @Override
+    public int better_beacons_getUpgradeAmplifier() {
+        return this.better_beacons_upgrade_amplifier;
+    }
+
+    @Override
+    public void better_beacons_setUpgradeAmplifier(int amplifier) {
+        this.better_beacons_upgrade_amplifier = amplifier;
     }
 }
