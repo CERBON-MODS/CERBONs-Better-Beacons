@@ -34,12 +34,12 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     private final ContainerData beaconData;
 
     public NewBeaconMenu(int containerId, Container container, @SuppressWarnings("unused") FriendlyByteBuf friendlyByteBuf) {
-        this(containerId, container, new SimpleContainerData(5), ContainerLevelAccess.NULL);
+        this(containerId, container, new SimpleContainerData(6), ContainerLevelAccess.NULL);
     }
 
     public NewBeaconMenu(int containerId, Container container, ContainerData beaconData, ContainerLevelAccess access) {
         super(BBMenuTypes.NEW_BEACON_MENU.get(), containerId);
-        checkContainerDataCount(beaconData, 5);
+        checkContainerDataCount(beaconData, 6);
 
         this.beaconData = beaconData;
         this.access = access;
@@ -145,6 +145,10 @@ public class NewBeaconMenu extends AbstractContainerMenu {
 
     public String getPaymentItem(){
         return StringIntMapping.getString(this.beaconData.get(4));
+    }
+
+    public int getUpgradeAmplifier(){
+        return this.beaconData.get(5);
     }
 
     public boolean isEffectsActive(){

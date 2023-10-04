@@ -60,6 +60,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
                 case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.better_beacons_tertiaryPower);
                 case 4 -> StringIntMapping.getInt(BeaconBlockEntityMixin.this.better_beacons_PaymentItem);
+                case 5 -> BeaconBlockEntityMixin.this.better_beacons_upgrade_amplifier;
                 default -> 0;
             };
         }
@@ -86,7 +87,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
     };
 

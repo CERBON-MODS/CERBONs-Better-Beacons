@@ -6,6 +6,7 @@ import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.packet.custom.BeaconC2SPacket;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.NumberToRoman;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -45,6 +46,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     @Nullable MobEffect tertiary;
     boolean isEffectsActive;
     String paymentItem;
+    int upgradeAmplifier;
 
     public NewBeaconScreen(NewBeaconMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -64,6 +66,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
                 NewBeaconScreen.this.tertiary = menu.getTertiaryEffect();
                 NewBeaconScreen.this.isEffectsActive = menu.isEffectsActive();
                 NewBeaconScreen.this.paymentItem = menu.getPaymentItem();
+                NewBeaconScreen.this.upgradeAmplifier = menu.getUpgradeAmplifier();
             }
         });
     }
@@ -341,7 +344,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
-            return Component.translatable(effect.getDescriptionId()).append(" II");
+            return Component.translatable(effect.getDescriptionId()).append(" ").append(NumberToRoman.convert(NewBeaconScreen.this.upgradeAmplifier + 1));
         }
 
         public void updateStatus(int beaconTier) {
