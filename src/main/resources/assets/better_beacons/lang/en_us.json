@@ -1,6 +1,7 @@
 {
   "block.minecraft.beacon.better_beacons.beacon_range.label": "Beacon Range",
   "block.minecraft.beacon.better_beacons.tertiary_power.label": "T.P.",
+  "block.minecraft.beacon.better_beacons.current_payment.label": "C.P",
 
   "block.minecraft.beacon.better_beacons.confirm_button.tooltip": "Apply selected effects",
   "block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip": "Remove active effects",
@@ -12,6 +13,7 @@
 
   "beacon.isLocked": "%s is locked! You need one of the following keys to unlock it: %s",
   "beacon.unlocked": "You have successfully unlocked the %s!"
+
 
 
 

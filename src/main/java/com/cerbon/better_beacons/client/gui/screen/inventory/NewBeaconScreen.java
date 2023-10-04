@@ -5,6 +5,7 @@ import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.packet.custom.BeaconC2SPacket;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,6 +44,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     @Nullable MobEffect secondary;
     @Nullable MobEffect tertiary;
     boolean isEffectsActive;
+    String paymentItem;
 
     public NewBeaconScreen(NewBeaconMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -61,6 +63,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
                 NewBeaconScreen.this.secondary = menu.getSecondaryEffect();
                 NewBeaconScreen.this.tertiary = menu.getTertiaryEffect();
                 NewBeaconScreen.this.isEffectsActive = menu.isEffectsActive();
+                NewBeaconScreen.this.paymentItem = menu.getPaymentItem();
             }
         });
     }
@@ -135,6 +138,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         guiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, 164, 10, 14737632);
         guiGraphics.drawCenteredString(this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
         guiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, 74, 105, 14737632);
+        guiGraphics.drawCenteredString(this.font, BBConstants.CURRENT_PAYMENT_LABEL, 239, 106, 14737632);
         guiGraphics.drawCenteredString(this.font, "++", 20, 106, 14737632);
         guiGraphics.drawCenteredString(this.font, "--", 128, 106, 14737632);
     }
@@ -152,6 +156,10 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         guiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), i + 31 + 44, j + 114);
         guiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), i + 31 + 66, j + 114);
         guiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), i + 31 + 88, j + 114);
+
+        if (this.paymentItem != null)
+            guiGraphics.renderItem(new ItemStack(BBUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
+
         guiGraphics.pose().popPose();
     }
 

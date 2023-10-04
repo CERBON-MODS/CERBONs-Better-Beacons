@@ -57,4 +57,8 @@ public class BBUtils {
     public static MobEffect getMobEffectByKey(String key){
         return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(key));
     }
+
+    public static Item getItemByKey(String key){
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(key));
+    }
 }

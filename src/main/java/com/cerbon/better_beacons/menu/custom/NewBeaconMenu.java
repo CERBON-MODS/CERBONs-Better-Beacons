@@ -1,10 +1,8 @@
 package com.cerbon.better_beacons.menu.custom;
 
 import com.cerbon.better_beacons.menu.BBMenuTypes;
-import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.world.inventory.BBContainerData;
-import com.cerbon.better_beacons.world.inventory.BBSimpleContainerData;
 import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.StringIntMapping;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -34,18 +32,16 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     private final NewBeaconMenu.PaymentSlot paymentSlot;
     private final ContainerLevelAccess access;
     private final ContainerData beaconData;
-    private final BBContainerData bbBeaconData;
 
     public NewBeaconMenu(int containerId, Container container, @SuppressWarnings("unused") FriendlyByteBuf friendlyByteBuf) {
-        this(containerId, container, new SimpleContainerData(4), new BBSimpleContainerData(), ContainerLevelAccess.NULL);
+        this(containerId, container, new SimpleContainerData(5), ContainerLevelAccess.NULL);
     }
 
-    public NewBeaconMenu(int containerId, Container container, ContainerData beaconData, BBContainerData bbBeaconData, ContainerLevelAccess access) {
+    public NewBeaconMenu(int containerId, Container container, ContainerData beaconData, ContainerLevelAccess access) {
         super(BBMenuTypes.NEW_BEACON_MENU.get(), containerId);
-        checkContainerDataCount(beaconData, 4);
+        checkContainerDataCount(beaconData, 5);
 
         this.beaconData = beaconData;
-        this.bbBeaconData = bbBeaconData;
         this.access = access;
         this.paymentSlot = new PaymentSlot(this.beacon, 0, 151, 109);
         this.addSlot(this.paymentSlot);
@@ -147,6 +143,10 @@ public class NewBeaconMenu extends AbstractContainerMenu {
         return MobEffect.byId(this.beaconData.get(3));
     }
 
+    public String getPaymentItem(){
+        return StringIntMapping.getString(this.beaconData.get(4));
+    }
+
     public boolean isEffectsActive(){
         return MobEffect.byId(this.beaconData.get(1)) != null;
     }
@@ -157,7 +157,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
             this.beaconData.set(1, primaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, secondaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(3, tertiaryEffect.map(MobEffect::getId).orElse(-1));
-            this.bbBeaconData.setString(BBConstants.PAYMENT_ITEM_KEY, BBUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem()));
+            this.beaconData.set(4, StringIntMapping.addString(BBUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem())));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }

@@ -1,12 +1,8 @@
 package com.cerbon.better_beacons.mixin.block.entity;
 
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
-import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.BBUtils;
-import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
-import com.cerbon.better_beacons.util.IBeaconBlockEntityMixin;
+import com.cerbon.better_beacons.util.*;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
-import com.cerbon.better_beacons.world.inventory.BBContainerData;
 import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
@@ -63,6 +59,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 case 1 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.primaryPower);
                 case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
                 case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.better_beacons_tertiaryPower);
+                case 4 -> StringIntMapping.getInt(BeaconBlockEntityMixin.this.better_beacons_PaymentItem);
                 default -> 0;
             };
         }
@@ -82,17 +79,15 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     BeaconBlockEntityMixin.this.secondaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
                 case 3:
                     BeaconBlockEntityMixin.this.better_beacons_tertiaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
+                case 4:
+                    BeaconBlockEntityMixin.this.better_beacons_PaymentItem = StringIntMapping.getString(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
-    };
-    @Unique private BBContainerData better_beacons_dataAccess = (key, value) -> {
-        if (key.equals(BBConstants.PAYMENT_ITEM_KEY))
-            BeaconBlockEntityMixin.this.better_beacons_PaymentItem = value;
     };
 
     @Shadow public abstract Component getDisplayName();
@@ -105,15 +100,19 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
         tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getIdFromNullable(this.better_beacons_tertiaryPower));
+
         if (this.better_beacons_PaymentItem != null)
             tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
     }
 
     @Inject(method = "load", at = @At("TAIL"))
-    private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci){
+    private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
         this.better_beacons_tertiaryPower = getValidEffectById(tag.getInt(BBConstants.TERTIARY_POWER_KEY));
-        if (tag.contains(BBConstants.PAYMENT_ITEM_KEY))
+
+        if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)){
             this.better_beacons_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
+            StringIntMapping.addString(this.better_beacons_PaymentItem);
+        }
     }
 
     // This captures the for loop inside tick that computes the beacon segments
@@ -166,7 +165,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
     private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
-        cir.setReturnValue(BBUtils.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, this.better_beacons_dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
+        cir.setReturnValue(BBUtils.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
     }
 
     @Override
