@@ -10,6 +10,7 @@ import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,6 +44,10 @@ public class BBUtils {
 
     public static String getItemKeyAsString(Item item){
         return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString();
+    }
+
+    public static String getBlockKeyAsString(Block block){
+        return Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).toString();
     }
 
     public static MobEffect[][] getBeaconEffectsFromConfigFile(){

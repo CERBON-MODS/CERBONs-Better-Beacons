@@ -7,6 +7,7 @@ import com.cerbon.better_beacons.effect.BBEffects;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -52,5 +53,6 @@ public class BetterBeacons {
 
     private void registerDatapackListener(final AddReloadListenerEvent event){
         event.addListener(BeaconPaymentItemsRangeManager.getInstance());
+        event.addListener(BeaconBaseBlocksAmplifierManager.getInstance());
     }
 }
