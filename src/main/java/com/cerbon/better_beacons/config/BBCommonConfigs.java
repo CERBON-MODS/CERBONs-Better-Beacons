@@ -31,7 +31,7 @@ public class BBCommonConfigs {
                 .defineList("Secondary Effects", List.of("minecraft:night_vision", "minecraft:regeneration", "minecraft:fire_resistance"), entry -> entry instanceof String);
 
         TERTIARY_EFFECTS = BUILDER
-                .comment("This is a list that contains the tertiary effects that a beacon has when at level 5. You can insert here only two effects. DEFAULT: \"better_beacons:phantom_bane\", \"better_beacons:patrol_nullifier\"")
+                .comment("This is a list that contains the tertiary effects that a beacon has when at level 5. I would recommend a maximum of two effects to prevent them from extending beyond the GUI. DEFAULT: \"better_beacons:phantom_bane\", \"better_beacons:patrol_nullifier\"")
                 .defineList("Tertiary Effects", List.of("better_beacons:phantom_bane", "better_beacons:patrol_nullifier"), entry -> entry instanceof String);
         BUILDER.pop();
 
