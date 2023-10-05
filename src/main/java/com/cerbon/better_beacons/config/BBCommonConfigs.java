@@ -9,11 +9,15 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS, KEYS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_TERTIARY_EFFECTS, ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
         BUILDER.push("Beacon Effects");
+        ENABLE_TERTIARY_EFFECTS = BUILDER
+                .comment("If false the beacon will not have a level 5 with the tertiary effects. Also, the GUI will change to fit the config. Keep in mind that the \"current payment\" will not be in the new GUI. DEFAULT: True")
+                .define("Enable Tertiary Effects", true);
+
         LEVEL1_EFFECTS = BUILDER
                 .comment("This is a list that contains the effects that a beacon has when at level 1. I would recommend a maximum of three effects to prevent them from extending beyond the GUI. DEFAULT: \"minecraft:speed\", \"minecraft:jump_boost\"")
                 .defineList("Level 1 Effects", List.of("minecraft:speed", "minecraft:jump_boost"), entry -> entry instanceof String);

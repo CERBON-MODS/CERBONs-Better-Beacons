@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.menu.custom;
 
+import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringIntMapping;
@@ -32,6 +33,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     private final NewBeaconMenu.PaymentSlot paymentSlot;
     private final ContainerLevelAccess access;
     private final ContainerData beaconData;
+    public static boolean isTertiaryEffectsEnabled = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
 
     public NewBeaconMenu(int containerId, Container container, @SuppressWarnings("unused") FriendlyByteBuf friendlyByteBuf) {
         this(containerId, container, new SimpleContainerData(6), ContainerLevelAccess.NULL);
@@ -43,19 +45,19 @@ public class NewBeaconMenu extends AbstractContainerMenu {
 
         this.beaconData = beaconData;
         this.access = access;
-        this.paymentSlot = new PaymentSlot(this.beacon, 0, 151, 109);
+        this.paymentSlot = new PaymentSlot(this.beacon, 0, isTertiaryEffectsEnabled ? 151 : 153, 109);
         this.addSlot(this.paymentSlot);
         this.addDataSlots(beaconData);
 
         //Inventory slots
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++)
-                this.addSlot(new Slot(container, x + y * 9 + 9,48 + 18 * x, 137 + 18 * y));
+                this.addSlot(new Slot(container, x + y * 9 + 9, isTertiaryEffectsEnabled ? 48 + 18 * x : 36 + x * 18, 137 + 18 * y));
         }
 
         //Hotbar slots
         for(int x = 0; x < 9; x++)
-            this.addSlot(new Slot(container, x, 48 + 18 * x, 195));
+            this.addSlot(new Slot(container, x, isTertiaryEffectsEnabled ? 48 + 18 * x : 36 + x * 18, 195));
     }
 
     @Override

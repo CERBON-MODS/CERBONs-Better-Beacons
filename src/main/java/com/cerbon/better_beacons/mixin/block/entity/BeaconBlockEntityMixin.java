@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.mixin.block.entity;
 
+import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.*;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
@@ -159,21 +160,23 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;", shift = At.Shift.BY, by = 2))
     private static void better_beacons_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) AABB aabb) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get()){
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
-            MobEffect tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getTertiaryPower();
+            if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
+                MobEffect tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getTertiaryPower();
 
-            if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null) {
-                for (Player player : players)
-                    player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null) {
+                    for (Player player : players)
+                        player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
-                //Add compatibility with beacons for all mod
-                if (BBUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
-                    List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
+                    //Add compatibility with beacons for all mod
+                    if (BBUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
+                        List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
 
-                    for (LivingEntity livingEntity : livingEntities)
-                        livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                        for (LivingEntity livingEntity : livingEntities)
+                            livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                    }
                 }
             }
         }
@@ -182,6 +185,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "updateBase", at = @At("HEAD"), cancellable = true)
     private static void better_beacons_makeBeaconBaseGoesTillLevelFiveAndChangeAmplifierBasedOnTheBeaconBaseBlock(Level level, int beaconX, int beaconY, int beaconZ, CallbackInfoReturnable<Integer> cir){
         BlockEntity blockEntity = level.getBlockEntity(new BlockPos(beaconX, beaconY, beaconZ));
+        int num = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get() ? 5 : 4;
         int pyramidLevel = 0;
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
@@ -189,7 +193,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             boolean canIncreaseAmplifier = true;
             HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
 
-            for(int pyramidHeight = 1; pyramidHeight <= 5; pyramidLevel = pyramidHeight++) {
+            for(int pyramidHeight = 1; pyramidHeight <= num; pyramidLevel = pyramidHeight++) {
                 int y = beaconY - pyramidHeight;
                 if (y < level.getMinBuildHeight()) break;
 
