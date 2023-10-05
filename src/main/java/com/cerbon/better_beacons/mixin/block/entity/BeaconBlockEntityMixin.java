@@ -100,7 +100,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
         tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getIdFromNullable(this.better_beacons_tertiaryPower));
-        tag.putInt(BBConstants.UPGRADE_AMPLIFIER_KEY, this.better_beacons_primaryEffectAmplifier);
+        tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.better_beacons_primaryEffectAmplifier);
 
         if (this.better_beacons_PaymentItem != null)
             tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
@@ -109,7 +109,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "load", at = @At("TAIL"))
     private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
         this.better_beacons_tertiaryPower = getValidEffectById(tag.getInt(BBConstants.TERTIARY_POWER_KEY));
-        this.better_beacons_primaryEffectAmplifier = tag.getInt(BBConstants.UPGRADE_AMPLIFIER_KEY);
+        this.better_beacons_primaryEffectAmplifier = tag.getInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)){
             this.better_beacons_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
