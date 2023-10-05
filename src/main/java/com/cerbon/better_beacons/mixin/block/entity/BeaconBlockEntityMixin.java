@@ -11,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -46,7 +45,6 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow @Final @SuppressWarnings("unused") private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
     @Shadow public List<BeaconBlockEntity.BeaconBeamSection> beamSections;
     @Shadow public int levels;
-    @Shadow private LockCode lockKey;
     @Shadow public MobEffect primaryPower;
     @Shadow public MobEffect secondaryPower;
     @Unique private MobEffect better_beacons_tertiaryPower;
@@ -217,7 +215,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
     private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir){
-        cir.setReturnValue(BBUtils.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
+        cir.setReturnValue(BBUtils.canUnlock(player, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, ContainerLevelAccess.create(Objects.requireNonNull(this.level), this.getBlockPos())) : null);
     }
 
     @Override
