@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -197,10 +198,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                             firstBlockState = currentBlockState;
 
                         }else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier) {
-                            HashMap<String, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
-                            String currentBlockKey = BBUtils.getBlockKeyAsString(currentBlockState.getBlock());
+                            HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
 
-                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(blockAmplifierMap.getOrDefault(currentBlockKey, 1));
+                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(blockAmplifierMap.getOrDefault(currentBlockState.getBlock(), 1));
 
                         }else {
                             ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(1);

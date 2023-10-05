@@ -1,7 +1,6 @@
 package com.cerbon.better_beacons.util.json;
 
 import com.cerbon.better_beacons.BetterBeacons;
-import com.cerbon.better_beacons.util.BBUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -27,7 +26,7 @@ public class BeaconBaseBlocksAmplifierManager extends SimpleJsonResourceReloadLi
 
     private static final String DIRECTORY = "base_blocks_amplifier";
 
-    private static final HashMap<String, Integer> blockAmplifierMap = new HashMap<>();
+    private static final HashMap<Block, Integer> blockAmplifierMap = new HashMap<>();
 
     public record ValuesListCodec(List<BeaconBaseBlocksAmplifierManager.BlockAmplifierCodec> values){
         public static final Codec<BeaconBaseBlocksAmplifierManager.ValuesListCodec> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
@@ -60,14 +59,14 @@ public class BeaconBaseBlocksAmplifierManager extends SimpleJsonResourceReloadLi
     }
 
     private void addToBlockAmplifierMap(BeaconBaseBlocksAmplifierManager.ValuesListCodec valuesList){
-        valuesList.values().forEach(entry -> blockAmplifierMap.put(BBUtils.getBlockKeyAsString(entry.block()), Math.max(entry.amplifier(), 1)));
+        valuesList.values().forEach(entry -> blockAmplifierMap.put(entry.block(), Math.max(entry.amplifier(), 1)));
     }
 
     public static BeaconBaseBlocksAmplifierManager getInstance() {
         return INSTANCE;
     }
 
-    public static HashMap<String, Integer> getBlockAmplifierMap(){
+    public static HashMap<Block, Integer> getBlockAmplifierMap(){
         return blockAmplifierMap;
     }
 }
