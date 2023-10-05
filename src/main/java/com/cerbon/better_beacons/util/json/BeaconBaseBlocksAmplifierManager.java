@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
