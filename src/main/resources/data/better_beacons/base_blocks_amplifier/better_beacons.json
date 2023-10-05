@@ -22,7 +22,7 @@
     },
     {
       "block": "minecraft:netherite_block",
-      "amplifier": 3
+      "amplifier": 4
     }
   ]
 }
