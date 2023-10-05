@@ -59,7 +59,7 @@ public class BeaconBaseBlocksAmplifierManager extends SimpleJsonResourceReloadLi
     }
 
     private void addToBlockAmplifierMap(BeaconBaseBlocksAmplifierManager.ValuesListCodec valuesList){
-        valuesList.values().forEach(entry -> blockAmplifierMap.put(entry.block(), Math.max(Math.min(entry.amplifier(), 253), 0)));
+        valuesList.values().forEach(entry -> blockAmplifierMap.put(entry.block(), Math.max(Math.min(entry.amplifier(), 254), 0)));
     }
 
     public static BeaconBaseBlocksAmplifierManager getInstance() {
