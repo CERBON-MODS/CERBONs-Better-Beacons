@@ -2,15 +2,15 @@
   "values": [
     {
       "block": "minecraft:copper_block",
-      "amplifier": 1
+      "amplifier": 0
     },
     {
       "block": "minecraft:iron_block",
-      "amplifier": 1
+      "amplifier": 0
     },
     {
       "block": "minecraft:gold_block",
-      "amplifier": 1
+      "amplifier": 0
     },
     {
       "block": "minecraft:emerald_block",
@@ -22,7 +22,7 @@
     },
     {
       "block": "minecraft:netherite_block",
-      "amplifier": 4
+      "amplifier": 3
     }
   ]
 }

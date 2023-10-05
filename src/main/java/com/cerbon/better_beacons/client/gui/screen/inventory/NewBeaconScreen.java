@@ -46,7 +46,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     @Nullable MobEffect tertiary;
     boolean isEffectsActive;
     String paymentItem;
-    int upgradeAmplifier;
+    int primaryEffectAmplifier;
 
     public NewBeaconScreen(NewBeaconMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -66,7 +66,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
                 NewBeaconScreen.this.tertiary = menu.getTertiaryEffect();
                 NewBeaconScreen.this.isEffectsActive = menu.isEffectsActive();
                 NewBeaconScreen.this.paymentItem = menu.getPaymentItem();
-                NewBeaconScreen.this.upgradeAmplifier = menu.getUpgradeAmplifier();
+                NewBeaconScreen.this.primaryEffectAmplifier = menu.getPrimaryEffectAmplifier();
             }
         });
     }
@@ -240,11 +240,15 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected void setEffect(MobEffect effect) {
             this.effect = effect;
             this.sprite = Minecraft.getInstance().getMobEffectTextures().get(effect);
-            this.setTooltip(Tooltip.create(this.createEffectDescription(effect), null));
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
-            return Component.translatable(effect.getDescriptionId());
+            MutableComponent component = Component.translatable(effect.getDescriptionId());
+
+            if (this.isPrimary && NewBeaconScreen.this.primaryEffectAmplifier > 0)
+                component.append(" " + NumberToRoman.convert(NewBeaconScreen.this.primaryEffectAmplifier + 1));
+
+            return component;
         }
 
         public void onPress() {
@@ -266,6 +270,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
         public void updateStatus(int beaconTier) {
             this.active = this.tier < beaconTier;
+            this.setTooltip(Tooltip.create(this.createEffectDescription(effect), null));
 
             if (this.isPrimary)
                 this.setSelected(this.effect == NewBeaconScreen.this.primary);
@@ -344,7 +349,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
-            return Component.translatable(effect.getDescriptionId()).append(" ").append(NumberToRoman.convert(NewBeaconScreen.this.upgradeAmplifier + 1));
+            return Component.translatable(effect.getDescriptionId()).append(" " + NumberToRoman.convert(NewBeaconScreen.this.primaryEffectAmplifier + 2));
         }
 
         public void updateStatus(int beaconTier) {

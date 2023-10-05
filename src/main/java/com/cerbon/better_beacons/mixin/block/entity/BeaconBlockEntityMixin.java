@@ -49,7 +49,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow public MobEffect secondaryPower;
     @Unique private MobEffect better_beacons_tertiaryPower;
     @Unique private String better_beacons_PaymentItem;
-    @Unique private int better_beacons_upgrade_amplifier = 1;
+    @Unique private int better_beacons_primaryEffectAmplifier;
     @Shadow @Final private ContainerData dataAccess = new ContainerData() {
         @Override
         public int get(int index) {
@@ -59,7 +59,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
                 case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.better_beacons_tertiaryPower);
                 case 4 -> StringIntMapping.getInt(BeaconBlockEntityMixin.this.better_beacons_PaymentItem);
-                case 5 -> BeaconBlockEntityMixin.this.better_beacons_upgrade_amplifier;
+                case 5 -> BeaconBlockEntityMixin.this.better_beacons_primaryEffectAmplifier;
                 default -> 0;
             };
         }
@@ -100,7 +100,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
         tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getIdFromNullable(this.better_beacons_tertiaryPower));
-        tag.putInt(BBConstants.UPGRADE_AMPLIFIER_KEY, this.better_beacons_upgrade_amplifier);
+        tag.putInt(BBConstants.UPGRADE_AMPLIFIER_KEY, this.better_beacons_primaryEffectAmplifier);
 
         if (this.better_beacons_PaymentItem != null)
             tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.better_beacons_PaymentItem);
@@ -109,7 +109,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "load", at = @At("TAIL"))
     private void better_beacons_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
         this.better_beacons_tertiaryPower = getValidEffectById(tag.getInt(BBConstants.TERTIARY_POWER_KEY));
-        this.better_beacons_upgrade_amplifier = tag.getInt(BBConstants.UPGRADE_AMPLIFIER_KEY);
+        this.better_beacons_primaryEffectAmplifier = tag.getInt(BBConstants.UPGRADE_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)){
             this.better_beacons_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
@@ -137,12 +137,22 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         return defaultRange;
     }
 
-    @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 1, ordinal = 0))
-    private static int better_beacons_setAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
+    @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 0, ordinal = 0))
+    private static int better_beacons_setPrimaryEffectAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
-            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getUpgradeAmplifier();
+            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier();
+
+        return amplifier;
+    }
+
+    @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 1, ordinal = 0))
+    private static int better_beacons_setUpgradeAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
+            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() + 1;
 
         return amplifier;
     }
@@ -177,6 +187,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
             BlockState firstBlockState = null;
             boolean canIncreaseAmplifier = true;
+            HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
 
             for(int pyramidHeight = 1; pyramidHeight <= 5; pyramidLevel = pyramidHeight++) {
                 int y = beaconY - pyramidHeight;
@@ -196,12 +207,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                             firstBlockState = currentBlockState;
 
                         }else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier) {
-                            HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
-
-                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(blockAmplifierMap.getOrDefault(currentBlockState.getBlock(), 1));
+                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setPrimaryEffectAmplifier(blockAmplifierMap.getOrDefault(currentBlockState.getBlock(), 0));
 
                         }else {
-                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setUpgradeAmplifier(1);
+                            ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setPrimaryEffectAmplifier(0);
                             canIncreaseAmplifier = false;
                         }
                     }
@@ -229,12 +238,12 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Override
-    public int better_beacons_getUpgradeAmplifier() {
-        return this.better_beacons_upgrade_amplifier;
+    public int better_beacons_getPrimaryEffectAmplifier() {
+        return this.better_beacons_primaryEffectAmplifier;
     }
 
     @Override
-    public void better_beacons_setUpgradeAmplifier(int amplifier) {
-        this.better_beacons_upgrade_amplifier = amplifier;
+    public void better_beacons_setPrimaryEffectAmplifier(int amplifier) {
+        this.better_beacons_primaryEffectAmplifier = amplifier;
     }
 }

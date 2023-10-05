@@ -147,7 +147,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
         return StringIntMapping.getString(this.beaconData.get(4));
     }
 
-    public int getUpgradeAmplifier(){
+    public int getPrimaryEffectAmplifier(){
         return this.beaconData.get(5);
     }
 
