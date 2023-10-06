@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons;
 
+import com.cerbon.better_beacons.advancement.condition.IsTertiaryEffectEnabledCondition;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.config.BBClientConfigs;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
@@ -12,6 +13,7 @@ import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -48,6 +50,7 @@ public class BetterBeacons {
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event){
+        event.enqueueWork(() -> CraftingHelper.register(IsTertiaryEffectEnabledCondition.Serializer.INSTANCE));
         BBPacketHandler.register();
     }
 
