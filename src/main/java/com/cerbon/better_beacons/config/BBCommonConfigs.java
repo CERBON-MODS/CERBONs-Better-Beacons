@@ -9,7 +9,7 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS, KEYS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_TERTIARY_EFFECTS, ENABLE_PAYMENT_ITEM_RANGE, ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_TERTIARY_EFFECTS, ENABLE_PAYMENT_ITEM_RANGE, ENABLE_BASE_BLOCK_AMPLIFIER, ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
@@ -43,6 +43,10 @@ public class BBCommonConfigs {
         ENABLE_PAYMENT_ITEM_RANGE = BUILDER
                 .comment("Sets if depending on the payment item used the range of the beacon will increase. DEFAULT: True")
                 .define("Enable Payment Item Range", true);
+
+        ENABLE_BASE_BLOCK_AMPLIFIER = BUILDER
+                .comment("Sets if depending on the base block used to build the beacon the primary effect amplifier (effect level) will increase. DEFAULT: True")
+                .define("Enable Base Block Amplifier", true);
 
         BUILDER.pop();
 

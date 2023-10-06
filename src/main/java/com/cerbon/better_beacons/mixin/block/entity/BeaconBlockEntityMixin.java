@@ -142,21 +142,23 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 0, ordinal = 0))
     private static int better_beacons_setPrimaryEffectAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (BBCommonConfigs.ENABLE_BASE_BLOCK_AMPLIFIER.get()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
-            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier();
-
+            if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
+                return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier();
+        }
         return amplifier;
     }
 
     @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 1, ordinal = 0))
     private static int better_beacons_setUpgradeAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary){
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (BBCommonConfigs.ENABLE_BASE_BLOCK_AMPLIFIER.get()){
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
-            return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() + 1;
-
+            if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity)
+                return ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() + 1;
+        }
         return amplifier;
     }
 
@@ -212,7 +214,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                         if (firstBlockState == null) {
                             firstBlockState = currentBlockState;
 
-                        }else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier) {
+                        }else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier && BBCommonConfigs.ENABLE_BASE_BLOCK_AMPLIFIER.get()) {
                             ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_setPrimaryEffectAmplifier(blockAmplifierMap.getOrDefault(currentBlockState.getBlock(), 0));
 
                         }else {
