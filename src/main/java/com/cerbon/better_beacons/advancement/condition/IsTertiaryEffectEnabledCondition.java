@@ -9,7 +9,7 @@ import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
 public class IsTertiaryEffectEnabledCondition implements ICondition {
     private static final ResourceLocation NAME = new ResourceLocation(BBConstants.MOD_ID, "is_tertiary_effect_enabled");
-    private final boolean isTertiaryEffectEnabled = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
+    private final boolean IS_TERTIARY_EFFECT_ENABLED = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
 
     @Override
     public ResourceLocation getID() {
@@ -18,7 +18,7 @@ public class IsTertiaryEffectEnabledCondition implements ICondition {
 
     @Override
     public boolean test(IContext context) {
-        return isTertiaryEffectEnabled;
+        return IS_TERTIARY_EFFECT_ENABLED;
     }
 
     public static class Serializer implements IConditionSerializer<IsTertiaryEffectEnabledCondition>{
