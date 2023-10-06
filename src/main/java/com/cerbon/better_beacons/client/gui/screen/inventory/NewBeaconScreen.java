@@ -38,7 +38,7 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
-    private static final ResourceLocation BEACON_TEXTURE_LOCATION = new ResourceLocation(NewBeaconMenu.isTertiaryEffectsEnabled ? "textures/gui/container/beacon2.png" : "textures/gui/container/beacon.png");
+    private static final ResourceLocation BEACON_TEXTURE_LOCATION = new ResourceLocation(NewBeaconMenu.isTertiaryEffectsEnabled ? "textures/gui/container/beacon2.png" : "textures/gui/container/beacon1.png");
     public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
     public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
     private final List<NewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
@@ -104,7 +104,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
         for(int l1 = 0; l1 < j1; l1++) {
             MobEffect mobeffect1 = BeaconBlockEntity.BEACON_EFFECTS[3][l1];
-            NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new NewBeaconScreen.BeaconPowerButton(NewBeaconMenu.isTertiaryEffectsEnabled ? this.leftPos + 163 + l1 * 24 - k1 / 2 : this.leftPos + 167 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, true, 3);
+            NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton2 = new NewBeaconScreen.BeaconPowerButton(NewBeaconMenu.isTertiaryEffectsEnabled ? this.leftPos + 164 + l1 * 24 - k1 / 2 : this.leftPos + 168 + l1 * 24 - k1 / 2, this.topPos + 47, mobeffect1, false, true, 3);
             beaconscreen$beaconpowerbutton2.active = false;
             this.addBeaconButton(beaconscreen$beaconpowerbutton2);
         }
@@ -122,7 +122,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         // Upgrade button (Secondary Effect)
-        NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new NewBeaconScreen.BeaconUpgradePowerButton(NewBeaconMenu.isTertiaryEffectsEnabled ? this.leftPos + 152 : this.leftPos + 156, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
+        NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton1 = new NewBeaconScreen.BeaconUpgradePowerButton(NewBeaconMenu.isTertiaryEffectsEnabled ? this.leftPos + 153 : this.leftPos + 156, this.topPos + 72, BeaconBlockEntity.BEACON_EFFECTS[0][0]);
         beaconscreen$beaconpowerbutton1.visible = false;
         this.addBeaconButton(beaconscreen$beaconpowerbutton1);
     }
@@ -140,8 +140,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
     @Override
     protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 59 : 62, 10, 14737632);
-        guiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 164 : 169, 10, 14737632);
+        guiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 60 : 63, 10, 14737632);
+        guiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 165 : 170, 10, 14737632);
 
         if (BBCommonConfigs.ENABLE_PAYMENT_ITEM_RANGE.get()){
             guiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
