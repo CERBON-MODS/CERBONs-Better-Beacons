@@ -127,13 +127,15 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     // This captures the variable d0 in the target method and adds to it value the payment item range
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
     private static double better_beacons_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level level, BlockPos pos, int levels, @Nullable MobEffect primary, @Nullable MobEffect secondary){
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (BBCommonConfigs.ENABLE_PAYMENT_ITEM_RANGE.get()){
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity){
-            String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
+            if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity){
+                String paymentItem = ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPaymentItem();
 
-            if (paymentItem != null)
-                return BeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(paymentItem, 0) + defaultRange;
+                if (paymentItem != null)
+                    return BeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(paymentItem, 0) + defaultRange;
+            }
         }
         return defaultRange;
     }

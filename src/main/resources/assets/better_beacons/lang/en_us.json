@@ -12,7 +12,8 @@
   "effect.better_beacons.long_reach": "Long Reach",
 
   "beacon.isLocked": "%s is locked! You need one of the following keys to unlock it: %s",
-  "beacon.unlocked": "You have successfully unlocked the %s!"
+  "beacon.unlocked": "You have successfully unlocked the %s!",
+  "block.minecraft.beacon.better_beacons.payment_item.label": "Payment Item"
 
 
 

@@ -9,7 +9,7 @@ public class BBCommonConfigs {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> LEVEL1_EFFECTS, LEVEL2_EFFECTS, LEVEL3_EFFECTS, SECONDARY_EFFECTS, TERTIARY_EFFECTS, KEYS;
-    public static final ForgeConfigSpec.BooleanValue ENABLE_TERTIARY_EFFECTS, ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_TERTIARY_EFFECTS, ENABLE_PAYMENT_ITEM_RANGE, ENABLE_BEACON_BEAM_REDIRECTION, ENABLE_BEACON_BEAM_TRANSPARENCY, ENABLE_WATERLOGGING, ENABLE_CONDUCT_REDSTONE, LOCK_BEACON;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORIZONTAL_MOVE_LIMIT;
 
     static {
@@ -37,6 +37,13 @@ public class BBCommonConfigs {
         TERTIARY_EFFECTS = BUILDER
                 .comment("This is a list that contains the tertiary effects that a beacon has when at level 5. I would recommend a maximum of two effects to prevent them from extending beyond the GUI. DEFAULT: \"better_beacons:phantom_bane\", \"better_beacons:patrol_nullifier\"")
                 .defineList("Tertiary Effects", List.of("better_beacons:phantom_bane", "better_beacons:patrol_nullifier"), entry -> entry instanceof String);
+        BUILDER.pop();
+
+        BUILDER.push("Payment Item Range && Block Amplifier");
+        ENABLE_PAYMENT_ITEM_RANGE = BUILDER
+                .comment("Sets if depending on the payment item used the range of the beacon will increase. DEFAULT: True")
+                .define("Enable Payment Item Range", true);
+
         BUILDER.pop();
 
         BUILDER.push("Redirection && Transparency");

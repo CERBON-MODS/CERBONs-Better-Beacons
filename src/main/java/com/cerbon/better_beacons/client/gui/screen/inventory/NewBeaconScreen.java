@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons.client.gui.screen.inventory;
 
 import com.cerbon.better_beacons.config.BBClientConfigs;
+import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.packet.custom.BeaconC2SPacket;
@@ -141,9 +142,13 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.drawCenteredString(this.font, PRIMARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 59 : 62, 10, 14737632);
         guiGraphics.drawCenteredString(this.font, SECONDARY_EFFECT_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 164 : 169, 10, 14737632);
-        guiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
-        guiGraphics.drawCenteredString(this.font, "++", NewBeaconMenu.isTertiaryEffectsEnabled ? 20 : 23, 106, 14737632);
-        guiGraphics.drawCenteredString(this.font, "--", NewBeaconMenu.isTertiaryEffectsEnabled ? 128 : 131, 106, 14737632);
+
+        if (BBCommonConfigs.ENABLE_PAYMENT_ITEM_RANGE.get()){
+            guiGraphics.drawCenteredString(this.font, BBConstants.BEACON_RANGE_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
+            guiGraphics.drawCenteredString(this.font, "++", NewBeaconMenu.isTertiaryEffectsEnabled ? 20 : 23, 106, 14737632);
+            guiGraphics.drawCenteredString(this.font, "--", NewBeaconMenu.isTertiaryEffectsEnabled ? 128 : 131, 106, 14737632);
+        }else
+            guiGraphics.drawCenteredString(this.font, BBConstants.PAYMENT_ITEM_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
 
         if (NewBeaconMenu.isTertiaryEffectsEnabled){
             guiGraphics.drawCenteredString(this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
