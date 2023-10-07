@@ -32,6 +32,10 @@ public class BeaconRedirectionAndTransparency {
         BlockPos beaconPos = beacon.getBlockPos();
         BlockPos currPos = beaconPos;
 
+        int i = beaconPos.getX();
+        int j = beaconPos.getY();
+        int k = beaconPos.getZ();
+
         int horizontalMoves = horizontalMoveLimit;
         int targetHeight = Objects.requireNonNull(level).getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
@@ -74,8 +78,13 @@ public class BeaconRedirectionAndTransparency {
             float targetAlpha = -1;
 
             if(allowTintedGlassTransparency) {
-                if(block.defaultBlockState().is(BBConstants.BEACON_TRANSPARENCY))
+                if(block.defaultBlockState().is(BBConstants.BEACON_TRANSPARENCY)) {
                     targetAlpha = (alpha < 0.3F ? 0F : (alpha / 2F));
+
+                    if (targetAlpha <= 0)
+                        for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
+                            BBCriteriaTriggers.INVISIBLE_BEAM.trigger(serverplayer);
+                }
             }
 
             if(isRedirectingBlock(block) && allowRedirecting) {
@@ -156,10 +165,6 @@ public class BeaconRedirectionAndTransparency {
 
         if(!beacon.getPersistentData().getBoolean(tag) && didRedirection && !beacon.checkingBeamSections.isEmpty()) {
             beacon.getPersistentData().putBoolean(tag, true);
-
-            int i = beaconPos.getX();
-            int j = beaconPos.getY();
-            int k = beaconPos.getZ();
 
             for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
                 BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer);

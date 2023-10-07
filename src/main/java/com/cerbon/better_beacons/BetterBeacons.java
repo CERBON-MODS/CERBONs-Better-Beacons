@@ -56,6 +56,7 @@ public class BetterBeacons {
             CraftingHelper.register(IsConfigEnabledCondition.Serializer.INSTANCE);
 
             CriteriaTriggers.register(BBCriteriaTriggers.REDIRECT_BEACON);
+            CriteriaTriggers.register(BBCriteriaTriggers.INVISIBLE_BEAM);
         });
         BBPacketHandler.register();
     }

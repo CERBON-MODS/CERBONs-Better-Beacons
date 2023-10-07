@@ -23,13 +23,13 @@ public class IsConfigEnabledCondition implements ICondition {
 
     @Override
     public boolean test(IContext context) {
-        if (config.equals("tertiary_effect"))
-            return BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
+        return switch (config) {
+            case "tertiary_effect" -> BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
+            case "beacon_beam_redirection" -> BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
+            case "beacon_beam_transparency" -> BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
+            default -> false;
+        };
 
-        else if (config.equals("beacon_beam_redirection"))
-            return BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
-
-        return false;
     }
 
     public static class Serializer implements IConditionSerializer<IsConfigEnabledCondition> {
