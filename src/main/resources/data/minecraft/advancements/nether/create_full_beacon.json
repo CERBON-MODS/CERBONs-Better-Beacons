@@ -3,7 +3,8 @@
     {
       "conditions": [
         {
-          "type": "better_beacons:is_tertiary_effect_enabled"
+          "type": "better_beacons:is_config_enabled",
+          "config": "tertiary_effect"
         }
       ],
       "advancement": {

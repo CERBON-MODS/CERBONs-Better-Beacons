@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons;
 
 import com.cerbon.better_beacons.advancement.condition.IsBeaconBeamRedirectionEnabledCondition;
+import com.cerbon.better_beacons.advancement.condition.IsConfigEnabledCondition;
 import com.cerbon.better_beacons.advancement.condition.IsTertiaryEffectEnabledCondition;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.config.BBClientConfigs;
@@ -54,8 +55,7 @@ public class BetterBeacons {
 
     private void onCommonSetup(FMLCommonSetupEvent event){
         event.enqueueWork(() -> {
-            CraftingHelper.register(IsTertiaryEffectEnabledCondition.Serializer.INSTANCE);
-            CraftingHelper.register(IsBeaconBeamRedirectionEnabledCondition.Serializer.INSTANCE);
+            CraftingHelper.register(IsConfigEnabledCondition.Serializer.INSTANCE);
 
             CriteriaTriggers.register(BeaconRedirectionAndTransparency.redirectTrigger);
         });

@@ -3,7 +3,8 @@
     {
       "conditions": [
         {
-          "type": "better_beacons:is_beacon_beam_redirection_enabled"
+          "type": "better_beacons:is_config_enabled",
+          "config": "beacon_beam_redirection"
         },
         {
           "type": "forge:mod_loaded",
@@ -42,7 +43,8 @@
     {
       "conditions": [
         {
-           "type": "better_beacons:is_beacon_beam_redirection_enabled"
+           "type": "better_beacons:is_config_enabled",
+           "config": "beacon_beam_redirection"
         }
       ],
       "advancement": {
