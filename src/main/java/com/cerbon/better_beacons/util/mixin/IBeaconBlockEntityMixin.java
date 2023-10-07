@@ -1,4 +1,4 @@
-package com.cerbon.better_beacons.util;
+package com.cerbon.better_beacons.util.mixin;
 
 import net.minecraft.world.effect.MobEffect;
 

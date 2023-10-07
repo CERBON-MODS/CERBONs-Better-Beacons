@@ -1,7 +1,8 @@
-package com.cerbon.better_beacons.util;
+package com.cerbon.better_beacons.util.mixin;
 
 import com.cerbon.better_beacons.advancement.trigger.BBGenericTrigger;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
+import com.cerbon.better_beacons.util.BBConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;

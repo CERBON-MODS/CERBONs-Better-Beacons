@@ -5,6 +5,8 @@ import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.*;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
+import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
+import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;

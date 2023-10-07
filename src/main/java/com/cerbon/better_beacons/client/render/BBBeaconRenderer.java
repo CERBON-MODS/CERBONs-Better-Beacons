@@ -1,6 +1,6 @@
 package com.cerbon.better_beacons.client.render;
 
-import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
+import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
