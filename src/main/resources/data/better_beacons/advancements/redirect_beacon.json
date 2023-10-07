@@ -1,0 +1,78 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "better_beacons:is_beacon_beam_redirection_enabled"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "quark"
+        }
+      ],
+      "advancement": {
+        "parent": "minecraft:nether/create_beacon",
+        "criteria": {
+          "redirect_beacon": {
+            "trigger": "better_beacons:redirect_beacon"
+          }
+        },
+        "display": {
+          "announce_to_chat": true,
+          "description": {
+            "translate": "advancements.quark.redirect_beacon.description"
+          },
+          "frame": "task",
+          "hidden": false,
+          "icon": {
+            "item": "minecraft:beacon"
+          },
+          "show_toast": true,
+          "title": {
+            "translate": "advancements.quark.redirect_beacon.title"
+          }
+        },
+        "requirements": [
+          [
+            "redirect_beacon"
+          ]
+        ]
+      }
+    },
+    {
+      "conditions": [
+        {
+           "type": "better_beacons:is_beacon_beam_redirection_enabled"
+        }
+      ],
+      "advancement": {
+        "parent": "minecraft:nether/create_beacon",
+        "criteria": {
+          "redirect_beacon": {
+            "trigger": "better_beacons:redirect_beacon"
+          }
+        },
+        "display": {
+          "announce_to_chat": true,
+          "description": {
+            "translate": "advancements.better_beacons.redirect_beacon.description"
+          },
+          "frame": "task",
+          "hidden": false,
+          "icon": {
+            "item": "minecraft:beacon"
+          },
+          "show_toast": true,
+          "title": {
+            "translate": "advancements.better_beacons.redirect_beacon.title"
+          }
+        },
+        "requirements": [
+          [
+            "redirect_beacon"
+          ]
+        ]
+      }
+    }
+  ]
+}

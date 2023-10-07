@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons;
 
+import com.cerbon.better_beacons.advancement.condition.IsBeaconBeamRedirectionEnabledCondition;
 import com.cerbon.better_beacons.advancement.condition.IsTertiaryEffectEnabledCondition;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.config.BBClientConfigs;
@@ -8,9 +9,11 @@ import com.cerbon.better_beacons.effect.BBEffects;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -50,7 +53,12 @@ public class BetterBeacons {
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event){
-        event.enqueueWork(() -> CraftingHelper.register(IsTertiaryEffectEnabledCondition.Serializer.INSTANCE));
+        event.enqueueWork(() -> {
+            CraftingHelper.register(IsTertiaryEffectEnabledCondition.Serializer.INSTANCE);
+            CraftingHelper.register(IsBeaconBeamRedirectionEnabledCondition.Serializer.INSTANCE);
+
+            CriteriaTriggers.register(BeaconRedirectionAndTransparency.redirectTrigger);
+        });
         BBPacketHandler.register();
     }
 
