@@ -1,8 +1,6 @@
 package com.cerbon.better_beacons;
 
-import com.cerbon.better_beacons.advancement.condition.IsBeaconBeamRedirectionEnabledCondition;
 import com.cerbon.better_beacons.advancement.condition.IsConfigEnabledCondition;
-import com.cerbon.better_beacons.advancement.condition.IsTertiaryEffectEnabledCondition;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.config.BBClientConfigs;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
