@@ -189,7 +189,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Inject(method = "updateBase", at = @At("HEAD"), cancellable = true)
     private static void better_beacons_makeBeaconBaseGoesTillLevelFiveAndChangeAmplifierBasedOnTheBeaconBaseBlock(Level level, int beaconX, int beaconY, int beaconZ, CallbackInfoReturnable<Integer> cir){
         BlockEntity blockEntity = level.getBlockEntity(new BlockPos(beaconX, beaconY, beaconZ));
-        int pyramidHeight = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get() ? 5 : 4;
+        int pyramidMaxLevel = BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get() ? 5 : 4;
         int pyramidLevel = 0;
 
         if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
@@ -197,7 +197,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             boolean canIncreaseAmplifier = true;
             HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
 
-            for(int i = 1; i <= pyramidHeight; pyramidLevel = i++) {
+            for(int i = 1; i <= pyramidMaxLevel; pyramidLevel = i++) {
                 int y = beaconY - i;
                 if (y < level.getMinBuildHeight()) break;
 
