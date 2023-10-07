@@ -115,7 +115,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
             for (int i = 0; i < j2; i++){
                 MobEffect mobEffect2 = BeaconBlockEntity.BEACON_EFFECTS[4][i];
-                NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton3 = new NewBeaconScreen.BeaconPowerButton(this.leftPos + 221, this.topPos +  47 + i * 25, mobEffect2, false, false, 4);
+                NewBeaconScreen.BeaconPowerButton beaconscreen$beaconpowerbutton3 = new NewBeaconScreen.BeaconPowerButton(this.leftPos + 222, this.topPos +  47 + i * 25, mobEffect2, false, false, 4);
                 beaconscreen$beaconpowerbutton3.active = false;
                 this.addBeaconButton(beaconscreen$beaconpowerbutton3);
             }
