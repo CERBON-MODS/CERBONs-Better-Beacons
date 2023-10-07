@@ -1,12 +1,11 @@
 package com.cerbon.better_beacons.util.mixin;
 
-import com.cerbon.better_beacons.advancement.trigger.BBGenericTrigger;
+import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.util.BBConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -25,8 +24,6 @@ public class BeaconRedirectionAndTransparency {
     public static int horizontalMoveLimit = BBCommonConfigs.HORIZONTAL_MOVE_LIMIT.get();
     public static boolean allowRedirecting = BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
     public static boolean allowTintedGlassTransparency = BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
-
-    public static BBGenericTrigger redirectTrigger = new BBGenericTrigger(new ResourceLocation(BBConstants.MOD_ID, "redirect_beacon"));
 
     // The value that comes out of this is fed onto a constant for the FOR loop that
     // computes the beacon segments, so we return 0 to run that code, or MAX_VALUE to not
@@ -165,7 +162,7 @@ public class BeaconRedirectionAndTransparency {
             int k = beaconPos.getZ();
 
             for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
-                redirectTrigger.trigger(serverplayer);
+                BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer);
         }
 
         return Integer.MAX_VALUE;

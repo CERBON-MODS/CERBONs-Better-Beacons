@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons;
 
+import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.advancement.condition.IsConfigEnabledCondition;
 import com.cerbon.better_beacons.client.gui.screen.inventory.NewBeaconScreen;
 import com.cerbon.better_beacons.config.BBClientConfigs;
@@ -8,7 +9,6 @@ import com.cerbon.better_beacons.effect.BBEffects;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.mojang.logging.LogUtils;
@@ -55,7 +55,7 @@ public class BetterBeacons {
         event.enqueueWork(() -> {
             CraftingHelper.register(IsConfigEnabledCondition.Serializer.INSTANCE);
 
-            CriteriaTriggers.register(BeaconRedirectionAndTransparency.redirectTrigger);
+            CriteriaTriggers.register(BBCriteriaTriggers.REDIRECT_BEACON);
         });
         BBPacketHandler.register();
     }
