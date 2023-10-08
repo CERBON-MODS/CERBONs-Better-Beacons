@@ -200,6 +200,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             IBeaconBlockEntityMixin beaconMixin = ((IBeaconBlockEntityMixin) beaconBlockEntity);
             BlockState firstBlockState = null;
             boolean canIncreaseAmplifier = true;
+            int paymentItemRange = BeaconPaymentItemsRangeManager.getItemRangeMap().getOrDefault(beaconMixin.better_beacons_getPaymentItem(), 0);
             HashMap<Block, Integer> blockAmplifierMap = BeaconBaseBlocksAmplifierManager.getBlockAmplifierMap();
 
             for(int i = 1; i <= pyramidMaxLevel; pyramidLevel = i++) {
@@ -237,7 +238,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
             }
 
-            if (canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.better_beacons_getPrimaryEffectAmplifier() == BeaconBaseBlocksAmplifierManager.getHighestAmplifier()){
+            if (canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.better_beacons_getPrimaryEffectAmplifier() == BeaconBaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == BeaconPaymentItemsRangeManager.getHighestRange()) {
                 for(ServerPlayer serverplayer : Objects.requireNonNull(beaconBlockEntity.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ)).inflate(10.0D, 5.0D, 10.0D)))
                     BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverplayer);
             }

@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,5 +68,9 @@ public class BeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadList
 
     public static HashMap<String, Integer> getItemRangeMap(){
         return itemRangeMap;
+    }
+
+    public static int getHighestRange() {
+        return Collections.max(itemRangeMap.values());
     }
 }
