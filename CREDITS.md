@@ -1,0 +1,3 @@
+This project includes code from [Quark](https://github.com/VazkiiMods/Quark/tree/master) by [Vazkii](https://github.com/Vazkii), which is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+You can find the original code used in my mod in those links: [Beacon Redirection And Transparency](https://github.com/VazkiiMods/Quark/blob/master/src/main/java/vazkii/quark/content/tools/module/BeaconRedirectionModule.java#L40), [Custom Beacon Renderer](https://github.com/VazkiiMods/Quark/blob/master/src/main/java/vazkii/quark/content/tools/client/render/QuarkBeaconBlockEntityRenderer.java)
