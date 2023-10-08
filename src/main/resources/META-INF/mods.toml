@@ -11,7 +11,7 @@ displayName="CERBON's Better Beacons"
 #logoFile="examplemod.png"
 #credits="Thanks for this example mod goes to Java"
 authors="CerbonXD"
-description='''Overhauls Minecraft's beacons.'''
+description='''New UI, new features, new advancements. Improves Minecraft's beacon.'''
 
 [[dependencies.better_beacons]]
     modId="forge"
