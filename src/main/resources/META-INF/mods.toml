@@ -11,7 +11,7 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/cerbons-better-beacons-
 logoFile="logo.png"
 #credits="Thanks for this example mod goes to Java"
 authors="CerbonXD"
-description='''New UI, new features, new advancements. Improves Minecraft's beacon.'''
+description='''New UI, new features and new advancements. Improves Minecraft's beacon.'''
 
 [[dependencies.better_beacons]]
     modId="forge"
