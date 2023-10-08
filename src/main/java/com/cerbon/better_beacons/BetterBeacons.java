@@ -58,6 +58,7 @@ public class BetterBeacons {
             CriteriaTriggers.register(BBCriteriaTriggers.REDIRECT_BEACON);
             CriteriaTriggers.register(BBCriteriaTriggers.INVISIBLE_BEAM);
             CriteriaTriggers.register(BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
+            CriteriaTriggers.register(BBCriteriaTriggers.TRUE_FULL_POWER);
         });
         BBPacketHandler.register();
     }

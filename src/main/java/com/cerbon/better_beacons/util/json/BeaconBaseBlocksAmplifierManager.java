@@ -8,7 +8,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -70,6 +69,10 @@ public class BeaconBaseBlocksAmplifierManager extends SimpleJsonResourceReloadLi
 
     public static HashMap<Block, Integer> getBlockAmplifierMap(){
         return blockAmplifierMap;
+    }
+
+    public static int getHighestAmplifier(){
+        return Collections.max(blockAmplifierMap.values());
     }
 
     public static int getLowestAmplifier() {
