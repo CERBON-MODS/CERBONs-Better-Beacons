@@ -231,7 +231,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 if (!flag) break;
             }
 
-            if (canIncreaseAmplifier && ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() != 0){
+            if (canIncreaseAmplifier && ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() > BeaconBaseBlocksAmplifierManager.getLowestAmplifier()){
                 for(ServerPlayer serverplayer : Objects.requireNonNull(beaconBlockEntity.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ)).inflate(10.0D, 5.0D, 10.0D)))
                     BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
             }
