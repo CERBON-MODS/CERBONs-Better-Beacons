@@ -18,7 +18,9 @@
   "advancements.better_beacons.redirect_beacon.title": "See The Lights",
   "advancements.better_beacons.redirect_beacon.description": "Redirect a Beacon beam's direction using Clusters",
   "advancements.better_beacons.invisible_beam.title": "I Can't See The Lights",
-  "advancements.better_beacons.invisible_beam.description": "Make the Beacon's beam invisible using tinted glass"
+  "advancements.better_beacons.invisible_beam.description": "Make the Beacon's beam invisible using tinted glass",
+  "advancements.better_beacons.increase_effects_strength.title": "I Feel The Power",
+  "advancements.better_beacons.increase_effects_strength.description": "Increase Beacon effects strength using different base blocks"
 
 
 

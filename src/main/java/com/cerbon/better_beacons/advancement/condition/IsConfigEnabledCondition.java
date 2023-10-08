@@ -27,6 +27,7 @@ public class IsConfigEnabledCondition implements ICondition {
             case "tertiary_effect" -> BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
             case "beacon_beam_redirection" -> BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
             case "beacon_beam_transparency" -> BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
+            case "base_block_amplifier" -> BBCommonConfigs.ENABLE_BASE_BLOCK_AMPLIFIER.get();
             default -> false;
         };
 

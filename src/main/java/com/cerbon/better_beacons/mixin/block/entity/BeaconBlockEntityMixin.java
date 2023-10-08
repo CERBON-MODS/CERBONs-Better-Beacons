@@ -1,5 +1,6 @@
 package com.cerbon.better_beacons.mixin.block.entity;
 
+import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.*;
@@ -12,6 +13,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
@@ -227,6 +229,11 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 }
 
                 if (!flag) break;
+            }
+
+            if (canIncreaseAmplifier && ((IBeaconBlockEntityMixin) beaconBlockEntity).better_beacons_getPrimaryEffectAmplifier() != 0){
+                for(ServerPlayer serverplayer : Objects.requireNonNull(beaconBlockEntity.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ)).inflate(10.0D, 5.0D, 10.0D)))
+                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
             }
         }
         cir.setReturnValue(pyramidLevel);
