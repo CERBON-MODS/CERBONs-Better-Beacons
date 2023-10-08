@@ -22,7 +22,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            args "-mixin.config=mixins.${mod_id}.json"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -36,7 +35,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            args "-mixin.config=mixins.${mod_id}.json"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -50,7 +48,6 @@ minecraft {
 
         gameTestServer {
             workingDirectory project.file('run')
-            args "-mixin.config=mixins.${mod_id}.json"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -64,11 +61,8 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-            args "-mixin.config=mixins.${mod_id}.json"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
