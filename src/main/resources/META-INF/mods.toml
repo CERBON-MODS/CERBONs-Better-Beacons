@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[46,)"
 license="Attribution-NonCommercial-ShareAlike 3.0 Unported"
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+issueTrackerURL="https://github.com/CERBON-MODS/CERBONs-Better-Beacons-FORGE/issues" #optional
 
 [[mods]]
 modId="better_beacons"
