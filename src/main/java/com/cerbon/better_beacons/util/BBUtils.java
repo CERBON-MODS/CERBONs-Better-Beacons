@@ -33,7 +33,7 @@ public class BBUtils {
             }else{
                 player.getPersistentData().putBoolean(BBConstants.UNLOCKED_BEACON_KEY, true);
                 player.displayClientMessage(Component.translatable("beacon.unlocked", displayName).withStyle(ChatFormatting.GREEN), true);
-                player.playNotifySound(SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                player.playNotifySound(SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
         }
