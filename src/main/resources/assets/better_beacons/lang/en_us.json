@@ -19,10 +19,10 @@
   "advancements.better_beacons.redirect_beacon.description": "Redirect a Beacon beam's direction using Clusters",
   "advancements.better_beacons.invisible_beam.title": "I Can't See The Lights",
   "advancements.better_beacons.invisible_beam.description": "Make the Beacon's beam invisible using tinted glass",
-  "advancements.better_beacons.increase_effects_strength.title": "I Feel The Power",
-  "advancements.better_beacons.increase_effects_strength.description": "Increase Beacon effects strength using different base blocks",
-  "advancements.better_beacons.true_full_power.title": "I Think I Need To Go Outside",
-  "advancements.better_beacons.true_full_power.description": "Create a full power beacon with full power effects and maximum range"
+  "advancements.better_beacons.increase_effects_strength.title": "Power Up",
+  "advancements.better_beacons.increase_effects_strength.description": "Increase the strength of the Beacon effects using a valuable base block",
+  "advancements.better_beacons.true_full_power.title": "The Ultimate Beacon",
+  "advancements.better_beacons.true_full_power.description": "Create a full-power beacon with maximum effect strength and range"
 
 
 
