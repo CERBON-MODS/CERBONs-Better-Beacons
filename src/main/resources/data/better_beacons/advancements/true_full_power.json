@@ -5,6 +5,10 @@
         {
           "type": "better_beacons:is_config_enabled",
           "config": "base_block_amplifier"
+        },
+        {
+          "type": "better_beacons:is_config_enabled",
+          "config": "payment_item_range"
         }
       ],
       "advancement": {

@@ -28,6 +28,7 @@ public class IsConfigEnabledCondition implements ICondition {
             case "beacon_beam_redirection" -> BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();
             case "beacon_beam_transparency" -> BBCommonConfigs.ENABLE_BEACON_BEAM_TRANSPARENCY.get();
             case "base_block_amplifier" -> BBCommonConfigs.ENABLE_BASE_BLOCK_AMPLIFIER.get();
+            case "payment_item_range" -> BBCommonConfigs.ENABLE_PAYMENT_ITEM_RANGE.get();
             default -> false;
         };
 
