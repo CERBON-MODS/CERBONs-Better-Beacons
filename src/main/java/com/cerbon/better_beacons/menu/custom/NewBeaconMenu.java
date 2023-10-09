@@ -52,12 +52,12 @@ public class NewBeaconMenu extends AbstractContainerMenu {
         //Inventory slots
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++)
-                this.addSlot(new Slot(container, x + y * 9 + 9, isTertiaryEffectsEnabled ? 48 + 18 * x : 36 + x * 18, 137 + 18 * y));
+                this.addSlot(new Slot(container, x + y * 9 + 9, isTertiaryEffectsEnabled ? 48 + 18 * x : 35 + x * 18, 137 + 18 * y));
         }
 
         //Hotbar slots
         for(int x = 0; x < 9; x++)
-            this.addSlot(new Slot(container, x, isTertiaryEffectsEnabled ? 48 + 18 * x : 36 + x * 18, 195));
+            this.addSlot(new Slot(container, x, isTertiaryEffectsEnabled ? 48 + 18 * x : 35 + x * 18, 195));
     }
 
     @Override
