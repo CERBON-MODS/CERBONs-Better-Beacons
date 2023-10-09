@@ -48,10 +48,10 @@ import java.util.stream.Collectors;
 public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBeaconBlockEntityMixin {
     @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = BBUtils.getBeaconEffectsFromConfigFile();
     @Shadow @Final @SuppressWarnings("unused") private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
-    @Shadow public List<BeaconBlockEntity.BeaconBeamSection> beamSections;
-    @Shadow public int levels;
-    @Shadow public MobEffect primaryPower;
-    @Shadow public MobEffect secondaryPower;
+    @Shadow List<BeaconBlockEntity.BeaconBeamSection> beamSections;
+    @Shadow int levels;
+    @Shadow MobEffect primaryPower;
+    @Shadow MobEffect secondaryPower;
     @Unique private MobEffect better_beacons_tertiaryPower;
     @Unique private String better_beacons_PaymentItem;
     @Unique private int better_beacons_primaryEffectAmplifier;
