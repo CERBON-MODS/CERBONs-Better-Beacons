@@ -119,6 +119,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.releaseType = release_type
     mainFile.addGameVersion("1.20", "${minecraft_version}")
     mainFile.addOptional(beacons_for_all)
+    mainFile.addOptional(just_enough_beacons_reforged)
 }
 
 modrinth {
@@ -131,6 +132,7 @@ modrinth {
     uploadFile = jar
     dependencies {
         optional.project beacons_for_all
+        optional.project just_enough_beacons_reforged
     }
 }
 
