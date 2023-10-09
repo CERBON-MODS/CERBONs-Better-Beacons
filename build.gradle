@@ -7,6 +7,7 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'org.spongepowered.mixin' version '0.7.+'
     id 'net.darkhax.curseforgegradle' version '1.1.16'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = mod_version
@@ -118,6 +119,19 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.releaseType = release_type
     mainFile.addGameVersion("1.20", "${minecraft_version}")
     mainFile.addOptional(beacons_for_all)
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    versionName = "Better Beacons ${minecraft_version}-${project.version}"
+    versionNumber = "${project.version}"
+    projectId = "gSeQTNSE"
+    changelog = rootProject.file(project.changelog).getText('UTF-8')
+    versionType = release_type
+    uploadFile = jar
+    dependencies {
+        optional.project beacons_for_all
+    }
 }
 
 jar {
