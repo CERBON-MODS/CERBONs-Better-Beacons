@@ -3,7 +3,9 @@ package com.cerbon.better_beacons.client.render;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
@@ -11,8 +13,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +52,7 @@ public class BBBeaconRenderer {
         float b = colors[2];
 
         matrixStackIn.pushPose();
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle * 2.25F - 45.0F));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(angle * 2.25F - 45.0F));
 
         float renderTime = -(totalWorldTime + partialTicks);
         float partAngle = Mth.frac(renderTime * 0.2F - (float)Mth.floor(angle * 0.1F));

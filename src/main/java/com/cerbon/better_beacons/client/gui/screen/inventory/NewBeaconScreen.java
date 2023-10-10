@@ -14,9 +14,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -155,25 +155,34 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             drawCenteredString(poseStack, this.font, BBConstants.TERTIARY_POWER_LABEL, 233, 10, 14737632);
             drawCenteredString(poseStack, this.font, BBConstants.CURRENT_PAYMENT_LABEL, 239, 106, 14737632);
         }
+
+        for (NewBeaconScreen.BeaconButton beaconscreen$beaconbutton : this.beaconButtons){
+            if (beaconscreen$beaconbutton.isShowingTooltip()){
+                beaconscreen$beaconbutton.renderToolTip(poseStack, mouseX - this.leftPos, mouseY - this.topPos);
+                break;
+            }
+        }
     }
 
     @Override
     protected void renderBg(@NotNull PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BEACON_TEXTURE_LOCATION);
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         blit(poseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        poseStack.pushPose();
-        poseStack.translate(0.0F, 0.0F, 100.0F);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.NETHERITE_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 12 : i + 14, j + 114);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.DIAMOND), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 33 : i + 35, j + 114);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.EMERALD), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 22 : i + 33 + 22, j + 114);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.GOLD_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 44 : i + 33 + 44, j + 114);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.IRON_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 66 : i + 34 + 66, j + 114);
-        this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(Items.COPPER_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 88 : i + 34 + 88, j + 114);
+        this.itemRenderer.blitOffset = 100.0F;
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.NETHERITE_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 12 : i + 14, j + 114);
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.DIAMOND), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 33 : i + 35, j + 114);
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.EMERALD), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 22 : i + 33 + 22, j + 114);
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.GOLD_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 44 : i + 33 + 44, j + 114);
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.IRON_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 66 : i + 34 + 66, j + 114);
+        this.itemRenderer.renderAndDecorateItem(new ItemStack(Items.COPPER_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 88 : i + 34 + 88, j + 114);
+        this.itemRenderer.blitOffset = 0.0F;
 
         if (this.paymentItem != null && NewBeaconMenu.isTertiaryEffectsEnabled)
-            this.itemRenderer.renderAndDecorateItem(poseStack, new ItemStack(BBUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
+            this.itemRenderer.renderAndDecorateItem(new ItemStack(BBUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
 
         poseStack.popPose();
     }
@@ -187,6 +196,10 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
     @OnlyIn(Dist.CLIENT)
     public interface BeaconButton {
+        boolean isShowingTooltip();
+
+        void renderToolTip(PoseStack pPoseStack, int pRelativeMouseX, int pRelativeMouseY);
+
         void updateStatus(int beaconTier);
     }
 
@@ -195,12 +208,15 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     public class BeaconCancelButton extends NewBeaconScreen.BeaconSpriteScreenButton {
         public BeaconCancelButton(int x, int y) {
             super(x, y, 112, 220, CommonComponents.GUI_CANCEL);
+        }
 
+        @Override
+        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
             if (BBClientConfigs.ENABLE_CANCEL_BUTTON_TOOLTIP.get())
                 if (BBClientConfigs.CANCEL_BUTTON_REMOVE_EFFECTS.get())
-                    this.setTooltip(BBConstants.CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP);
+                    NewBeaconScreen.this.renderTooltip(poseStack, BBConstants.CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP, mouseX, mouseY);
                 else
-                    this.setTooltip(BBConstants.CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP);
+                    NewBeaconScreen.this.renderTooltip(poseStack, BBConstants.CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP, mouseX, mouseY);
         }
 
         public void onPress() {
@@ -219,8 +235,12 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     public class BeaconConfirmButton extends NewBeaconScreen.BeaconSpriteScreenButton {
         protected BeaconConfirmButton(int x, int y) {
             super(x, y, 90, 220, CommonComponents.GUI_DONE);
+        }
+
+        @Override
+        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
             if (BBClientConfigs.ENABLE_CONFIRM_BUTTON_TOOLTIP.get())
-                this.setTooltip(BBConstants.CONFIRM_BUTTON_TOOLTIP);
+                NewBeaconScreen.this.renderTooltip(poseStack, BBConstants.CONFIRM_BUTTON_TOOLTIP, mouseX, mouseY);
         }
 
         public void onPress() {
@@ -276,14 +296,18 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             }
         }
 
+        @Override
+        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+            NewBeaconScreen.this.renderTooltip(poseStack, this.createEffectDescription(effect), mouseX, mouseY);
+        }
+
         protected void renderIcon(@NotNull PoseStack poseStack) {
-            RenderSystem.setShaderTexture(0, this.sprite.atlasLocation());
-            blit(poseStack, this.getX() + 2, this.getY() + 2, 0, 18, 18, this.sprite);
+            RenderSystem.setShaderTexture(0, this.sprite.atlas().location());
+            blit(poseStack, this.x + 2, this.y + 2, this.getBlitOffset(), 18, 18, this.sprite);
         }
 
         public void updateStatus(int beaconTier) {
             this.active = this.tier < beaconTier;
-            this.setTooltip(Tooltip.create(this.createEffectDescription(effect), null));
 
             if (this.isPrimary)
                 this.setSelected(this.effect == NewBeaconScreen.this.primary);
@@ -296,6 +320,9 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected @NotNull MutableComponent createNarrationMessage() {
             return this.createEffectDescription(this.effect);
         }
+
+        @Override
+        public void updateNarration(@NotNull NarrationElementOutput narrationElementOutput) {}
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -310,8 +337,10 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             super(x, y, 22, 22, message);
         }
 
-        public void renderWidget(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+        public void renderButton(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, BEACON_TEXTURE_LOCATION);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             int j = 0;
 
             if (!this.active)
@@ -321,7 +350,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             else if (this.isHoveredOrFocused())
                 j += this.width * 3;
 
-            blit(poseStack, this.getX(), this.getY(), j, 219, this.width, this.height);
+            blit(poseStack, this.x, this.y, j, 219, this.width, this.height);
             this.renderIcon(poseStack);
         }
 
@@ -335,13 +364,17 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.selected = selected;
         }
 
-        public void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+        public boolean isShowingTooltip() {
+            return this.isHovered;
+        }
+
+        public void updateNarration(@NotNull NarrationElementOutput narrationElementOutput) {
             this.defaultButtonNarrationText(narrationElementOutput);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public abstract static class BeaconSpriteScreenButton extends NewBeaconScreen.BeaconScreenButton {
+    public abstract class BeaconSpriteScreenButton extends NewBeaconScreen.BeaconScreenButton {
         private final int iconX;
         private final int iconY;
 
@@ -352,7 +385,12 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         protected void renderIcon(@NotNull PoseStack poseStack) {
-            blit(poseStack, this.getX() + 2, this.getY() + 2, this.iconX, this.iconY, 18, 18);
+            blit(poseStack, this.x + 2, this.y + 2, this.iconX, this.iconY, 18, 18);
+        }
+
+        @Override
+        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+            NewBeaconScreen.this.renderTooltip(poseStack, NewBeaconScreen.this.title, mouseX, mouseY);
         }
     }
 

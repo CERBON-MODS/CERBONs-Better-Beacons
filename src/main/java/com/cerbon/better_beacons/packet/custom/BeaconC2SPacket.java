@@ -2,7 +2,7 @@ package com.cerbon.better_beacons.packet.custom;
 
 import com.cerbon.better_beacons.BetterBeacons;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -25,15 +25,15 @@ public class BeaconC2SPacket {
     }
 
     public BeaconC2SPacket(FriendlyByteBuf buffer){
-        this.primary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
-        this.secondary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
-        this.tertiary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
+        this.primary = buffer.readOptional(effect -> effect.readById(Registry.MOB_EFFECT));
+        this.secondary = buffer.readOptional(effect -> effect.readById(Registry.MOB_EFFECT));
+        this.tertiary = buffer.readOptional(effect -> effect.readById(Registry.MOB_EFFECT));
     }
 
     public void write(FriendlyByteBuf buffer){
-        buffer.writeOptional(this.primary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
-        buffer.writeOptional(this.secondary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
-        buffer.writeOptional(this.tertiary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
+        buffer.writeOptional(this.primary, (buffer1, effect) -> buffer1.writeId(Registry.MOB_EFFECT, effect));
+        buffer.writeOptional(this.secondary, (buffer1, effect) -> buffer1.writeId(Registry.MOB_EFFECT, effect));
+        buffer.writeOptional(this.tertiary, (buffer1, effect) -> buffer1.writeId(Registry.MOB_EFFECT, effect));
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier){

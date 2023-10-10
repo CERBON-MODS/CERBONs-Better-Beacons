@@ -25,7 +25,7 @@ public class BBEffects {
 
     public static final RegistryObject<MobEffect> LONG_REACH = MOB_EFFECTS.register("long_reach",
             () -> new LongReachEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F)
-                    .addAttributeModifier(ForgeMod.BLOCK_REACH.get(), "C7F45B68-A090-4AD7-B75B-376BD2991CFD", 3D, AttributeModifier.Operation.ADDITION));
+                    .addAttributeModifier(ForgeMod.REACH_DISTANCE.get(), "C7F45B68-A090-4AD7-B75B-376BD2991CFD", 3D, AttributeModifier.Operation.ADDITION));
 
     public static void register(IEventBus eventBus){
         MOB_EFFECTS.register(eventBus);

@@ -113,7 +113,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
 
 
             if (itemstack1.isEmpty())
-                slot.setByPlayer(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             else
                 slot.setChanged();
 
