@@ -198,7 +198,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     public interface BeaconButton {
         boolean isShowingTooltip();
 
-        void renderToolTip(PoseStack pPoseStack, int pRelativeMouseX, int pRelativeMouseY);
+        void renderToolTip(PoseStack poseStack, int relativeMouseX, int relativeMouseY);
 
         void updateStatus(int beaconTier);
     }
@@ -320,9 +320,6 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected @NotNull MutableComponent createNarrationMessage() {
             return this.createEffectDescription(this.effect);
         }
-
-        @Override
-        public void updateNarration(@NotNull NarrationElementOutput narrationElementOutput) {}
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -354,7 +351,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
             this.renderIcon(poseStack);
         }
 
-        protected abstract void renderIcon(PoseStack guiGraphics);
+        protected abstract void renderIcon(PoseStack poseStack);
 
         public boolean isSelected() {
             return this.selected;
