@@ -3,7 +3,9 @@ package com.cerbon.better_beacons.mixin.block.entity;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
-import com.cerbon.better_beacons.util.*;
+import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.StringIntMapping;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
@@ -44,7 +46,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Mixin(BeaconBlockEntity.class)
+@Mixin(value = BeaconBlockEntity.class)
 public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBeaconBlockEntityMixin {
     @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = BBUtils.getBeaconEffectsFromConfigFile();
     @Shadow @Final @SuppressWarnings("unused") private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
@@ -123,9 +125,21 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     // This captures the for loop inside tick that computes the beacon segments
-    @ModifyConstant(method = "tick", constant = @Constant(intValue = 0, ordinal = 0))
-    private static int better_beacons_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
-        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
+//    @ModifyConstant(method = "tick", constant = @Constant(intValue = 0, ordinal = 0))
+//    private static int better_beacons_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
+//        if (!BBUtils.isModLoaded(BBConstants.QUARK))
+//            return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
+//
+//        return val;
+//    }
+
+
+    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos;getY()I", ordinal = 2))
+    private static int better_beacons_tick(BlockPos instance, Level level, BlockPos pos, BlockState state, BeaconBlockEntity blockEntity){
+        if (!BBUtils.isModLoaded(BBConstants.QUARK)) {
+            return BeaconRedirectionAndTransparency.tickBeacon(blockEntity);
+        }
+        return instance.getY();
     }
 
     // This captures the variable d0 in the target method and adds to it value the payment item range

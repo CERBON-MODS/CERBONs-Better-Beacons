@@ -30,4 +30,5 @@ public class BBConstants {
     public static final Component CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP = Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip");
 
     public static final String BEACONS_FOR_ALL = "beaconsforall";
+    public static final String QUARK = "quark";
 }

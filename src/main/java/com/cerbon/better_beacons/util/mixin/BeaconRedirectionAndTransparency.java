@@ -3,6 +3,7 @@ package com.cerbon.better_beacons.util.mixin;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -14,6 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
+import vazkii.quark.content.world.block.CorundumClusterBlock;
+import vazkii.quark.content.world.module.CorundumModule;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -94,9 +97,12 @@ public class BeaconRedirectionAndTransparency {
                 else {
                     beacon.checkingBeamSections.add(currSegment);
 
-                    targetColor = currColor;
+                    targetColor = getTargetColor(block);
+                    if(targetColor[0] == 1F && targetColor[1] == 1F && targetColor[2] == 1F)
+                        targetColor = currColor;
 
-                    currColor = new float[]{(currColor[0] + targetColor[0] * 3) / 4.0F, (currColor[1] + targetColor[1] * 3) / 4.0F, (currColor[2] + targetColor[2] * 3) / 4.0F};
+                    float[] mixedColor = new float[]{(currColor[0] + targetColor[0] * 3) / 4.0F, (currColor[1] + targetColor[1] * 3) / 4.0F, (currColor[2] + targetColor[2] * 3) / 4.0F};
+                    currColor = mixedColor;
                     alpha = 1F;
                     didRedirection = true;
                     lastDir = currSegment.dir;
@@ -174,7 +180,18 @@ public class BeaconRedirectionAndTransparency {
     }
 
     private static boolean isRedirectingBlock(Block block) {
+        if (BBUtils.isModLoaded(BBConstants.QUARK))
+            if (CorundumModule.staticEnabled)
+                return block instanceof CorundumClusterBlock || block.defaultBlockState().is(BBConstants.BEACON_REDIRECT);
+
         return block.defaultBlockState().is(BBConstants.BEACON_REDIRECT);
+    }
+
+    private static float[] getTargetColor(Block block) {
+        if (BBUtils.isModLoaded(BBConstants.QUARK))
+            return block instanceof CorundumClusterBlock cc? cc.base.colorComponents : new float[] { 1F, 1F, 1F };
+
+        return new float[] { 1F, 1F, 1F };
     }
 
     public static class ExtendedBeamSegment extends BeaconBlockEntity.BeaconBeamSection {
