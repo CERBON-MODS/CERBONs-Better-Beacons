@@ -7,7 +7,6 @@
   "mixins": [
     "block.BeaconBlockMixin",
     "block.entity.BeaconBlockEntityMixin",
-    "quark.BeaconRedirectionModuleMixin",
     "spawner.PatrolSpawnerMixin",
     "spawner.PhantomSpawnerMixin"
   ],

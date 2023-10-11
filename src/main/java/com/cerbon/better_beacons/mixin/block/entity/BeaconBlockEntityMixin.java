@@ -137,10 +137,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos;getY()I", ordinal = 2))
     private static int better_beacons_tick(BlockPos instance, Level level, BlockPos pos, BlockState state, BeaconBlockEntity blockEntity){
-        if (!BBUtils.isModLoaded(BBConstants.QUARK)) {
-            return BeaconRedirectionAndTransparency.tickBeacon(blockEntity);
-        }
-        return instance.getY();
+        return BeaconRedirectionAndTransparency.tickBeacon(blockEntity);
     }
 
     // This captures the variable d0 in the target method and adds to it value the payment item range
