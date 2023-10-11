@@ -3,6 +3,7 @@ package com.cerbon.better_beacons.mixin.block.entity;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
+import com.cerbon.better_beacons.util.BBBFAMixinHooks;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringIntMapping;
@@ -10,7 +11,6 @@ import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
-import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,6 +44,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Mixin(value = BeaconBlockEntity.class)
@@ -62,9 +63,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         public int get(int index) {
             return switch (index) {
                 case 0 -> BeaconBlockEntityMixin.this.levels;
-                case 1 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.primaryPower);
-                case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
-                case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.better_beacons_tertiaryPower);
+                case 1 -> MobEffect.getId(BeaconBlockEntityMixin.this.primaryPower);
+                case 2 -> MobEffect.getId(BeaconBlockEntityMixin.this.secondaryPower);
+                case 3 -> MobEffect.getId(BeaconBlockEntityMixin.this.better_beacons_tertiaryPower);
                 case 4 -> StringIntMapping.getInt(BeaconBlockEntityMixin.this.better_beacons_PaymentItem);
                 case 5 -> BeaconBlockEntityMixin.this.better_beacons_primaryEffectAmplifier;
                 default -> 0;
@@ -106,7 +107,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void better_beacons_addCustomData(CompoundTag tag, CallbackInfo ci){
-        tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getIdFromNullable(this.better_beacons_tertiaryPower));
+        tag.putInt(BBConstants.TERTIARY_POWER_KEY, MobEffect.getId(this.better_beacons_tertiaryPower));
         tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.better_beacons_primaryEffectAmplifier);
 
         if (this.better_beacons_PaymentItem != null)
@@ -194,7 +195,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
                     //Add compatibility with beacons for all mod
                     if (BBUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
-                        List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
+                        List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BBBFAMixinHooks.VALID_CREATURE);
 
                         for (LivingEntity livingEntity : livingEntities)
                             livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));

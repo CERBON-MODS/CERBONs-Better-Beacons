@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[43,)"
+loaderVersion="[40,)"
 license="Attribution-NonCommercial-ShareAlike 3.0 Unported"
 issueTrackerURL="https://github.com/CERBON-MODS/CERBONs-Better-Beacons-FORGE/issues" #optional
 
@@ -16,13 +16,13 @@ description='''New UI, new features and new advancements. Improves Minecraft's b
 [[dependencies.better_beacons]]
     modId="forge"
     mandatory=true
-    versionRange="[43,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.better_beacons]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,1.19.3)"
+    versionRange="[1.18.2,1.19)"
     ordering="NONE"
     side="BOTH"

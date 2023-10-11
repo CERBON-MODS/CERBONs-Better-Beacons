@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BBMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENU_TYPE =
-            DeferredRegister.create(ForgeRegistries.MENU_TYPES, BBConstants.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.CONTAINERS, BBConstants.MOD_ID);
 
     public static final RegistryObject<MenuType<NewBeaconMenu>> NEW_BEACON_MENU =
             registerMenuType(NewBeaconMenu::new);

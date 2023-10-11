@@ -18,9 +18,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Inventory;
@@ -40,8 +38,8 @@ import java.util.Optional;
 @OnlyIn(Dist.CLIENT)
 public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     private static final ResourceLocation BEACON_TEXTURE_LOCATION = new ResourceLocation(NewBeaconMenu.isTertiaryEffectsEnabled ? "textures/gui/container/beacon2.png" : "textures/gui/container/beacon1.png");
-    public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
-    public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
+    public static final Component PRIMARY_EFFECT_LABEL = new TranslatableComponent("block.minecraft.beacon.primary");
+    public static final Component SECONDARY_EFFECT_LABEL = new TranslatableComponent("block.minecraft.beacon.secondary");
     private final List<NewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
     @Nullable MobEffect primary;
     @Nullable MobEffect secondary;
@@ -277,7 +275,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
-            MutableComponent component = Component.translatable(effect.getDescriptionId());
+            MutableComponent component = new TranslatableComponent(effect.getDescriptionId());
 
             if (this.isPrimary && NewBeaconScreen.this.primaryEffectAmplifier > 0)
                 component.append(" " + NumberToRoman.convert(NewBeaconScreen.this.primaryEffectAmplifier + 1));
@@ -330,7 +328,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         private boolean selected;
 
         protected BeaconScreenButton(int x, int y) {
-            super(x, y, 22, 22, CommonComponents.EMPTY);
+            super(x, y, 22, 22, TextComponent.EMPTY);
         }
 
         protected BeaconScreenButton(int x, int y, Component message) {
@@ -401,7 +399,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
-            return Component.translatable(effect.getDescriptionId()).append(" " + NumberToRoman.convert(NewBeaconScreen.this.primaryEffectAmplifier + 2));
+            return new TranslatableComponent(effect.getDescriptionId()).append(" " + NumberToRoman.convert(NewBeaconScreen.this.primaryEffectAmplifier + 2));
         }
 
         public void updateStatus(int beaconTier) {

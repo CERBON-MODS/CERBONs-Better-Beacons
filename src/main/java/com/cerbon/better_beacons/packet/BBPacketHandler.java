@@ -28,7 +28,7 @@ public class BBPacketHandler {
         net.messageBuilder(BeaconC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(BeaconC2SPacket::new)
                 .encoder(BeaconC2SPacket::write)
-                .consumerMainThread(BeaconC2SPacket::handle)
+                .consumer(BeaconC2SPacket::handle)
                 .add();
     }
 

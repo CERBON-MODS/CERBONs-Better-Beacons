@@ -22,7 +22,7 @@ public class IsConfigEnabledCondition implements ICondition {
     }
 
     @Override
-    public boolean test(IContext context) {
+    public boolean test() {
         return switch (config) {
             case "tertiary_effect" -> BBCommonConfigs.ENABLE_TERTIARY_EFFECTS.get();
             case "beacon_beam_redirection" -> BBCommonConfigs.ENABLE_BEACON_BEAM_REDIRECTION.get();

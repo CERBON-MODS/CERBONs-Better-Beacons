@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons.util;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -20,14 +21,14 @@ public class BBConstants {
     public static final TagKey<Block> BEACON_TRANSPARENCY = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_transparency"));
     public static final TagKey<Block> BEACON_REDIRECT = BlockTags.create(new ResourceLocation(MOD_ID, "beacon_redirect"));
 
-    public static final Component BEACON_RANGE_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.beacon_range.label");
-    public static final Component PAYMENT_ITEM_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.payment_item.label");
-    public static final Component TERTIARY_POWER_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.tertiary_power.label");
-    public static final Component CURRENT_PAYMENT_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.current_payment.label");
+    public static final Component BEACON_RANGE_LABEL = new TranslatableComponent("block.minecraft.beacon.better_beacons.beacon_range.label");
+    public static final Component PAYMENT_ITEM_LABEL = new TranslatableComponent("block.minecraft.beacon.better_beacons.payment_item.label");
+    public static final Component TERTIARY_POWER_LABEL = new TranslatableComponent("block.minecraft.beacon.better_beacons.tertiary_power.label");
+    public static final Component CURRENT_PAYMENT_LABEL = new TranslatableComponent("block.minecraft.beacon.better_beacons.current_payment.label");
 
-    public static final Component CONFIRM_BUTTON_TOOLTIP = Component.translatable("block.minecraft.beacon.better_beacons.confirm_button.tooltip");
-    public static final Component CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP = Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip");
-    public static final Component CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP = Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip");
+    public static final Component CONFIRM_BUTTON_TOOLTIP = new TranslatableComponent("block.minecraft.beacon.better_beacons.confirm_button.tooltip");
+    public static final Component CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP = new TranslatableComponent("block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip");
+    public static final Component CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP = new TranslatableComponent("block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip");
 
     public static final String BEACONS_FOR_ALL = "beaconsforall";
     public static final String QUARK = "quark";

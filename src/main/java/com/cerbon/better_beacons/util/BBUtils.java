@@ -3,6 +3,7 @@ package com.cerbon.better_beacons.util;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,13 +27,13 @@ public class BBUtils {
             String mainHandItemKey = getItemKeyAsString(player.getMainHandItem().getItem());
 
             if (!player.isSpectator() && (!keys.contains(mainHandItemKey))){
-                player.displayClientMessage(Component.translatable("beacon.isLocked", displayName, BBCommonConfigs.KEYS.get()).withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(new TranslatableComponent("beacon.isLocked", displayName, BBCommonConfigs.KEYS.get()).withStyle(ChatFormatting.RED), true);
                 player.playNotifySound(SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return false;
 
             }else{
                 player.getPersistentData().putBoolean(BBConstants.UNLOCKED_BEACON_KEY, true);
-                player.displayClientMessage(Component.translatable("beacon.unlocked", displayName).withStyle(ChatFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("beacon.unlocked", displayName).withStyle(ChatFormatting.GREEN), true);
                 player.playNotifySound(SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }

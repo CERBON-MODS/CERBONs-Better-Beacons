@@ -163,14 +163,14 @@ public class BeaconRedirectionAndTransparency {
             beacon.checkingBeamSections.add(currSegment);
             beacon.lastCheckY = targetHeight + 1;
         } else {
-            beacon.getPersistentData().putBoolean(tag, false);
+            beacon.getTileData().putBoolean(tag, false);
 
             beacon.checkingBeamSections.clear();
             beacon.lastCheckY = targetHeight;
         }
 
-        if(!beacon.getPersistentData().getBoolean(tag) && didRedirection && !beacon.checkingBeamSections.isEmpty()) {
-            beacon.getPersistentData().putBoolean(tag, true);
+        if(!beacon.getTileData().getBoolean(tag) && didRedirection && !beacon.checkingBeamSections.isEmpty()) {
+            beacon.getTileData().putBoolean(tag, true);
 
             for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
                 BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer);
