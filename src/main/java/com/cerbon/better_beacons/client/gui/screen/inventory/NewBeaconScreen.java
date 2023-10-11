@@ -158,7 +158,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
         for (NewBeaconScreen.BeaconButton beaconscreen$beaconbutton : this.beaconButtons){
             if (beaconscreen$beaconbutton.isShowingTooltip()){
-                beaconscreen$beaconbutton.renderToolTip(poseStack, mouseX - this.leftPos, mouseY - this.topPos);
+                beaconscreen$beaconbutton.renderToolTip1(poseStack, mouseX - this.leftPos, mouseY - this.topPos);
                 break;
             }
         }
@@ -198,7 +198,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     public interface BeaconButton {
         boolean isShowingTooltip();
 
-        void renderToolTip(PoseStack poseStack, int relativeMouseX, int relativeMouseY);
+        void renderToolTip1(PoseStack poseStack, int relativeMouseX, int relativeMouseY);
 
         void updateStatus(int beaconTier);
     }
@@ -211,7 +211,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         @Override
-        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+        public void renderToolTip1(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
             if (BBClientConfigs.ENABLE_CANCEL_BUTTON_TOOLTIP.get())
                 if (BBClientConfigs.CANCEL_BUTTON_REMOVE_EFFECTS.get())
                     NewBeaconScreen.this.renderTooltip(poseStack, BBConstants.CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP, mouseX, mouseY);
@@ -238,7 +238,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         @Override
-        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+        public void renderToolTip1(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
             if (BBClientConfigs.ENABLE_CONFIRM_BUTTON_TOOLTIP.get())
                 NewBeaconScreen.this.renderTooltip(poseStack, BBConstants.CONFIRM_BUTTON_TOOLTIP, mouseX, mouseY);
         }
@@ -260,6 +260,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected final int tier;
         private MobEffect effect;
         private TextureAtlasSprite sprite;
+        private Component tooltip;
 
         public BeaconPowerButton(int x, int y, MobEffect effect, boolean isPrimary, boolean isSecondary, int tier) {
             super(x, y);
@@ -272,6 +273,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected void setEffect(MobEffect effect) {
             this.effect = effect;
             this.sprite = Minecraft.getInstance().getMobEffectTextures().get(effect);
+            this.tooltip = this.createEffectDescription(effect);
         }
 
         protected MutableComponent createEffectDescription(@NotNull MobEffect effect) {
@@ -297,8 +299,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         @Override
-        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
-            NewBeaconScreen.this.renderTooltip(poseStack, this.createEffectDescription(effect), mouseX, mouseY);
+        public void renderToolTip1(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+            NewBeaconScreen.this.renderTooltip(poseStack, this.tooltip, mouseX, mouseY);
         }
 
         protected void renderIcon(@NotNull PoseStack poseStack) {
@@ -308,6 +310,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
         public void updateStatus(int beaconTier) {
             this.active = this.tier < beaconTier;
+            this.tooltip = createEffectDescription(effect);
 
             if (this.isPrimary)
                 this.setSelected(this.effect == NewBeaconScreen.this.primary);
@@ -386,7 +389,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         }
 
         @Override
-        public void renderToolTip(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+        public void renderToolTip1(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
             NewBeaconScreen.this.renderTooltip(poseStack, NewBeaconScreen.this.title, mouseX, mouseY);
         }
     }
