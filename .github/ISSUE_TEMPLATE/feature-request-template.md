@@ -12,8 +12,8 @@ assignees: ''
 
 - [ ] **I have checked that the requested feature is not a duplicate or, if it is, it needs to be reopened**
 - [ ] **I have checked that I am running the latest version of Better Beacons Mod**
-- [ ] **I have checked the [FAQ](https://github.com/CerbonXD/BetterTotemOfUndying/blob/master/FAQ.md) section**
-- [ ] **I have read the [contributing guidelines](https://github.com/CerbonXD/BetterTotemOfUndying/blob/master/CONTRIBUTING.md#feature-requests) and I agree with the [Code of Conduct](https://github.com/CerbonXD/BetterTotemOfUndying/blob/master/CODE_OF_CONDUCT.md)**
+- [ ] **I have checked the [FAQ](https://github.com/CERBON-MODS/CERBONs-Better-Beacons-FORGE/blob/master/FAQ.md) section**
+- [ ] **I have read the [contributing guidelines](https://github.com/CERBON-MODS/CERBONs-Better-Beacons-FORGE/blob/master/CONTRIBUTING.md#feature-requests) and I agree with the [Code of Conduct](https://github.com/CERBON-MODS/CERBONs-Better-Beacons-FORGE/blob/master/CODE_OF_CONDUCT.md)**
 
 ## Is your feature request related to a problem? Please describe.
 
