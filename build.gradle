@@ -113,6 +113,8 @@ mixin {
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    dependsOn build
+
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
     def mainFile = upload(921066, "build/libs/CerbonsBetterBeacons-Forge-${minecraft_version}-${mod_version}.jar")
