@@ -41,6 +41,9 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     private static final ResourceLocation BEACON_TEXTURE_LOCATION = new ResourceLocation(NewBeaconMenu.isTertiaryEffectsEnabled ? "textures/gui/container/beacon2.png" : "textures/gui/container/beacon1.png");
     public static final Component PRIMARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.primary");
     public static final Component SECONDARY_EFFECT_LABEL = Component.translatable("block.minecraft.beacon.secondary");
+    public static final Tooltip CONFIRM_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.confirm_button.tooltip"));
+    public static final Tooltip CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip"));
+    public static final Tooltip CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip"));
     private final List<NewBeaconScreen.BeaconButton> beaconButtons = Lists.newArrayList();
     @Nullable MobEffect primary;
     @Nullable MobEffect secondary;
@@ -196,9 +199,9 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
             if (BBClientConfigs.ENABLE_CANCEL_BUTTON_TOOLTIP.get())
                 if (BBClientConfigs.CANCEL_BUTTON_REMOVE_EFFECTS.get())
-                    this.setTooltip(BBConstants.CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP);
+                    this.setTooltip(CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP);
                 else
-                    this.setTooltip(BBConstants.CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP);
+                    this.setTooltip(CANCEL_BUTTON_CLOSE_CONTAINER_TOOLTIP);
         }
 
         public void onPress() {
@@ -218,7 +221,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         protected BeaconConfirmButton(int x, int y) {
             super(x, y, 90, 220, CommonComponents.GUI_DONE);
             if (BBClientConfigs.ENABLE_CONFIRM_BUTTON_TOOLTIP.get())
-                this.setTooltip(BBConstants.CONFIRM_BUTTON_TOOLTIP);
+                this.setTooltip(CONFIRM_BUTTON_TOOLTIP);
         }
 
         public void onPress() {

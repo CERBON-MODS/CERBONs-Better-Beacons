@@ -233,12 +233,12 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 if (!flag) break;
             }
 
-            if (canIncreaseAmplifier && beaconMixin.better_beacons_getPrimaryEffectAmplifier() > BeaconBaseBlocksAmplifierManager.getLowestAmplifier()){
+            if (!level.isClientSide() && canIncreaseAmplifier && beaconMixin.better_beacons_getPrimaryEffectAmplifier() > BeaconBaseBlocksAmplifierManager.getLowestAmplifier()){
                 for(ServerPlayer serverplayer : Objects.requireNonNull(beaconBlockEntity.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ)).inflate(10.0D, 5.0D, 10.0D)))
                     BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
             }
 
-            if (canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.better_beacons_getPrimaryEffectAmplifier() == BeaconBaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == BeaconPaymentItemsRangeManager.getHighestRange()) {
+            if (!level.isClientSide() && canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.better_beacons_getPrimaryEffectAmplifier() == BeaconBaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == BeaconPaymentItemsRangeManager.getHighestRange()) {
                 for(ServerPlayer serverplayer : Objects.requireNonNull(beaconBlockEntity.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ)).inflate(10.0D, 5.0D, 10.0D)))
                     BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverplayer);
             }
