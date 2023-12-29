@@ -6,8 +6,8 @@ import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.packet.BBPacketHandler;
 import com.cerbon.better_beacons.packet.custom.BeaconC2SPacket;
 import com.cerbon.better_beacons.util.BBConstants;
-import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.NumberToRoman;
+import com.cerbon.cerbons_api.api.static_utilities.RegistryUtils;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -174,7 +174,7 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         guiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 88 : i + 34 + 88, j + 114);
 
         if (this.paymentItem != null && NewBeaconMenu.isTertiaryEffectsEnabled)
-            guiGraphics.renderItem(new ItemStack(BBUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
+            guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
 
         guiGraphics.pose().popPose();
     }

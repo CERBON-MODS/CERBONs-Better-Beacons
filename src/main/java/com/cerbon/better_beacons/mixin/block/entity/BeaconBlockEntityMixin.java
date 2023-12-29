@@ -8,6 +8,7 @@ import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
+import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
 import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
@@ -179,7 +180,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                         player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
                     //Add compatibility with beacons for all mod
-                    if (BBUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
+                    if (MiscUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)){
                         List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
 
                         for (LivingEntity livingEntity : livingEntities)

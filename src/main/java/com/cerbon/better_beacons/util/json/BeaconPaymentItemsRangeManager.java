@@ -1,8 +1,10 @@
 package com.cerbon.better_beacons.util.json;
 
 import com.cerbon.better_beacons.BetterBeacons;
-import com.cerbon.better_beacons.util.BBUtils;
-import com.google.gson.*;
+import com.cerbon.cerbons_api.api.static_utilities.RegistryUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
@@ -59,7 +61,7 @@ public class BeaconPaymentItemsRangeManager extends SimpleJsonResourceReloadList
     }
 
     private void addToItemRangeMap(ValuesListCodec valuesList){
-        valuesList.values().forEach(entry -> itemRangeMap.put(BBUtils.getItemKeyAsString(entry.item()), Math.max(entry.range(), 0)));
+        valuesList.values().forEach(entry -> itemRangeMap.put(RegistryUtils.getItemKeyAsString(entry.item()), Math.max(entry.range(), 0)));
     }
 
     public static BeaconPaymentItemsRangeManager getInstance() {

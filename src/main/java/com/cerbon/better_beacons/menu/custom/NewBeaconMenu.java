@@ -2,8 +2,8 @@ package com.cerbon.better_beacons.menu.custom;
 
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
-import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringIntMapping;
+import com.cerbon.cerbons_api.api.static_utilities.RegistryUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -163,7 +163,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
             this.beaconData.set(1, primaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(2, secondaryEffect.map(MobEffect::getId).orElse(-1));
             this.beaconData.set(3, tertiaryEffect.map(MobEffect::getId).orElse(-1));
-            this.beaconData.set(4, StringIntMapping.addString(BBUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem())));
+            this.beaconData.set(4, StringIntMapping.addString(RegistryUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem())));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);
         }
