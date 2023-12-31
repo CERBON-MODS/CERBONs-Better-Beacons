@@ -26,3 +26,10 @@ description='''New UI, new features and new advancements. Improves Minecraft's b
     versionRange="[1.20,1.21)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.better_beacons]]
+    modId="cerbons_api"
+    mandatory=true
+    versionRange="[1.0.0,)"
+    ordering="NONE"
+    side="BOTH"
