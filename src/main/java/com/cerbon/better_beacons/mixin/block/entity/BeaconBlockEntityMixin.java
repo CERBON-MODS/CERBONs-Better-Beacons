@@ -3,13 +3,16 @@ package com.cerbon.better_beacons.mixin.block.entity;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.config.BBCommonConfigs;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
-import com.cerbon.better_beacons.util.*;
+import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.better_beacons.util.StringIntMapping;
 import com.cerbon.better_beacons.util.json.BeaconBaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.util.json.BeaconPaymentItemsRangeManager;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
 import com.illusivesoulworks.beaconsforall.BeaconsForAllMod;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -124,7 +127,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     // This captures the for loop inside tick that computes the beacon segments
-    @ModifyConstant(method = "tick", constant = @Constant(intValue = 0, ordinal = 0))
+    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
     private static int better_beacons_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
         return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
     }
