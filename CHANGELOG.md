@@ -17,18 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Make mod dependent on [CerbonsApi](https://www.curseforge.com/minecraft/mc-mods/cerbons-api-forge)
 
-[1.0.2] - 2023-11-02
+## [1.0.2] - 2023-11-02
 
 ### Fixed
 
 - Fix mod crashing when used on servers
 
-[1.0.1] - 2023-10-31
+## [1.0.1] - 2023-10-31
 
 ### Changed
 
 - All copper variants can now be used to build the beacon
 
-[1.0.0] - 2023-10-12
+## [1.0.0] - 2023-10-12
 
 - Initial release

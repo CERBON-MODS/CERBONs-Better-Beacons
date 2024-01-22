@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": ["${mod_authors}"],
+  "contact": {
+    "homepage": "${curseforge_url}",
+    "sources": "${source_code_url}",
+    "issues": "${issues_url}"
+  },
+
+  "license": "${mod_license}",
+  "icon": "${logo_file}",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.cerbon.better_beacons.fabric.BetterBeaconsFabric"
+    ],
+    "client": [
+      "com.cerbon.better_beacons.fabric.BetterBeaconsFabric"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "${fabric_loader_version_range}",
+    "minecraft": "${minecraft_version_range}",
+    "cerbons_api": "${cerbons_api_version_range_fabric}"
+  }
+}

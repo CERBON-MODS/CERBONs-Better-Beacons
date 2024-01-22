@@ -1,14 +1,14 @@
-**Q: Can I use this mod in my modpack?**
+**Q: Can I use this mod in my mod pack?**
 
 A: Yes, you can.
 
-**Q: Will this mod be backported to versions below 1.18.2?**
+**Q: Are you going to backport this mod to older versions?**
 
-A: No, I will not backport to versions below 1.18.2.
+A: All my mods that are currently using this multi loader template won't be backport to versions below 1.20.1.
 
-**Q: Will you make a Fabric version?**
+**Q: What loaders do you support?**
 
-A: No, I will not make a Fabric version.
+A: Forge, Fabric and NeoForge.
 
 **Q: I have a problem adding blocks/items to a tag or to the newest datapack folders. What should I do?**
 
