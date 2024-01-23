@@ -65,7 +65,7 @@ public class PaymentItemsRangeManager extends SimpleJsonResourceReloadListener {
         });
     }
 
-    private void addToItemRangeMap(ValuesListCodec valuesList){
+    private void addToItemRangeMap(ValuesListCodec valuesList) {
         valuesList.values().forEach(entry -> itemRangeMap.put(RegistryUtils.getItemKeyAsString(entry.item()), Math.max(entry.range(), 0)));
     }
 
@@ -73,7 +73,7 @@ public class PaymentItemsRangeManager extends SimpleJsonResourceReloadListener {
         return INSTANCE;
     }
 
-    public static HashMap<String, Integer> getItemRangeMap(){
+    public static HashMap<String, Integer> getItemRangeMap() {
         return itemRangeMap;
     }
 

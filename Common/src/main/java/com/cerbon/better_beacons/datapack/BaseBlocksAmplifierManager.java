@@ -64,7 +64,7 @@ public class BaseBlocksAmplifierManager extends SimpleJsonResourceReloadListener
         });
     }
 
-    private void addToBlockAmplifierMap(BaseBlocksAmplifierManager.ValuesListCodec valuesList){
+    private void addToBlockAmplifierMap(BaseBlocksAmplifierManager.ValuesListCodec valuesList) {
         valuesList.values().forEach(entry -> blockAmplifierMap.put(entry.block(), Math.max(Math.min(entry.amplifier(), 254), 0)));
     }
 
@@ -72,11 +72,11 @@ public class BaseBlocksAmplifierManager extends SimpleJsonResourceReloadListener
         return INSTANCE;
     }
 
-    public static HashMap<Block, Integer> getBlockAmplifierMap(){
+    public static HashMap<Block, Integer> getBlockAmplifierMap() {
         return blockAmplifierMap;
     }
 
-    public static int getHighestAmplifier(){
+    public static int getHighestAmplifier() {
         return Collections.max(blockAmplifierMap.values());
     }
 
