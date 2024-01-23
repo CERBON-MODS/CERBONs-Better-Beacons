@@ -21,10 +21,6 @@ public class BBConfig implements ConfigData {
     @ConfigEntry.Gui.TransitiveObject
     public BeaconBeam beaconBeam = new BeaconBeam();
 
-    @ConfigEntry.Category("Waterlogging && Redstone")
-    @ConfigEntry.Gui.TransitiveObject
-    public BeaconBlock beaconBlock = new BeaconBlock();
-
     @ConfigEntry.Category("Buttons")
     @ConfigEntry.Gui.TransitiveObject
     public BeaconButtons beaconButtons = new BeaconButtons();

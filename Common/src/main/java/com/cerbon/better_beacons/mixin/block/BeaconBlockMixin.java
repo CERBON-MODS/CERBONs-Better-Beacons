@@ -36,21 +36,18 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        if (BetterBeacons.config.beaconBlock.allowWaterlogging) {
-            FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-            return this.defaultBlockState().setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
-        }
-        return super.getStateForPlacement(context);
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState().setValue(BETTER_BEACONS_WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     @Override
     public @NotNull FluidState getFluidState(BlockState state) {
-        return state.getValue(BETTER_BEACONS_WATERLOGGED) && BetterBeacons.config.beaconBlock.allowWaterlogging ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        return state.getValue(BETTER_BEACONS_WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     public @NotNull BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-        if (state.getValue(BETTER_BEACONS_WATERLOGGED) && BetterBeacons.config.beaconBlock.allowWaterlogging)
+        if (state.getValue(BETTER_BEACONS_WATERLOGGED))
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
@@ -58,13 +55,12 @@ public class BeaconBlockMixin extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
-        if (BetterBeacons.config.beaconBlock.canConductRedstone) {
-            BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
-            Level level = blockEntity.getLevel();
+        BlockEntity blockEntity = blockGetter.getBlockEntity(pos);
+        Level level = blockEntity.getLevel();
 
-            if (blockEntity instanceof BeaconBlockEntity && level != null)
-                return level.getDirectSignalTo(pos);
-        }
+        if (blockEntity instanceof BeaconBlockEntity && level != null)
+            return level.getDirectSignalTo(pos);
+
         return 0;
     }
 
