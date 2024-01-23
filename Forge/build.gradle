@@ -32,6 +32,10 @@ dependencies {
     // Mod Dependencies
     modImplementation "com.cerbon:cerbons_api-forge-${minecraft_version}:${cerbons_api_version}"
 
+    modApi("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
     // Useful Mods
     modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
     modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
@@ -48,19 +52,20 @@ dependencies {
 
 processResources {
     var replaceProperties = [
-            minecraft_version_range         : minecraft_version_range_forge,
-            forge_version_range             : forge_version_range,
-            loader_version_range            : loader_version_range,
-            mod_id                          : mod_id,
-            mod_name                        : mod_name,
-            mod_license                     : mod_license,
-            mod_version                     : mod_version,
-            mod_authors                     : mod_authors,
-            mod_description                 : mod_description,
-            issues_url                      : issues_url,
-            curseforge_url                  : curseforge_url,
-            logo_file                       : logo_file,
-            cerbons_api_version_range_forge : cerbons_api_version_range_forge
+            minecraft_version_range          : minecraft_version_range_forge,
+            forge_version_range              : forge_version_range,
+            loader_version_range             : loader_version_range,
+            mod_id                           : mod_id,
+            mod_name                         : mod_name,
+            mod_license                      : mod_license,
+            mod_version                      : mod_version,
+            mod_authors                      : mod_authors,
+            mod_description                  : mod_description,
+            issues_url                       : issues_url,
+            curseforge_url                   : curseforge_url,
+            logo_file                        : logo_file,
+            cerbons_api_version_range_forge  : cerbons_api_version_range_forge,
+            cloth_config_version_range_forge : cloth_config_version_range_forge,
     ]
     inputs.properties replaceProperties
 

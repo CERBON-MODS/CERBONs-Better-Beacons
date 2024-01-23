@@ -59,12 +59,22 @@ allprojects {
             url "https://modmaven.dev"
         }
         maven {
-            name "ModMenu"
+            name "TerraFomersMC" // ModMenu
             url "https://maven.terraformersmc.com/"
         }
         maven {
             name "Ladysnake Mods" // Cardinal Components
             url "https://maven.ladysnake.org/releases"
+        }
+        maven {
+            name "Shedaniel" // Cloth Config
+            url "https://maven.shedaniel.me/"
+        }
+        maven {
+            url "https://maven.jamieswhiteshirt.com/libs-release" // Reach Entity Attributes
+            content {
+                includeGroup "com.jamieswhiteshirt"
+            }
         }
         flatDir {
             dir "libs"

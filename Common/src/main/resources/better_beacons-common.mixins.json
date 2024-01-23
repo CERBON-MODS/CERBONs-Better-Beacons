@@ -4,6 +4,12 @@
   "package": "com.cerbon.better_beacons.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "accessor.BeaconBeamSectionAccessor",
+    "accessor.BeaconBlockEntityAccessor",
+    "block.BeaconBlockMixin",
+    "blockEntity.BeaconBlockEntityMixin",
+    "spawner.PatrolSpawnerMixin",
+    "spawner.PhantomSpawnerMixin"
   ],
   "client": [
     "test.TestMixin"

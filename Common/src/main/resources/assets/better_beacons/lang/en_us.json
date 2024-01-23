@@ -1,0 +1,23 @@
+{
+  "block.minecraft.beacon.better_beacons.beacon_range.label": "Beacon Range",
+  "block.minecraft.beacon.better_beacons.tertiary_power.label": "T.P",
+  "block.minecraft.beacon.better_beacons.current_payment.label": "C.P",
+  "block.minecraft.beacon.better_beacons.payment_item.label": "Payment Item",
+
+  "block.minecraft.beacon.better_beacons.confirm_button.tooltip": "Apply selected effects",
+  "block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip": "Remove active effects",
+  "block.minecraft.beacon.better_beacons.cancel_button_close_container.tooltip": "Close container",
+
+  "effect.better_beacons.phantom_bane": "Phantom Bane",
+  "effect.better_beacons.patrol_nullifier": "Patrol Nullifier",
+  "effect.better_beacons.long_reach": "Long Reach",
+
+  "advancements.better_beacons.redirect_beacon.title": "See The Lights",
+  "advancements.better_beacons.redirect_beacon.description": "Redirect a Beacon beam's direction using Clusters",
+  "advancements.better_beacons.invisible_beam.title": "I Can't See The Lights",
+  "advancements.better_beacons.invisible_beam.description": "Make the Beacon's beam invisible using tinted glass",
+  "advancements.better_beacons.increase_effects_strength.title": "Power Up",
+  "advancements.better_beacons.increase_effects_strength.description": "Increase the strength of the Beacon effects using a valuable base block",
+  "advancements.better_beacons.true_full_power.title": "The Ultimate Beacon",
+  "advancements.better_beacons.true_full_power.description": "Create a full-power beacon with maximum effect strength and range"
+}

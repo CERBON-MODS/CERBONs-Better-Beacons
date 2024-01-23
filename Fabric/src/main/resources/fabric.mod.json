@@ -22,6 +22,9 @@
     ],
     "client": [
       "com.cerbon.better_beacons.fabric.BetterBeaconsFabric"
+    ],
+    "modmenu": [
+      "com.cerbon.better_beacons.fabric.client.BBConfigMenu"
     ]
   },
   "mixins": [
@@ -31,6 +34,7 @@
   "depends": {
     "fabricloader": "${fabric_loader_version_range}",
     "minecraft": "${minecraft_version_range}",
-    "cerbons_api": "${cerbons_api_version_range_fabric}"
+    "cerbons_api": "${cerbons_api_version_range_fabric}",
+    "cloth-config": "${cloth_config_version_range_fabric}"
   }
 }
