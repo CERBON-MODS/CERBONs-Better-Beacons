@@ -1,6 +1,7 @@
 package com.cerbon.better_beacons.client.screen;
 
 import com.cerbon.better_beacons.BetterBeacons;
+import com.cerbon.better_beacons.config.custom.BeaconPaymentItemsUI;
 import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.packet.custom.BeaconC2SPacket;
 import com.cerbon.better_beacons.util.BBUtils;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +41,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
     private static final Component BEACON_RANGE_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.beacon_range.label");
     private static final Component CURRENT_PAYMENT_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.current_payment.label");
     private static final Component PAYMENT_ITEM_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.payment_item.label");
+    private static final Component PLUS_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.plus.label");
+    private static final Component MINUS_LABEL = Component.translatable("block.minecraft.beacon.better_beacons.minus.label");
 
     private static final Tooltip CONFIRM_BUTTON_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.confirm_button.tooltip"));
     private static final Tooltip CANCEL_BUTTON_REMOVE_EFFECTS_TOOLTIP = Tooltip.create(Component.translatable("block.minecraft.beacon.better_beacons.cancel_button_remove_effects.tooltip"));
@@ -152,8 +154,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
         if (BetterBeacons.config.beaconRangeAndAmplifier.isPaymentItemRangeEnabled) {
             guiGraphics.drawCenteredString(this.font, BEACON_RANGE_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
-            guiGraphics.drawCenteredString(this.font, "++", NewBeaconMenu.isTertiaryEffectsEnabled ? 20 : 23, 106, 14737632);
-            guiGraphics.drawCenteredString(this.font, "--", NewBeaconMenu.isTertiaryEffectsEnabled ? 128 : 131, 106, 14737632);
+            guiGraphics.drawCenteredString(this.font, PLUS_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 20 : 23, 106, 14737632);
+            guiGraphics.drawCenteredString(this.font, MINUS_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 128 : 131, 106, 14737632);
 
         } else
             guiGraphics.drawCenteredString(this.font, PAYMENT_ITEM_LABEL, NewBeaconMenu.isTertiaryEffectsEnabled ? 74 : 77, 105, 14737632);
@@ -166,17 +168,19 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
 
     @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+        BeaconPaymentItemsUI paymentItemsUI = BetterBeacons.config.beaconPaymentItemsUI;
+
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(BEACON_TEXTURE_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
-        guiGraphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 12 : i + 14, j + 114);
-        guiGraphics.renderItem(new ItemStack(Items.DIAMOND), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 33 : i + 35, j + 114);
-        guiGraphics.renderItem(new ItemStack(Items.EMERALD), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 22 : i + 33 + 22, j + 114);
-        guiGraphics.renderItem(new ItemStack(Items.GOLD_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 44 : i + 33 + 44, j + 114);
-        guiGraphics.renderItem(new ItemStack(Items.IRON_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 66 : i + 34 + 66, j + 114);
-        guiGraphics.renderItem(new ItemStack(Items.COPPER_INGOT), NewBeaconMenu.isTertiaryEffectsEnabled ? i + 31 + 88 : i + 34 + 88, j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.first.first)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.first.tertiaryPosX  : i + paymentItemsUI.first.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.second.second)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.second.tertiaryPosX : i + paymentItemsUI.second.posX, j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.third.third)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.third.tertiaryPosX  : i + paymentItemsUI.third.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fourth.fourth)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fourth.tertiaryPosX : i + paymentItemsUI.fourth.posX, j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fifth.fifth)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fifth.tertiaryPosX  : i + paymentItemsUI.fifth.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.sixth.sixth)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.sixth.tertiaryPosX  : i + paymentItemsUI.sixth.posX,  j + 114);
 
         if (this.paymentItem != null && NewBeaconMenu.isTertiaryEffectsEnabled)
             guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);

@@ -24,4 +24,8 @@ public class BBConfig implements ConfigData {
     @ConfigEntry.Category("Buttons")
     @ConfigEntry.Gui.TransitiveObject
     public BeaconButtons beaconButtons = new BeaconButtons();
+
+    @ConfigEntry.Category("Payment Items UI")
+    @ConfigEntry.Gui.TransitiveObject
+    public BeaconPaymentItemsUI beaconPaymentItemsUI = new BeaconPaymentItemsUI();
 }
