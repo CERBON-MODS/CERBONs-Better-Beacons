@@ -10,6 +10,7 @@ import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringToIntMap;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
+import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
@@ -21,6 +22,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -44,6 +46,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -187,13 +191,29 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     for (Player player : players)
                         player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
-                    //Add compatibility with beacons for all mod TODO: Fix it
-//                    if (MiscUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)) {
-//                        List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, BeaconsForAllMod::canApplyEffects);
-//
-//                        for (LivingEntity livingEntity : livingEntities)
-//                            livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
-//                    }
+                    //Add compatibility with beacons for all mod
+                    if (MiscUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)) {
+                        try {
+                            Class<?> bfaClass = Class.forName("com.illusivesoulworks.beaconsforall.BeaconsForAllMod");
+                            Method canApplyEffectsMethod = bfaClass.getMethod("canApplyEffects", LivingEntity.class);
+
+                            List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, aabb, livingEntity -> {
+                                try {
+                                    return (boolean) canApplyEffectsMethod.invoke(null, livingEntity);
+
+                                } catch (IllegalAccessException | InvocationTargetException e) {
+                                    e.printStackTrace();
+                                    return false;
+                                }
+                            });
+
+                            for (LivingEntity livingEntity : livingEntities)
+                                livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+
+                        } catch (ClassNotFoundException | NoSuchMethodException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
