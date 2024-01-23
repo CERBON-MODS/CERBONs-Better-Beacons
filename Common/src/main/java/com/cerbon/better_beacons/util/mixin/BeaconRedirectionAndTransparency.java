@@ -6,6 +6,7 @@ import com.cerbon.better_beacons.mixin.accessor.BeaconBeamSectionAccessor;
 import com.cerbon.better_beacons.mixin.accessor.BeaconBlockEntityAccessor;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
+import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -98,7 +100,9 @@ public class BeaconRedirectionAndTransparency {
                 else {
                     beaconAccessor.checkingBeamSections().add(currSegment);
 
-                    targetColor = currColor;
+                    targetColor = getTargetColor(block);
+                    if(targetColor[0] == 1F && targetColor[1] == 1F && targetColor[2] == 1F)
+                        targetColor = currColor;
 
                     currColor = new float[]{(currColor[0] + targetColor[0] * 3) / 4.0F, (currColor[1] + targetColor[1] * 3) / 4.0F, (currColor[2] + targetColor[2] * 3) / 4.0F};
                     alpha = 1F;
@@ -187,6 +191,29 @@ public class BeaconRedirectionAndTransparency {
 
         return null;
     }
+
+    private static float[] getTargetColor(Block block) {
+        if (MiscUtils.isModLoaded(BBConstants.QUARK)) {
+            try {
+                Class<?> ccClass = Class.forName("org.violetmoon.quark.content.world.block.CorundumClusterBlock");
+
+                if (ccClass.isInstance(block)) {
+                    Field baseField = ccClass.getDeclaredField("base");
+                    baseField.setAccessible(true);
+                    Object base = baseField.get(block);
+                    Field colorComponentsField = base.getClass().getDeclaredField("colorComponents");
+                    colorComponentsField.setAccessible(true);
+                    return (float[]) colorComponentsField.get(base);
+                }
+
+            } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new float[] { 1F, 1F, 1F };
+    }
+
 
     public static class ExtendedBeamSegment extends BeaconBlockEntity.BeaconBeamSection {
         public final Direction dir;

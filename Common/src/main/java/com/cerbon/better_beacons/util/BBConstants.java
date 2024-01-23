@@ -21,5 +21,6 @@ public class BBConstants {
     public static final TagKey<Block> BEACON_TRANSPARENCY = TagKey.create(Registries.BLOCK, new ResourceLocation(MOD_ID, "beacon_transparency"));
     public static final TagKey<Block> BEACON_REDIRECT = TagKey.create(Registries.BLOCK, new ResourceLocation(MOD_ID, "beacon_redirect"));
 
+    public static final String QUARK = "quark";
     public static final String BEACONS_FOR_ALL = "beaconsforall";
 }
