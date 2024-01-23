@@ -172,6 +172,7 @@ public class NewBeaconMenu extends AbstractContainerMenu {
         this.beaconData.set(1 , -1);
         this.beaconData.set(2, -1);
         this.beaconData.set(3, -1);
+        this.beaconData.set(4, StringToIntMap.addString(null));
         this.access.execute(Level::blockEntityChanged);
     }
 
