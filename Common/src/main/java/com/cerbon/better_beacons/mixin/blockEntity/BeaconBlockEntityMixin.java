@@ -60,7 +60,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow MobEffect secondaryPower;
 
     @Unique private MobEffect bb_tertiaryEffect;
-    @Unique private String bb_PaymentItem;
+    @Unique private String bb_paymentItem;
     @Unique private int bb_primaryEffectAmplifier;
 
     @Shadow private LockCode lockKey;
@@ -75,7 +75,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 case 1 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.primaryPower);
                 case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
                 case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
-                case 4 -> StringToIntMap.getInt(BeaconBlockEntityMixin.this.bb_PaymentItem);
+                case 4 -> StringToIntMap.getInt(BeaconBlockEntityMixin.this.bb_paymentItem);
                 case 5 -> BeaconBlockEntityMixin.this.bb_primaryEffectAmplifier;
                 default -> 0;
             };
@@ -93,7 +93,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                 }
                 case 2 -> BeaconBlockEntityMixin.this.secondaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
                 case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BeaconBlockEntityMixin.getValidEffectById(value);
-                case 4 -> BeaconBlockEntityMixin.this.bb_PaymentItem = StringToIntMap.getString(value);
+                case 4 -> BeaconBlockEntityMixin.this.bb_paymentItem = StringToIntMap.getString(value);
             }
         }
 
@@ -115,8 +115,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         tag.putInt(BBConstants.TERTIARY_EFFECT_KEY, MobEffect.getIdFromNullable(this.bb_tertiaryEffect));
         tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.bb_primaryEffectAmplifier);
 
-        if (this.bb_PaymentItem != null)
-            tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.bb_PaymentItem);
+        if (this.bb_paymentItem != null)
+            tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.bb_paymentItem);
     }
 
     @Inject(method = "load", at = @At("TAIL"))
@@ -125,8 +125,8 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         this.bb_primaryEffectAmplifier = tag.getInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)) {
-            this.bb_PaymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
-            StringToIntMap.addString(this.bb_PaymentItem);
+            this.bb_paymentItem = tag.getString(BBConstants.PAYMENT_ITEM_KEY);
+            StringToIntMap.addString(this.bb_paymentItem);
         }
     }
 
@@ -262,7 +262,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Override
     public String bb_getPaymentItem(){
-        return this.bb_PaymentItem;
+        return this.bb_paymentItem;
     }
 
     @Override
