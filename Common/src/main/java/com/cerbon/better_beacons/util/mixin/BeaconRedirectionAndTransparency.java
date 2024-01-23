@@ -5,6 +5,7 @@ import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.mixin.accessor.BeaconBeamSectionAccessor;
 import com.cerbon.better_beacons.mixin.accessor.BeaconBlockEntityAccessor;
 import com.cerbon.better_beacons.util.BBConstants;
+import com.cerbon.better_beacons.util.BBUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -42,7 +43,7 @@ public class BeaconRedirectionAndTransparency {
         int k = beaconPos.getZ();
 
         int horizontalMoves = horizontalMoveLimit;
-        int targetHeight = Objects.requireNonNull(level).getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
+        int targetHeight = level.getHeight(Heightmap.Types.WORLD_SURFACE, beaconPos.getX(), beaconPos.getZ());
 
         boolean broke = false;
         boolean didRedirection = false;
@@ -87,7 +88,7 @@ public class BeaconRedirectionAndTransparency {
                     targetAlpha = (alpha < 0.3F ? 0F : (alpha / 2F));
 
                     if (targetAlpha <= 0)
-                        for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
+                        for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beacon.getLevel(), i, j, k))
                             BBCriteriaTriggers.INVISIBLE_BEAM.trigger(serverplayer);
                 }
             }
@@ -171,7 +172,7 @@ public class BeaconRedirectionAndTransparency {
         if(!beacon.getUpdateTag().getBoolean(tag) && didRedirection && !beaconAccessor.checkingBeamSections().isEmpty()) {
             beacon.getUpdateTag().putBoolean(tag, true);
 
-            for(ServerPlayer serverplayer : Objects.requireNonNull(beacon.getLevel()).getEntitiesOfClass(ServerPlayer.class, (new AABB(i, j, k, i, j - 4, k)).inflate(10.0D, 5.0D, 10.0D)))
+            for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beacon.getLevel(), i, j, k))
                 BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer);
         }
 
