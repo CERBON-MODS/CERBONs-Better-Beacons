@@ -207,7 +207,7 @@ public class BeaconRedirectionAndTransparency {
                 }
 
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
+                BBConstants.LOGGER.error("Couldn't get target color for corundum cluster block", e);
             }
         }
 

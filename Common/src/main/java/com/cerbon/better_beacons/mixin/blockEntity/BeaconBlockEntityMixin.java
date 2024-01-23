@@ -202,7 +202,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                                     return (boolean) canApplyEffectsMethod.invoke(null, livingEntity);
 
                                 } catch (IllegalAccessException | InvocationTargetException e) {
-                                    e.printStackTrace();
+                                    BBConstants.LOGGER.error("Cannot invoke method 'canApplyEffects' from BeaconsForAllMod", e);
                                     return false;
                                 }
                             });
@@ -211,7 +211,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                                 livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
                         } catch (ClassNotFoundException | NoSuchMethodException e) {
-                            e.printStackTrace();
+                            BBConstants.LOGGER.error("Class/Method from BeaconsForAllMod mod does not exist", e);
                         }
                     }
                 }
