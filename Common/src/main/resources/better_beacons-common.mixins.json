@@ -12,6 +12,7 @@
     "spawner.PhantomSpawnerMixin"
   ],
   "client": [
+    "client.BeaconRendererMixin",
     "test.TestMixin"
   ],
   "injectors": {

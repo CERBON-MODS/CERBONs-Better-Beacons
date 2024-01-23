@@ -2,6 +2,7 @@ package com.cerbon.better_beacons.util.mixin;
 
 import com.cerbon.better_beacons.BetterBeacons;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
+import com.cerbon.better_beacons.mixin.accessor.BeaconBeamSectionAccessor;
 import com.cerbon.better_beacons.mixin.accessor.BeaconBlockEntityAccessor;
 import com.cerbon.better_beacons.util.BBConstants;
 import net.minecraft.core.BlockPos;
@@ -61,7 +62,7 @@ public class BeaconRedirectionAndTransparency {
             if(currSegment.dir == Direction.UP && currSegment.dir != lastDir) {
                 int heightmapVal = level.getHeight(Heightmap.Types.WORLD_SURFACE, currPos.getX(), currPos.getZ());
                 if(heightmapVal == (currPos.getY() + 1)) {
-                    currSegment.setHeight(heightmapVal + 1000);
+                    ((BeaconBeamSectionAccessor) currSegment).setHeight(heightmapVal + 1000);
                     break;
                 }
 
@@ -203,10 +204,6 @@ public class BeaconRedirectionAndTransparency {
         @Override
         public void increaseHeight() { // increase visibility
             super.increaseHeight();
-        }
-
-        public void setHeight(int height) {
-//            ((BeaconBeamSectionAccessor) this).setHeight(height);
         }
     }
 }
