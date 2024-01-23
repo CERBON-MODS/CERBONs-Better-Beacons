@@ -15,7 +15,7 @@ public class PatrolSpawnerMixin {
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isSpectator()Z"), cancellable = true)
     private void bb_preventPatrolSpawn(ServerLevel level, boolean spawnEnemies, boolean spawnFriendlies, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) Player player) {
-        if (player.hasEffect(BBEffects.PATROL_NULLIFIER.get()))
+        if (player.hasEffect(BBEffects.PATROL_BANE.get()))
             cir.setReturnValue(0);
     }
 }

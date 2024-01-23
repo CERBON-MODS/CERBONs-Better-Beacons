@@ -20,7 +20,7 @@ public class BBEffects {
             new PhantomBaneEffect(MobEffectCategory.BENEFICIAL, 3124687)
     );
 
-    public static final RegistryEntry<MobEffect> PATROL_NULLIFIER = MOB_EFFECTS.register("patrol_nullifier", () ->
+    public static final RegistryEntry<MobEffect> PATROL_BANE = MOB_EFFECTS.register("patrol_bane", () ->
             new PatrolNullifierEffect(MobEffectCategory.BENEFICIAL, 9120331)
     );
 
