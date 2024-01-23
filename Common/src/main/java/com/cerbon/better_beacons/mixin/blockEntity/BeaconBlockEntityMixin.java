@@ -10,6 +10,7 @@ import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringToIntMap;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -131,7 +132,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     // This captures the for loop inside tick that computes the beacon segments
-    @ModifyConstant(method = "tick", constant = @Constant(intValue = 0, ordinal = 0))
+    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
     private static int bb_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
         return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
     }
