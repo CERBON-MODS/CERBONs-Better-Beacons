@@ -29,9 +29,11 @@ public class NewBeaconMenu extends AbstractContainerMenu {
             return 1;
         }
     };
+
     private final NewBeaconMenu.PaymentSlot paymentSlot;
     private final ContainerLevelAccess access;
     private final ContainerData beaconData;
+
     public static boolean isTertiaryEffectsEnabled = BetterBeacons.config.beaconEffects.isTertiaryEffectsEnabled;
 
     public NewBeaconMenu(int containerId, Container container) {
