@@ -1,7 +1,7 @@
 package com.cerbon.better_beacons.effect;
 
 import com.cerbon.better_beacons.effect.custom.LongReachEffect;
-import com.cerbon.better_beacons.effect.custom.PatrolNullifierEffect;
+import com.cerbon.better_beacons.effect.custom.PatrolBaneEffect;
 import com.cerbon.better_beacons.effect.custom.PhantomBaneEffect;
 import com.cerbon.better_beacons.platform.BBServices;
 import com.cerbon.better_beacons.util.BBConstants;
@@ -21,7 +21,7 @@ public class BBEffects {
     );
 
     public static final RegistryEntry<MobEffect> PATROL_BANE = MOB_EFFECTS.register("patrol_bane", () ->
-            new PatrolNullifierEffect(MobEffectCategory.BENEFICIAL, 9120331)
+            new PatrolBaneEffect(MobEffectCategory.BENEFICIAL, 9120331)
     );
 
     public static final RegistryEntry<MobEffect> LONG_REACH = MOB_EFFECTS.register("long_reach", () ->
