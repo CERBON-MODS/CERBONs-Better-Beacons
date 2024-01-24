@@ -1,0 +1,34 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "better_beacons:is_config_enabled",
+      "config": "beacon_beam_redirection"
+    }
+  ],
+  "parent": "minecraft:nether/create_beacon",
+  "criteria": {
+    "redirect_beacon": {
+      "trigger": "better_beacons:redirect_beacon"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.better_beacons.redirect_beacon.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:beacon"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.better_beacons.redirect_beacon.title"
+    }
+  },
+  "requirements": [
+    [
+      "redirect_beacon"
+    ]
+  ]
+}

@@ -1,10 +1,14 @@
 package com.cerbon.better_beacons.fabric.event;
 
+import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;
 import com.cerbon.better_beacons.datapack.BaseBlocksAmplifierManager;
 import com.cerbon.better_beacons.datapack.PaymentItemsRangeManager;
+import com.cerbon.better_beacons.fabric.advancement.condition.BBResourceConditions;
 import com.cerbon.better_beacons.util.BBConstants;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -18,6 +22,8 @@ public class BBEventsFabric {
 
     public static void register() {
         registerDatapacks();
+        registerResourceConditions();
+        registerCriterias();
     }
 
     private static void registerDatapacks() {
@@ -46,5 +52,16 @@ public class BBEventsFabric {
                 return PaymentItemsRangeManager.getInstance().reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor);
             }
         });
+    }
+
+    public static void registerResourceConditions() {
+        ResourceConditions.register(BBResourceConditions.CONFIG_ENABLED, BBResourceConditions::isConfigEnabled);
+    }
+
+    public static void registerCriterias() {
+        CriteriaTriggers.register(BBCriteriaTriggers.REDIRECT_BEACON);
+        CriteriaTriggers.register(BBCriteriaTriggers.INVISIBLE_BEAM);
+        CriteriaTriggers.register(BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
+        CriteriaTriggers.register(BBCriteriaTriggers.TRUE_FULL_POWER);
     }
 }
