@@ -23,37 +23,37 @@ public class BeaconPaymentItemsUI {
     public Sixth sixth = new Sixth();
 
     public static class First {
-        public String first = "minecraft:netherite_ingot";
+        public String item = "minecraft:netherite_ingot";
         public int tertiaryPosX = 12;
         public int posX = 14;
     }
 
     public static class Second {
-        public String second = "minecraft:diamond";
+        public String item = "minecraft:diamond";
         public int tertiaryPosX = 33;
         public int posX = 35;
     }
 
     public static class Third {
-        public String third = "minecraft:emerald";
+        public String item = "minecraft:emerald";
         public int tertiaryPosX = 53;
         public int posX = 55;
     }
 
     public static class Fourth {
-        public String fourth = "minecraft:gold_ingot";
+        public String item = "minecraft:gold_ingot";
         public int tertiaryPosX = 75;
         public int posX = 77;
     }
 
     public static class Fifth {
-        public String fifth = "minecraft:iron_ingot";
+        public String item = "minecraft:iron_ingot";
         public int tertiaryPosX = 97;
         public int posX = 100;
     }
 
     public static class Sixth {
-        public String sixth = "minecraft:copper_ingot";
+        public String item = "minecraft:copper_ingot";
         public int tertiaryPosX = 119;
         public int posX = 122;
     }

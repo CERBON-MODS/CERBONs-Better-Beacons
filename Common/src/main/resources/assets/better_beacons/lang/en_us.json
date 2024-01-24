@@ -21,5 +21,56 @@
   "advancements.better_beacons.increase_effects_strength.title": "Power Up",
   "advancements.better_beacons.increase_effects_strength.description": "Increase the strength of the Beacon effects using a valuable base block",
   "advancements.better_beacons.true_full_power.title": "The Ultimate Beacon",
-  "advancements.better_beacons.true_full_power.description": "Create a full-power beacon with maximum effect strength and range"
+  "advancements.better_beacons.true_full_power.description": "Create a full-power beacon with maximum effect strength and range",
+
+  "text.autoconfig.better_beacons.title": "Better Beacons Config",
+
+  "text.autoconfig.better_beacons.category.Beacon Effects": "Beacon Effects",
+  "text.autoconfig.better_beacons.option.beaconEffects.isTertiaryEffectsEnabled": "Is tertiary Effects Enabled",
+  "text.autoconfig.better_beacons.option.beaconEffects.levelOneEffects": "Level One Effects",
+  "text.autoconfig.better_beacons.option.beaconEffects.levelTwoEffects": "Level Two Effects",
+  "text.autoconfig.better_beacons.option.beaconEffects.levelThreeEffects": "Level Three Effects",
+  "text.autoconfig.better_beacons.option.beaconEffects.secondaryEffects": "Secondary Effects",
+  "text.autoconfig.better_beacons.option.beaconEffects.tertiaryEffects": "Tertiary Effects",
+
+  "text.autoconfig.better_beacons.category.Range && Amplifier": "Beacon Range && Amplifier",
+  "text.autoconfig.better_beacons.option.beaconRangeAndAmplifier.isPaymentItemRangeEnabled": "Is Payment Item Range Enabled",
+  "text.autoconfig.better_beacons.option.beaconRangeAndAmplifier.isBaseBlockAmplifierEnabled": "Is Base Block Amplifier Enabled",
+
+  "text.autoconfig.better_beacons.category.Beam": "Beacon Beam",
+  "text.autoconfig.better_beacons.option.beaconBeam.allowRedirecting": "Allow Redirecting",
+  "text.autoconfig.better_beacons.option.beaconBeam.allowTransparency": "Allow Transparency",
+  "text.autoconfig.better_beacons.option.beaconBeam.horizontalMoveLimit": "Horizontal Move Limit",
+
+  "text.autoconfig.better_beacons.category.Buttons": "Beacon Buttons",
+  "text.autoconfig.better_beacons.option.beaconButtons.cancelButtonRemoveEffects": "Cancel Button Remove Effects",
+  "text.autoconfig.better_beacons.option.beaconButtons.isCancelButtonTooltipEnabled": "Is Cancel Button Tooltip Enabled",
+  "text.autoconfig.better_beacons.option.beaconButtons.isConfirmButtonTooltipEnabled": "Is Confirm Button Tooltip Enabled",
+
+  "text.autoconfig.better_beacons.category.Payment Items UI": "Beacon Payment Items UI",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.first": "First",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.second": "Second",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.third": "Third",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fourth": "Fourth",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fifth": "Fifth",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.sixth": "Sixth",
+
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.first.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.first.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.first.posX": "Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.second.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.second.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.second.posX": "Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.third.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.third.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.third.posX": "Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fourth.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fourth.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fourth.posX": "Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fifth.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fifth.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.fifth.posX": "Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.sixth.item": "Item",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.sixth.tertiaryPosX": "Tertiary Pos X",
+  "text.autoconfig.better_beacons.option.beaconPaymentItemsUI.sixth.posX": "Pos X"
 }

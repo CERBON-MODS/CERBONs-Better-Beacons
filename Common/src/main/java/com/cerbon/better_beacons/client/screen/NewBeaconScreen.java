@@ -175,12 +175,12 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         guiGraphics.blit(BEACON_TEXTURE_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.first.first)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.first.tertiaryPosX  : i + paymentItemsUI.first.posX,  j + 114);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.second.second)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.second.tertiaryPosX : i + paymentItemsUI.second.posX, j + 114);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.third.third)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.third.tertiaryPosX  : i + paymentItemsUI.third.posX,  j + 114);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fourth.fourth)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fourth.tertiaryPosX : i + paymentItemsUI.fourth.posX, j + 114);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fifth.fifth)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fifth.tertiaryPosX  : i + paymentItemsUI.fifth.posX,  j + 114);
-        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.sixth.sixth)),   NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.sixth.tertiaryPosX  : i + paymentItemsUI.sixth.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.first.item)),  NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.first.tertiaryPosX  : i + paymentItemsUI.first.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.second.item)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.second.tertiaryPosX : i + paymentItemsUI.second.posX, j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.third.item)),  NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.third.tertiaryPosX  : i + paymentItemsUI.third.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fourth.item)), NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fourth.tertiaryPosX : i + paymentItemsUI.fourth.posX, j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.fifth.item)),  NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.fifth.tertiaryPosX  : i + paymentItemsUI.fifth.posX,  j + 114);
+        guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(paymentItemsUI.sixth.item)),  NewBeaconMenu.isTertiaryEffectsEnabled ? i + paymentItemsUI.sixth.tertiaryPosX  : i + paymentItemsUI.sixth.posX,  j + 114);
 
         if (this.paymentItem != null && NewBeaconMenu.isTertiaryEffectsEnabled)
             guiGraphics.renderItem(new ItemStack(RegistryUtils.getItemByKey(this.paymentItem)), i + 165 + 66, j + 114);
