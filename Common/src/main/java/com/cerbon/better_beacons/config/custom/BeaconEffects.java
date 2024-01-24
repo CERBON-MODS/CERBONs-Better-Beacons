@@ -5,9 +5,9 @@ import java.util.List;
 public class BeaconEffects {
     public boolean isTertiaryEffectsEnabled = true;
 
-    public List<String> levelOneEffects = List.of("minecraft:speed", "minecraft:jump_boost");
-    public List<String> levelTwoEffects = List.of("minecraft:haste", "better_beacons:long_reach");
-    public List<String> levelThreeEffects = List.of("minecraft:strength", "minecraft:resistance");
-    public List<String> secondaryEffects = List.of("minecraft:night_vision", "minecraft:regeneration", "minecraft:fire_resistance");
-    public List<String> tertiaryEffects = List.of("better_beacons:phantom_bane", "better_beacons:patrol_bane");
+    public List<String> levelOneEffects;
+    public List<String> levelTwoEffects;
+    public List<String> levelThreeEffects;
+    public List<String> secondaryEffects;
+    public List<String> tertiaryEffects;
 }

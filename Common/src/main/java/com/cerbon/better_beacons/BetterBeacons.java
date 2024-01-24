@@ -12,6 +12,8 @@ public class BetterBeacons {
 
 	public static void init() {
 		AutoConfig.register(BBConfig.class, JanksonConfigSerializer::new);
+		AutoConfig.getConfigHolder(BBConfig.class).get().postInit();
+		AutoConfig.getConfigHolder(BBConfig.class).save();
 		config = AutoConfig.getConfigHolder(BBConfig.class).get();
 
 		BBPackets.register();
