@@ -16,5 +16,6 @@ This project uses code from other open source projects. We are grateful to these
 We also want to acknowledge the contributions of individuals who have contributed to this project:
 
 - **BardinTheDwarf:** Create ru_ru translation.
+- **DumbXBoxAcct:** Create effect descriptions to Just Enough Effect Descriptions mod.
 
 Thank you for making this project better!

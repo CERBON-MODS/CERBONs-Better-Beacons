@@ -14,6 +14,10 @@
   "effect.better_beacons.patrol_bane": "Patrol Bane",
   "effect.better_beacons.long_reach": "Long Reach",
 
+  "effect.better_beacons.phantom_bane.description": "Prevents phantoms from spawning within the beacon's range.",
+  "effect.better_beacons.patrol_bane.description": "Prevents patrols from spawning within the beacon's range.",
+  "effect.better_beacons.long_reach.description": "Increases the range at which players can interact with blocks.",
+
   "advancements.better_beacons.redirect_beacon.title": "See The Lights",
   "advancements.better_beacons.redirect_beacon.description": "Redirect a Beacon beam's direction using Clusters",
   "advancements.better_beacons.invisible_beam.title": "I Can't See The Lights",
