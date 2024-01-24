@@ -15,11 +15,10 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.List;
-import java.util.Objects;
 
 public class BBBeaconRenderer {
     public static boolean render(BeaconBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn) {
-        long i = Objects.requireNonNull(tileEntityIn.getLevel()).getGameTime();
+        long i = tileEntityIn.getLevel().getGameTime();
         List<BeaconBlockEntity.BeaconBeamSection> list = tileEntityIn.getBeamSections();
 
         for (BeaconBlockEntity.BeaconBeamSection segment : list) {
