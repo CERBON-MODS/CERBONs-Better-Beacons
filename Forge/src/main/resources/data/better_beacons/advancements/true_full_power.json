@@ -1,0 +1,44 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "better_beacons:is_config_enabled",
+          "config": "base_block_amplifier"
+        },
+        {
+          "type": "better_beacons:is_config_enabled",
+          "config": "payment_item_range"
+        }
+      ],
+      "advancement": {
+        "parent": "minecraft:nether/create_full_beacon",
+        "criteria": {
+          "true_full_power": {
+            "trigger": "better_beacons:true_full_power"
+          }
+        },
+        "display": {
+          "announce_to_chat": true,
+          "description": {
+            "translate": "advancements.better_beacons.true_full_power.description"
+          },
+          "frame": "challenge",
+          "hidden": false,
+          "icon": {
+            "item": "minecraft:beacon"
+          },
+          "show_toast": true,
+          "title": {
+            "translate": "advancements.better_beacons.true_full_power.title"
+          }
+        },
+        "requirements": [
+          [
+            "true_full_power"
+          ]
+        ]
+      }
+    }
+  ]
+}
