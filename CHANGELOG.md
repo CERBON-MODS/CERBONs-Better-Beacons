@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-01-?
+
+### Added
+
+- Compatibility with CerbonsAPI 1.1.0
+- Support for Fabric and NeoForge
+- Compatibility with Just Enough Effect Descriptions mod
+- Config to change the payment items in the UI and theirs positions
+- ru_ru translation (Not complete because of the update to multi loader)
+
+### Changed
+
+- Move project to multi loader
+- Configs are now handled with cloth config
+- Config names
+- ++ and -- from the UI are now translatable using a lang file
+- Patrol Nullifier effect rename to Patrol Bane
+- Improve compatibility with Quark beta
+- Minor code improvements
+
+### Removed
+
+- Waterlogging and conduct redstone configs
+- Lock beacon feature
+
 ## [1.1.1] - 2024-01-18
 
 ### Fixed
