@@ -1,39 +1,33 @@
 package com.cerbon.better_beacons.advancement.trigger;
 
-import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 public class BBGenericTrigger extends SimpleCriterionTrigger<BBGenericTrigger.TriggerInstance> {
-    final ResourceLocation id;
 
-    public BBGenericTrigger(ResourceLocation resourceLocation) {
-        this.id = resourceLocation;
+    @Override
+    public @NotNull Codec<TriggerInstance> codec() {
+        return TriggerInstance.CODEC;
     }
 
     @Override
-    protected @NotNull TriggerInstance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext deserializationContext) {
-        return new TriggerInstance(id, predicate);
+    public void trigger(ServerPlayer player, Predicate<TriggerInstance> testTrigger) {
+        super.trigger(player, testTrigger);
     }
 
-    @Override
-    public @NotNull ResourceLocation getId() {
-        return id;
-    }
-
-    public void trigger(ServerPlayer serverPlayer) {
-        this.trigger(serverPlayer, triggerInstance -> true);
-    }
-
-    public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-
-        public TriggerInstance(ResourceLocation criterion, ContextAwarePredicate player) {
-            super(criterion, player);
-        }
+    public record TriggerInstance(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
+        public static final Codec<BBGenericTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(BBGenericTrigger.TriggerInstance::player)).apply(instance, BBGenericTrigger.TriggerInstance::new)
+        );
     }
 }

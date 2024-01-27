@@ -4,6 +4,7 @@ import com.cerbon.better_beacons.BetterBeacons;
 import com.cerbon.better_beacons.menu.BBMenuTypes;
 import com.cerbon.better_beacons.util.StringToIntMap;
 import com.cerbon.cerbons_api.api.static_utilities.RegistryUtils;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -133,17 +134,17 @@ public class NewBeaconMenu extends AbstractContainerMenu {
 
     @Nullable
     public MobEffect getPrimaryEffect() {
-        return MobEffect.byId(this.beaconData.get(1));
+        return decodeEffect(this.beaconData.get(1));
     }
 
     @Nullable
     public MobEffect getSecondaryEffect() {
-        return MobEffect.byId(this.beaconData.get(2));
+        return decodeEffect(this.beaconData.get(2));
     }
 
     @Nullable
     public MobEffect getTertiaryEffect() {
-        return MobEffect.byId(this.beaconData.get(3));
+        return decodeEffect(this.beaconData.get(3));
     }
 
     public String getPaymentItem() {
@@ -155,15 +156,24 @@ public class NewBeaconMenu extends AbstractContainerMenu {
     }
 
     public boolean isEffectsActive() {
-        return MobEffect.byId(this.beaconData.get(1)) != null;
+        return decodeEffect(this.beaconData.get(1)) != null;
+    }
+
+    public static int encodeEffect(@Nullable MobEffect effect) {
+        return effect == null ? 0 : BuiltInRegistries.MOB_EFFECT.getId(effect) + 1;
+    }
+
+    @Nullable
+    public static MobEffect decodeEffect(int effect) {
+        return effect == 0 ? null : BuiltInRegistries.MOB_EFFECT.byId(effect - 1);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public void updateEffects(Optional<MobEffect> primaryEffect, Optional<MobEffect> secondaryEffect, Optional<MobEffect> tertiaryEffect) {
         if (this.paymentSlot.hasItem()) {
-            this.beaconData.set(1, primaryEffect.map(MobEffect::getId).orElse(-1));
-            this.beaconData.set(2, secondaryEffect.map(MobEffect::getId).orElse(-1));
-            this.beaconData.set(3, tertiaryEffect.map(MobEffect::getId).orElse(-1));
+            this.beaconData.set(1, encodeEffect(primaryEffect.orElse(null)));
+            this.beaconData.set(2, encodeEffect(secondaryEffect.orElse(null)));
+            this.beaconData.set(3, encodeEffect(tertiaryEffect.orElse(null)));
             this.beaconData.set(4, StringToIntMap.addString(RegistryUtils.getItemKeyAsString(this.paymentSlot.getItem().getItem())));
             this.paymentSlot.remove(1);
             this.access.execute(Level::blockEntityChanged);

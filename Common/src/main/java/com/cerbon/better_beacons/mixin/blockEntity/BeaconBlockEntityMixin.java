@@ -77,9 +77,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         public int get(int index) {
             return switch (index) {
                 case 0 -> BeaconBlockEntityMixin.this.levels;
-                case 1 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.primaryPower);
-                case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
-                case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
+                case 1 -> NewBeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.primaryPower);
+                case 2 -> NewBeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.secondaryPower);
+                case 3 -> NewBeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
                 case 4 -> StringToIntMap.getInt(BeaconBlockEntityMixin.this.bb_paymentItem);
                 case 5 -> BeaconBlockEntityMixin.this.bb_primaryEffectAmplifier;
                 default -> 0;
@@ -94,10 +94,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     if (!BeaconBlockEntityMixin.this.level.isClientSide && !BeaconBlockEntityMixin.this.beamSections.isEmpty())
                         BeaconBlockEntity.playSound(BeaconBlockEntityMixin.this.level, BeaconBlockEntityMixin.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
 
-                    BeaconBlockEntityMixin.this.primaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
+                    BeaconBlockEntityMixin.this.primaryPower = BeaconBlockEntityMixin.filterEffect(NewBeaconMenu.decodeEffect(value));
                 }
-                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
-                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BeaconBlockEntityMixin.getValidEffectById(value);
+                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = BeaconBlockEntityMixin.filterEffect(NewBeaconMenu.decodeEffect(value));
+                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BeaconBlockEntityMixin.filterEffect(NewBeaconMenu.decodeEffect(value));
                 case 4 -> BeaconBlockEntityMixin.this.bb_paymentItem = StringToIntMap.getString(value);
             }
         }
@@ -109,7 +109,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     };
 
     @Shadow public abstract Component getDisplayName();
-    @Shadow static MobEffect getValidEffectById(int effectId) {return null;}
+    @Shadow static MobEffect filterEffect(MobEffect effect) {return null;}
+    @Shadow private static void storeEffect(CompoundTag tag, String key, @Nullable MobEffect effect) {}
+    @Shadow private static MobEffect loadEffect(CompoundTag tag, String key) {return null;}
 
     public BeaconBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
@@ -117,7 +119,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void bb_addCustomData(CompoundTag tag, CallbackInfo ci) {
-        tag.putInt(BBConstants.TERTIARY_EFFECT_KEY, MobEffect.getIdFromNullable(this.bb_tertiaryEffect));
+        storeEffect(tag, BBConstants.TERTIARY_EFFECT_KEY, this.bb_tertiaryEffect);
         tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.bb_primaryEffectAmplifier);
 
         if (this.bb_paymentItem != null)
@@ -126,7 +128,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "load", at = @At("TAIL"))
     private void bb_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
-        this.bb_tertiaryEffect = getValidEffectById(tag.getInt(BBConstants.TERTIARY_EFFECT_KEY));
+        this.bb_tertiaryEffect = loadEffect(tag, BBConstants.TERTIARY_EFFECT_KEY);
         this.bb_primaryEffectAmplifier = tag.getInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)) {
@@ -265,12 +267,12 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
             if (!level.isClientSide() && canIncreaseAmplifier && beaconMixin.bb_getPrimaryEffectAmplifier() > BaseBlocksAmplifierManager.getLowestAmplifier()) {
                 for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beaconBlockEntity.getLevel(), beaconX, beaconY, beaconZ))
-                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
+                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer, triggerInstance -> true);
             }
 
             if (!level.isClientSide() && canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.bb_getPrimaryEffectAmplifier() == BaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == PaymentItemsRangeManager.getHighestRange()) {
                 for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beaconBlockEntity.getLevel(), beaconX, beaconY, beaconZ))
-                    BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverplayer);
+                    BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverplayer, triggerInstance -> true);
             }
         }
         cir.setReturnValue(pyramidLevel);

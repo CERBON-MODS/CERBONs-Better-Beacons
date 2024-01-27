@@ -89,7 +89,7 @@ public class BeaconRedirectionAndTransparency {
 
                     if (targetAlpha <= 0)
                         for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beacon.getLevel(), i, j, k))
-                            BBCriteriaTriggers.INVISIBLE_BEAM.trigger(serverplayer);
+                            BBCriteriaTriggers.INVISIBLE_BEAM.trigger(serverplayer, triggerInstance -> true);
                 }
             }
 
@@ -175,7 +175,7 @@ public class BeaconRedirectionAndTransparency {
             beacon.getUpdateTag().putBoolean(tag, true);
 
             for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beacon.getLevel(), i, j, k))
-                BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer);
+                BBCriteriaTriggers.REDIRECT_BEACON.trigger(serverplayer, triggerInstance -> true);
         }
 
         return Integer.MAX_VALUE;
