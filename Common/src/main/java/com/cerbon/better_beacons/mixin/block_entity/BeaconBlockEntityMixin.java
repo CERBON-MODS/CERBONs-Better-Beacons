@@ -1,4 +1,4 @@
-package com.cerbon.better_beacons.mixin.blockEntity;
+package com.cerbon.better_beacons.mixin.block_entity;
 
 import com.cerbon.better_beacons.BetterBeacons;
 import com.cerbon.better_beacons.advancement.BBCriteriaTriggers;

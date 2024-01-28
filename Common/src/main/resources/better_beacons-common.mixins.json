@@ -7,7 +7,7 @@
     "accessor.BeaconBeamSectionAccessor",
     "accessor.BeaconBlockEntityAccessor",
     "block.BeaconBlockMixin",
-    "blockEntity.BeaconBlockEntityMixin",
+    "block_entity.BeaconBlockEntityMixin",
     "spawner.PatrolSpawnerMixin",
     "spawner.PhantomSpawnerMixin"
   ],
