@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 @Config(name = BBConstants.MOD_ID)
@@ -46,30 +45,30 @@ public class BBConfig implements ConfigData {
             List<String> defaultEffects = Arrays.asList("minecraft:speed", "minecraft:jump_boost");
             beaconEffects.levelOneEffects = new ArrayList<>(defaultEffects);
         } else
-            beaconEffects.levelOneEffects = new ArrayList<>(new HashSet<>(levelOneEffects));
+            beaconEffects.levelOneEffects = new ArrayList<>(levelOneEffects);
 
         if (levelTwoEffects == null) {
             List<String> defaultEffects = Arrays.asList("minecraft:haste", "better_beacons:long_reach");
             beaconEffects.levelTwoEffects = new ArrayList<>(defaultEffects);
         } else
-            beaconEffects.levelTwoEffects = new ArrayList<>(new HashSet<>(levelTwoEffects));
+            beaconEffects.levelTwoEffects = new ArrayList<>(levelTwoEffects);
 
         if (levelThreeEffects == null) {
             List<String> defaultEffects = Arrays.asList("minecraft:strength", "minecraft:resistance");
             beaconEffects.levelThreeEffects = new ArrayList<>(defaultEffects);
         } else
-            beaconEffects.levelThreeEffects = new ArrayList<>(new HashSet<>(levelThreeEffects));
+            beaconEffects.levelThreeEffects = new ArrayList<>(levelThreeEffects);
 
         if (secondaryEffects == null) {
             List<String> defaultEffects = Arrays.asList("minecraft:night_vision", "minecraft:regeneration", "minecraft:fire_resistance");
             beaconEffects.secondaryEffects = new ArrayList<>(defaultEffects);
         } else
-            beaconEffects.secondaryEffects = new ArrayList<>(new HashSet<>(secondaryEffects));
+            beaconEffects.secondaryEffects = new ArrayList<>(secondaryEffects);
 
         if (tertiaryEffects == null) {
             List<String> defaultEffects = Arrays.asList("better_beacons:phantom_bane", "better_beacons:patrol_bane");
             beaconEffects.tertiaryEffects = new ArrayList<>(defaultEffects);
         } else
-            beaconEffects.tertiaryEffects = new ArrayList<>(new HashSet<>(tertiaryEffects));
+            beaconEffects.tertiaryEffects = new ArrayList<>(tertiaryEffects);
     }
 }
