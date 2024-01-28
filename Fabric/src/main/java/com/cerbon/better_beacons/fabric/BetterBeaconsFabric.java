@@ -19,6 +19,7 @@ public class BetterBeaconsFabric implements ModInitializer, ClientModInitializer
     @Override
     public void onInitializeClient() {
         BetterBeaconsClient.init();
+
         BBClientEventsFabric.register();
     }
 }
