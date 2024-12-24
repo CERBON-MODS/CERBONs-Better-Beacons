@@ -14,6 +14,9 @@ import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,21 +51,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
 public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBeaconBlockEntityMixin {
-    @Shadow @Final public static final MobEffect[][] BEACON_EFFECTS = BBUtils.getBeaconEffectsFromConfigFile();
-    @Shadow @Final private static final Set<MobEffect> VALID_EFFECTS = Arrays.stream(BEACON_EFFECTS).flatMap(Arrays::stream).collect(Collectors.toSet());
+    @Shadow @Final public static final List<List<Holder<MobEffect>>> BEACON_EFFECTS = BBUtils.getBeaconEffectsFromConfigFile();
+    @Shadow @Final private static final Set<Holder<MobEffect>> VALID_EFFECTS = BEACON_EFFECTS.stream().flatMap(Collection::stream).collect(Collectors.toSet());
 
     @Shadow List<BeaconBlockEntity.BeaconBeamSection> beamSections;
 
-    @Shadow MobEffect primaryPower;
-    @Shadow MobEffect secondaryPower;
+    @Shadow Holder<MobEffect> primaryPower;
+    @Shadow Holder<MobEffect> secondaryPower;
 
     @Unique private MobEffect bb_tertiaryEffect;
     @Unique private String bb_paymentItem;
@@ -77,9 +77,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         public int get(int index) {
             return switch (index) {
                 case 0 -> BeaconBlockEntityMixin.this.levels;
-                case 1 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.primaryPower);
-                case 2 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.secondaryPower);
-                case 3 -> MobEffect.getIdFromNullable(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
+                case 1 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.primaryPower.value());
+                case 2 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.secondaryPower.value());
+                case 3 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
                 case 4 -> StringToIntMap.getInt(BeaconBlockEntityMixin.this.bb_paymentItem);
                 case 5 -> BeaconBlockEntityMixin.this.bb_primaryEffectAmplifier;
                 default -> 0;
@@ -94,10 +94,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     if (!BeaconBlockEntityMixin.this.level.isClientSide && !BeaconBlockEntityMixin.this.beamSections.isEmpty())
                         BeaconBlockEntity.playSound(BeaconBlockEntityMixin.this.level, BeaconBlockEntityMixin.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
 
-                    BeaconBlockEntityMixin.this.primaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
+                    BeaconBlockEntityMixin.this.primaryPower = Holder.direct(BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value));
                 }
-                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = BeaconBlockEntityMixin.getValidEffectById(value);
-                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BeaconBlockEntityMixin.getValidEffectById(value);
+                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = Holder.direct(BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value));
+                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value);
                 case 4 -> BeaconBlockEntityMixin.this.bb_paymentItem = StringToIntMap.getString(value);
             }
         }
@@ -109,24 +109,28 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     };
 
     @Shadow public abstract Component getDisplayName();
-    @Shadow static MobEffect getValidEffectById(int effectId) {return null;}
+//    @Shadow static MobEffect getValidEffectById(int effectId) {return null;}
 
     public BeaconBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
-    private void bb_addCustomData(CompoundTag tag, CallbackInfo ci) {
-        tag.putInt(BBConstants.TERTIARY_EFFECT_KEY, MobEffect.getIdFromNullable(this.bb_tertiaryEffect));
+    private void bb_addCustomData(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+        if (this.bb_tertiaryEffect != null)
+            tag.putInt(BBConstants.TERTIARY_EFFECT_KEY, BuiltInRegistries.MOB_EFFECT.getIdOrThrow(this.bb_tertiaryEffect));
+
         tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.bb_primaryEffectAmplifier);
 
         if (this.bb_paymentItem != null)
             tag.putString(BBConstants.PAYMENT_ITEM_KEY, this.bb_paymentItem);
     }
 
-    @Inject(method = "load", at = @At("TAIL"))
-    private void bb_readCustomData(@NotNull CompoundTag tag, CallbackInfo ci) {
-        this.bb_tertiaryEffect = getValidEffectById(tag.getInt(BBConstants.TERTIARY_EFFECT_KEY));
+    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    private void bb_readCustomData(@NotNull CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+        if (this.bb_tertiaryEffect != null)
+            this.bb_tertiaryEffect = BuiltInRegistries.MOB_EFFECT.byIdOrThrow(tag.getInt(BBConstants.TERTIARY_EFFECT_KEY));
+
         this.bb_primaryEffectAmplifier = tag.getInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)) {
@@ -143,7 +147,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     // This captures the variable d0 in the target method and adds to it value the payment item range
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
-    private static double bb_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level level, BlockPos pos, int levels, @Nullable MobEffect primary, @Nullable MobEffect secondary) {
+    private static double bb_increaseRangeBasedOnPaymentItem(double defaultRange, @NotNull Level level, BlockPos pos, int beaconLevel, @Nullable Holder<MobEffect> primaryEffect, @Nullable Holder<MobEffect> secondaryEffect) {
         if (BetterBeacons.config.beaconRangeAndAmplifier.isPaymentItemRangeEnabled) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -158,7 +162,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 0, ordinal = 0))
-    private static int bb_setPrimaryEffectAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary) {
+    private static int bb_setPrimaryEffectAmplifier(int amplifier, Level level, BlockPos pos, int beaconLevel, @Nullable Holder<MobEffect> primaryEffect, @Nullable Holder<MobEffect> secondaryEffect) {
         if (BetterBeacons.config.beaconRangeAndAmplifier.isBaseBlockAmplifierEnabled) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -169,7 +173,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @ModifyConstant(method = "applyEffects", constant = @Constant(intValue = 1, ordinal = 0))
-    private static int bb_setUpgradeAmplifier(int amplifier, Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary) {
+    private static int bb_setUpgradeAmplifier(int amplifier, Level level, BlockPos pos, int beaconLevel, @Nullable Holder<MobEffect> primaryEffect, @Nullable Holder<MobEffect> secondaryEffect) {
         if (BetterBeacons.config.beaconRangeAndAmplifier.isBaseBlockAmplifierEnabled) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -180,7 +184,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Inject(method = "applyEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;", shift = At.Shift.BY, by = 2))
-    private static void bb_applyTertiaryEffects(Level level, BlockPos pos, int levels, MobEffect primary, MobEffect secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) AABB aabb) {
+    private static void bb_applyTertiaryEffects(Level level, BlockPos pos, int levels, @Nullable Holder<MobEffect> primary, @Nullable Holder<MobEffect> secondary, CallbackInfo ci, @Local(ordinal = 2) int j, @Local(ordinal = 0) List<Player> players, @Local(ordinal = 0) AABB aabb) {
         if (BetterBeacons.config.beaconEffects.isTertiaryEffectsEnabled) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -189,7 +193,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
                 if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null) {
                     for (Player player : players)
-                        player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                        player.addEffect(new MobEffectInstance(Holder.direct(tertiary), j, 0, true, true));
 
                     //Add compatibility with beacons for all mod
                     if (MiscUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)) {
@@ -208,7 +212,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                             });
 
                             for (LivingEntity livingEntity : livingEntities)
-                                livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
+                                livingEntity.addEffect(new MobEffectInstance(Holder.direct(tertiary), j, 0, true, true));
 
                         } catch (ClassNotFoundException | NoSuchMethodException e) {
                             BBConstants.LOGGER.error("Class/Method from BeaconsForAllMod mod does not exist", e);

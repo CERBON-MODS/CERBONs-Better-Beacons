@@ -8,7 +8,9 @@ import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.cerbons_api.api.registry.RegistryEntry;
 import com.cerbon.cerbons_api.api.registry.ResourcefulRegistries;
 import com.cerbon.cerbons_api.api.registry.ResourcefulRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -25,7 +27,7 @@ public class BBEffects {
     );
 
     public static final RegistryEntry<MobEffect> LONG_REACH = MOB_EFFECTS.register("long_reach", () ->
-            new LongReachEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F).addAttributeModifier(BBServices.PLATFORM_ATTRIBUTE_HELPER.getBlockReach(), "C7F45B68-A090-4AD7-B75B-376BD2991CFD", 3d, AttributeModifier.Operation.ADDITION)
+            new LongReachEffect(MobEffectCategory.BENEFICIAL, 0xDEF58F).addAttributeModifier(Holder.direct(BBServices.PLATFORM_ATTRIBUTE_HELPER.getBlockReach()), ResourceLocation.fromNamespaceAndPath(BBConstants.MOD_ID, "effect.long_reach"), 3d, AttributeModifier.Operation.ADD_VALUE)
     );
 
     public static void register() {

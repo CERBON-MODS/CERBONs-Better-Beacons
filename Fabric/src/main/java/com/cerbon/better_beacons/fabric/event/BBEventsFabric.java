@@ -31,7 +31,7 @@ public class BBEventsFabric {
 
             @Override
             public ResourceLocation getFabricId() {
-                return new ResourceLocation(BBConstants.MOD_ID, "base_blocks_amplifier");
+                return ResourceLocation.fromNamespaceAndPath(BBConstants.MOD_ID, "base_blocks_amplifier");
             }
 
             @Override
@@ -44,7 +44,7 @@ public class BBEventsFabric {
 
             @Override
             public ResourceLocation getFabricId() {
-                return new ResourceLocation(BBConstants.MOD_ID, "payment_items_range");
+                return ResourceLocation.fromNamespaceAndPath(BBConstants.MOD_ID, "payment_items_range");
             }
 
             @Override
@@ -55,13 +55,13 @@ public class BBEventsFabric {
     }
 
     public static void registerResourceConditions() {
-        ResourceConditions.register(BBResourceConditions.CONFIG_ENABLED, BBResourceConditions::isConfigEnabled);
+        ResourceConditions.register(BBResourceConditions.CONFIG_ENABLED);
     }
 
     public static void registerCriterias() {
-        CriteriaTriggers.register(BBCriteriaTriggers.REDIRECT_BEACON);
-        CriteriaTriggers.register(BBCriteriaTriggers.INVISIBLE_BEAM);
-        CriteriaTriggers.register(BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
-        CriteriaTriggers.register(BBCriteriaTriggers.TRUE_FULL_POWER);
+        CriteriaTriggers.register("redirect_beacon", BBCriteriaTriggers.REDIRECT_BEACON);
+        CriteriaTriggers.register("invisible_beam", BBCriteriaTriggers.INVISIBLE_BEAM);
+        CriteriaTriggers.register("increase_effects_strength", BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
+        CriteriaTriggers.register("true_full_power", BBCriteriaTriggers.TRUE_FULL_POWER);
     }
 }

@@ -6,6 +6,9 @@ import com.cerbon.cerbons_api.api.network.data.PacketContext;
 import com.cerbon.cerbons_api.api.network.data.Side;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -14,6 +17,9 @@ import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class BeaconC2SPacket {
+    public static final ResourceLocation CHANNEL = ResourceLocation.fromNamespaceAndPath(BBConstants.MOD_ID, "beacon_c2s_packet");
+    public static final StreamCodec<FriendlyByteBuf, BeaconC2SPacket> STREAM_CODEC = StreamCodec.ofMember(BeaconC2SPacket::write, BeaconC2SPacket::new);
+
     private final Optional<MobEffect> primary;
     private final Optional<MobEffect> secondary;
     private final Optional<MobEffect> tertiary;
@@ -25,15 +31,15 @@ public class BeaconC2SPacket {
     }
 
     public BeaconC2SPacket(FriendlyByteBuf buffer) {
-        this.primary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
-        this.secondary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
-        this.tertiary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT));
+        this.primary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT::byId));
+        this.secondary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT::byId));
+        this.tertiary = buffer.readOptional(effect -> effect.readById(BuiltInRegistries.MOB_EFFECT::byId));
     }
 
     public void write(FriendlyByteBuf buffer) {
-        buffer.writeOptional(this.primary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
-        buffer.writeOptional(this.secondary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
-        buffer.writeOptional(this.tertiary, (buffer1, effect) -> buffer1.writeId(BuiltInRegistries.MOB_EFFECT, effect));
+        buffer.writeOptional(this.primary, (buffer1, effect) -> buffer1.writeById(BuiltInRegistries.MOB_EFFECT::getId, effect));
+        buffer.writeOptional(this.secondary, (buffer1, effect) -> buffer1.writeById(BuiltInRegistries.MOB_EFFECT::getId, effect));
+        buffer.writeOptional(this.tertiary, (buffer1, effect) -> buffer1.writeById(BuiltInRegistries.MOB_EFFECT::getId, effect));
     }
 
     public static void handle(PacketContext<BeaconC2SPacket> ctx) {
@@ -67,5 +73,9 @@ public class BeaconC2SPacket {
 
     public Optional<MobEffect> getTertiary() {
         return this.tertiary;
+    }
+
+    public static CustomPacketPayload.Type<CustomPacketPayload> type() {
+        return new CustomPacketPayload.Type<>(CHANNEL);
     }
 }

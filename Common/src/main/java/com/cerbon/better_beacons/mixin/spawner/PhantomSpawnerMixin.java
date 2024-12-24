@@ -2,6 +2,7 @@ package com.cerbon.better_beacons.mixin.spawner;
 
 import com.cerbon.better_beacons.effect.BBEffects;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.levelgen.PhantomSpawner;
@@ -15,7 +16,7 @@ public class PhantomSpawnerMixin {
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isSpectator()Z"), cancellable = true)
     private void bb_preventPhantomsSpawn(ServerLevel level, boolean spawnEnemies, boolean spawnFriendlies, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) ServerPlayer player) {
-        if (player.hasEffect(BBEffects.PHANTOM_BANE.get()))
+        if (player.hasEffect(Holder.direct(BBEffects.PHANTOM_BANE.get())))
             cir.setReturnValue(0);
     }
 }

@@ -40,7 +40,7 @@ dependencies {
     modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
     modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
 
-    modImplementation "curse.maven:jade-324717:${jade_version_forge}"
+    //modImplementation "curse.maven:jade-324717:${jade_version_forge}"
 
     // All Projects Dependencies
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))

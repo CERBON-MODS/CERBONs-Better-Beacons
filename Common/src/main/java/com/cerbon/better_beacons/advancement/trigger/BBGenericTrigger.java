@@ -1,39 +1,31 @@
 package com.cerbon.better_beacons.advancement.trigger;
 
-import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class BBGenericTrigger extends SimpleCriterionTrigger<BBGenericTrigger.TriggerInstance> {
-    final ResourceLocation id;
-
-    public BBGenericTrigger(ResourceLocation resourceLocation) {
-        this.id = resourceLocation;
-    }
 
     @Override
-    protected @NotNull TriggerInstance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext deserializationContext) {
-        return new TriggerInstance(id, predicate);
-    }
-
-    @Override
-    public @NotNull ResourceLocation getId() {
-        return id;
+    public @NotNull Codec<TriggerInstance> codec() {
+        return TriggerInstance.CODEC;
     }
 
     public void trigger(ServerPlayer serverPlayer) {
         this.trigger(serverPlayer, triggerInstance -> true);
     }
 
-    public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-
-        public TriggerInstance(ResourceLocation criterion, ContextAwarePredicate player) {
-            super(criterion, player);
-        }
+    public record TriggerInstance(Optional<ContextAwarePredicate> player) implements SimpleInstance {
+        public static final Codec<BBGenericTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(BBGenericTrigger.TriggerInstance::player)
+                ).apply(instance, BBGenericTrigger.TriggerInstance::new)
+        );
     }
 }

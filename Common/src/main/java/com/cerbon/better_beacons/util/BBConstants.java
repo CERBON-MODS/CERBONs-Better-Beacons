@@ -17,9 +17,9 @@ public class BBConstants {
     public static final String TERTIARY_EFFECT_KEY = "BBTertiary";
     public static final String PRIMARY_EFFECT_AMPLIFIER_KEY = "BBPrimaryEffectAmplifier";
 
-    public static final TagKey<Block> BEACON_TRANSPARENT = TagKey.create(Registries.BLOCK, new ResourceLocation(MOD_ID, "beacon_transparent"));
-    public static final TagKey<Block> BEACON_TRANSPARENCY = TagKey.create(Registries.BLOCK, new ResourceLocation(MOD_ID, "beacon_transparency"));
-    public static final TagKey<Block> BEACON_REDIRECT = TagKey.create(Registries.BLOCK, new ResourceLocation(MOD_ID, "beacon_redirect"));
+    public static final TagKey<Block> BEACON_TRANSPARENT = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MOD_ID, "beacon_transparent"));
+    public static final TagKey<Block> BEACON_TRANSPARENCY = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MOD_ID, "beacon_transparency"));
+    public static final TagKey<Block> BEACON_REDIRECT = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MOD_ID, "beacon_redirect"));
 
     public static final String QUARK = "quark";
     public static final String BEACONS_FOR_ALL = "beaconsforall";

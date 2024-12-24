@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class BBBeaconRenderer {
 
     public static void renderBeamSegment(PoseStack matrixStackIn, MultiBufferSource bufferIn, ResourceLocation textureLocation, BeaconRedirectionAndTransparency.ExtendedBeamSegment segment, float partialTicks, float textureScale, long totalWorldTime, float beamRadius, float glowRadius) {
         int height = segment.getHeight();
-        float[] colors = segment.getColor();
+        int color = segment.getColor();
         float alpha = segment.alpha;
 
         matrixStackIn.pushPose();
@@ -46,9 +46,9 @@ public class BBBeaconRenderer {
         matrixStackIn.mulPose(segment.dir.getRotation());
 
         float angle = Math.floorMod(totalWorldTime, 40L) + partialTicks;
-        float r = colors[0];
-        float g = colors[1];
-        float b = colors[2];
+        float r = FastColor.ARGB32.red(color);
+        float g = FastColor.ARGB32.green(color);
+        float b = FastColor.ARGB32.blue(color);
 
         matrixStackIn.pushPose();
         matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle * 2.25F - 45.0F));
@@ -68,21 +68,20 @@ public class BBBeaconRenderer {
     private static void renderPart(PoseStack matrixStackIn, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int height, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float v1, float v2) {
         PoseStack.Pose pose = matrixStackIn.last();
         Matrix4f matrix4f = pose.pose();
-        Matrix3f matrix3f = pose.normal();
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x1, y1, x2, y2, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x4, y4, x3, y3, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x2, y2, x4, y4, v1, v2);
-        addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, height, x3, y3, x1, y1, v1, v2);
+        addQuad(matrix4f, pose, bufferIn, red, green, blue, alpha, height, x1, y1, x2, y2, v1, v2);
+        addQuad(matrix4f, pose, bufferIn, red, green, blue, alpha, height, x4, y4, x3, y3, v1, v2);
+        addQuad(matrix4f, pose, bufferIn, red, green, blue, alpha, height, x2, y2, x4, y4, v1, v2);
+        addQuad(matrix4f, pose, bufferIn, red, green, blue, alpha, height, x3, y3, x1, y1, v1, v2);
     }
 
-    private static void addQuad(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int yMax, float x1, float z1, float x2, float z2, float v1, float v2) {
+    private static void addQuad(Matrix4f matrixPos, PoseStack.Pose matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int yMax, float x1, float z1, float x2, float z2, float v1, float v2) {
         addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x1, z1, (float) 1.0, v1);
         addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, 0, x1, z1, (float) 1.0, v2);
         addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, 0, x2, z2, (float) 0.0, v2);
         addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, (float) 0.0, v1);
     }
 
-    private static void addVertex(Matrix4f matrixPos, Matrix3f matrixNormal, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int y, float x, float z, float texU, float texV) {
-        bufferIn.vertex(matrixPos, x, (float)y, z).color(red, green, blue, alpha).uv(texU, texV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void addVertex(Matrix4f matrixPos, PoseStack.Pose pose, VertexConsumer bufferIn, float red, float green, float blue, float alpha, int y, float x, float z, float texU, float texV) {
+        bufferIn.addVertex(matrixPos, x, (float)y, z).setColor(red, green, blue, alpha).setUv(texU, texV).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(15728880, 0).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }
