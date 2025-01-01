@@ -8,15 +8,12 @@ import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringToIntMap;
-import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.BeaconMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
@@ -51,7 +49,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
@@ -64,7 +65,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow Holder<MobEffect> primaryPower;
     @Shadow Holder<MobEffect> secondaryPower;
 
-    @Unique private MobEffect bb_tertiaryEffect;
+    @Unique private Holder<MobEffect> bb_tertiaryEffect;
     @Unique private String bb_paymentItem;
     @Unique private int bb_primaryEffectAmplifier;
 
@@ -77,9 +78,9 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         public int get(int index) {
             return switch (index) {
                 case 0 -> BeaconBlockEntityMixin.this.levels;
-                case 1 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.primaryPower.value());
-                case 2 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.secondaryPower.value());
-                case 3 -> BuiltInRegistries.MOB_EFFECT.getIdOrThrow(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
+                case 1 -> BeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.primaryPower);
+                case 2 -> BeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.secondaryPower);
+                case 3 -> BeaconMenu.encodeEffect(BeaconBlockEntityMixin.this.bb_tertiaryEffect);
                 case 4 -> StringToIntMap.getInt(BeaconBlockEntityMixin.this.bb_paymentItem);
                 case 5 -> BeaconBlockEntityMixin.this.bb_primaryEffectAmplifier;
                 default -> 0;
@@ -94,10 +95,10 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                     if (!BeaconBlockEntityMixin.this.level.isClientSide && !BeaconBlockEntityMixin.this.beamSections.isEmpty())
                         BeaconBlockEntity.playSound(BeaconBlockEntityMixin.this.level, BeaconBlockEntityMixin.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
 
-                    BeaconBlockEntityMixin.this.primaryPower = Holder.direct(BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value));
+                    BeaconBlockEntityMixin.this.primaryPower = filterEffect(BeaconMenu.decodeEffect(value));
                 }
-                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = Holder.direct(BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value));
-                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = BuiltInRegistries.MOB_EFFECT.byIdOrThrow(value);
+                case 2 -> BeaconBlockEntityMixin.this.secondaryPower = filterEffect(BeaconMenu.decodeEffect(value));
+                case 3 -> BeaconBlockEntityMixin.this.bb_tertiaryEffect = filterEffect(BeaconMenu.decodeEffect(value));
                 case 4 -> BeaconBlockEntityMixin.this.bb_paymentItem = StringToIntMap.getString(value);
             }
         }
@@ -109,7 +110,11 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     };
 
     @Shadow public abstract Component getDisplayName();
-//    @Shadow static MobEffect getValidEffectById(int effectId) {return null;}
+    @Shadow static Holder<MobEffect> filterEffect(@Nullable Holder<MobEffect> effect) {
+        return VALID_EFFECTS.contains(effect) ? effect : null;
+    }
+    @Shadow @Nullable private static Holder<MobEffect> loadEffect(CompoundTag tag, String key) {return null;}
+    @Shadow private static void storeEffect(CompoundTag tag, String key, Holder<MobEffect> effect) {}
 
     public BeaconBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
@@ -117,9 +122,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void bb_addCustomData(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        if (this.bb_tertiaryEffect != null)
-            tag.putInt(BBConstants.TERTIARY_EFFECT_KEY, BuiltInRegistries.MOB_EFFECT.getIdOrThrow(this.bb_tertiaryEffect));
-
+        storeEffect(tag, BBConstants.TERTIARY_EFFECT_KEY, this.bb_tertiaryEffect);
         tag.putInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY, this.bb_primaryEffectAmplifier);
 
         if (this.bb_paymentItem != null)
@@ -128,9 +131,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "loadAdditional", at = @At("TAIL"))
     private void bb_readCustomData(@NotNull CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        if (this.bb_tertiaryEffect != null)
-            this.bb_tertiaryEffect = BuiltInRegistries.MOB_EFFECT.byIdOrThrow(tag.getInt(BBConstants.TERTIARY_EFFECT_KEY));
-
+        this.bb_tertiaryEffect = loadEffect(tag, BBConstants.TERTIARY_EFFECT_KEY);
         this.bb_primaryEffectAmplifier = tag.getInt(BBConstants.PRIMARY_EFFECT_AMPLIFIER_KEY);
 
         if (tag.contains(BBConstants.PAYMENT_ITEM_KEY)) {
@@ -139,11 +140,12 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         }
     }
 
-    // This captures the for loop inside tick that computes the beacon segments
-    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
-    private static int bb_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
-        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
-    }
+    //TODO: Uncomment this
+//    // This captures the for loop inside tick that computes the beacon segments
+//    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
+//    private static int bb_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
+//        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
+//    }
 
     // This captures the variable d0 in the target method and adds to it value the payment item range
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
@@ -189,11 +191,11 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
             if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
-                MobEffect tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).bb_getTertiaryEffect();
+                Holder<MobEffect> tertiary = ((IBeaconBlockEntityMixin) beaconBlockEntity).bb_getTertiaryEffect();
 
                 if (levels >= 5 && primary != tertiary && secondary != tertiary && tertiary != null) {
                     for (Player player : players)
-                        player.addEffect(new MobEffectInstance(Holder.direct(tertiary), j, 0, true, true));
+                        player.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
                     //Add compatibility with beacons for all mod
                     if (MiscUtils.isModLoaded(BBConstants.BEACONS_FOR_ALL)) {
@@ -212,7 +214,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
                             });
 
                             for (LivingEntity livingEntity : livingEntities)
-                                livingEntity.addEffect(new MobEffectInstance(Holder.direct(tertiary), j, 0, true, true));
+                                livingEntity.addEffect(new MobEffectInstance(tertiary, j, 0, true, true));
 
                         } catch (ClassNotFoundException | NoSuchMethodException e) {
                             BBConstants.LOGGER.error("Class/Method from BeaconsForAllMod mod does not exist", e);
@@ -291,7 +293,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Override
-    public MobEffect bb_getTertiaryEffect(){
+    public Holder<MobEffect> bb_getTertiaryEffect(){
         return this.bb_tertiaryEffect;
     }
 
