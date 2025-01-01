@@ -3,6 +3,7 @@ package com.cerbon.better_beacons.util;
 import com.cerbon.better_beacons.BetterBeacons;
 import com.cerbon.cerbons_api.api.static_utilities.RegistryUtils;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.Level;
@@ -14,11 +15,11 @@ import java.util.Objects;
 public class BBUtils {
 
     public static List<List<Holder<MobEffect>>> getBeaconEffectsFromConfigFile() {
-        List<Holder<MobEffect>> levelOneEffects = BetterBeacons.config.beaconEffects.levelOneEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(Holder::direct).toList();
-        List<Holder<MobEffect>> levelTwoEffects = BetterBeacons.config.beaconEffects.levelTwoEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(Holder::direct).toList();
-        List<Holder<MobEffect>> levelThreeEffects = BetterBeacons.config.beaconEffects.levelThreeEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(Holder::direct).toList();
-        List<Holder<MobEffect>> secondaryEffects = BetterBeacons.config.beaconEffects.secondaryEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(Holder::direct).toList();
-        List<Holder<MobEffect>> tertiaryEffects = BetterBeacons.config.beaconEffects.tertiaryEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(Holder::direct).toList();
+        List<Holder<MobEffect>> levelOneEffects = BetterBeacons.config.beaconEffects.levelOneEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(BuiltInRegistries.MOB_EFFECT::wrapAsHolder).toList();
+        List<Holder<MobEffect>> levelTwoEffects = BetterBeacons.config.beaconEffects.levelTwoEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(BuiltInRegistries.MOB_EFFECT::wrapAsHolder).toList();
+        List<Holder<MobEffect>> levelThreeEffects = BetterBeacons.config.beaconEffects.levelThreeEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(BuiltInRegistries.MOB_EFFECT::wrapAsHolder).toList();
+        List<Holder<MobEffect>> secondaryEffects = BetterBeacons.config.beaconEffects.secondaryEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(BuiltInRegistries.MOB_EFFECT::wrapAsHolder).toList();
+        List<Holder<MobEffect>> tertiaryEffects = BetterBeacons.config.beaconEffects.tertiaryEffects.stream().map(RegistryUtils::getMobEffectByKey).filter(Objects::nonNull).map(BuiltInRegistries.MOB_EFFECT::wrapAsHolder).toList();
         return List.of(levelOneEffects, levelTwoEffects, levelThreeEffects, secondaryEffects, tertiaryEffects);
     }
 
