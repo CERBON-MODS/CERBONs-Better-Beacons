@@ -46,9 +46,9 @@ public class BBBeaconRenderer {
         matrixStackIn.mulPose(segment.dir.getRotation());
 
         float angle = Math.floorMod(totalWorldTime, 40L) + partialTicks;
-        float r = FastColor.ARGB32.red(color);
-        float g = FastColor.ARGB32.green(color);
-        float b = FastColor.ARGB32.blue(color);
+        float r = FastColor.ARGB32.red(color) / 255F;
+        float g = FastColor.ARGB32.green(color) / 255F;
+        float b = FastColor.ARGB32.blue(color) / 255F;
 
         matrixStackIn.pushPose();
         matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle * 2.25F - 45.0F));

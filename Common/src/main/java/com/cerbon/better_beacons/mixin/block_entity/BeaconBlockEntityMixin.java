@@ -8,8 +8,10 @@ import com.cerbon.better_beacons.menu.custom.NewBeaconMenu;
 import com.cerbon.better_beacons.util.BBConstants;
 import com.cerbon.better_beacons.util.BBUtils;
 import com.cerbon.better_beacons.util.StringToIntMap;
+import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -140,12 +142,11 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         }
     }
 
-    //TODO: Uncomment this
-//    // This captures the for loop inside tick that computes the beacon segments
-//    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
-//    private static int bb_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
-//        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
-//    }
+    // This captures the for loop inside tick that computes the beacon segments
+    @ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "intValue=0", ordinal = 0))
+    private static int bb_tick(int val, Level level, BlockPos pos, BlockState state, BeaconBlockEntity beaconBlockEntity) {
+        return BeaconRedirectionAndTransparency.tickBeacon(beaconBlockEntity);
+    }
 
     // This captures the variable d0 in the target method and adds to it value the payment item range
     @ModifyVariable(method = "applyEffects", at = @At(value = "LOAD", ordinal = 0))
