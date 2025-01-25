@@ -4,76 +4,80 @@
       "conditions": [
         {
           "type": "better_beacons:is_config_enabled",
-          "config": "beacon_beam_redirection"
-        },
-        {
-          "type": "forge:mod_loaded",
-          "modid": "quark"
+          "config": "tertiary_effect"
         }
       ],
       "advancement": {
         "parent": "minecraft:nether/create_beacon",
         "criteria": {
-          "redirect_beacon": {
-            "trigger": "better_beacons:redirect_beacon"
+          "beacon": {
+            "conditions": {
+              "level": 5
+            },
+            "trigger": "minecraft:construct_beacon"
           }
         },
         "display": {
           "announce_to_chat": true,
           "description": {
-            "translate": "advancements.quark.redirect_beacon.description"
+            "translate": "advancements.nether.create_full_beacon.description"
           },
-          "frame": "task",
+          "frame": "goal",
           "hidden": false,
           "icon": {
-            "item": "minecraft:beacon"
+            "count": 1,
+            "id": "minecraft:beacon"
           },
           "show_toast": true,
           "title": {
-            "translate": "advancements.quark.redirect_beacon.title"
+            "translate": "advancements.nether.create_full_beacon.title"
           }
         },
         "requirements": [
           [
-            "redirect_beacon"
+            "beacon"
           ]
-        ]
+        ],
+        "sends_telemetry_event": true
       }
     },
     {
       "conditions": [
         {
-           "type": "better_beacons:is_config_enabled",
-           "config": "beacon_beam_redirection"
+          "type": "forge:true"
         }
       ],
       "advancement": {
         "parent": "minecraft:nether/create_beacon",
         "criteria": {
-          "redirect_beacon": {
-            "trigger": "better_beacons:redirect_beacon"
+          "beacon": {
+            "conditions": {
+              "level": 4
+            },
+            "trigger": "minecraft:construct_beacon"
           }
         },
         "display": {
           "announce_to_chat": true,
           "description": {
-            "translate": "advancements.better_beacons.redirect_beacon.description"
+            "translate": "advancements.nether.create_full_beacon.description"
           },
-          "frame": "task",
+          "frame": "goal",
           "hidden": false,
           "icon": {
             "item": "minecraft:beacon"
           },
           "show_toast": true,
           "title": {
-            "translate": "advancements.better_beacons.redirect_beacon.title"
+            "translate": "advancements.nether.create_full_beacon.title"
           }
         },
         "requirements": [
           [
-            "redirect_beacon"
+            "beacon"
           ]
-        ]
+        ],
+        "sends_telemetry_event": true
       }
     }
   ]

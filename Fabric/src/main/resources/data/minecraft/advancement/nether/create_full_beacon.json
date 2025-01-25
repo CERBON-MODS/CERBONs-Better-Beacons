@@ -1,18 +1,15 @@
 {
   "fabric:load_conditions": [
     {
-      "condition": "fabric:not",
-      "value": {
-        "condition": "better_beacons:is_config_enabled",
-        "config": "tertiary_effect"
-      }
+      "condition": "better_beacons:is_config_enabled",
+      "config": "tertiary_effect"
     }
   ],
   "parent": "minecraft:nether/create_beacon",
   "criteria": {
     "beacon": {
       "conditions": {
-        "level": 4
+        "level": 5
       },
       "trigger": "minecraft:construct_beacon"
     }
@@ -25,7 +22,8 @@
     "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "minecraft:beacon"
+      "count": 1,
+      "id": "minecraft:beacon"
     },
     "show_toast": true,
     "title": {

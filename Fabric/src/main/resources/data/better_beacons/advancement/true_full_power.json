@@ -23,7 +23,8 @@
     "frame": "challenge",
     "hidden": false,
     "icon": {
-      "item": "minecraft:beacon"
+      "count": 1,
+      "id": "minecraft:beacon"
     },
     "show_toast": true,
     "title": {

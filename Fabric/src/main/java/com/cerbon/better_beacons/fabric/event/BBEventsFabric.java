@@ -59,9 +59,9 @@ public class BBEventsFabric {
     }
 
     public static void registerCriterias() {
-        CriteriaTriggers.register("redirect_beacon", BBCriteriaTriggers.REDIRECT_BEACON);
-        CriteriaTriggers.register("invisible_beam", BBCriteriaTriggers.INVISIBLE_BEAM);
-        CriteriaTriggers.register("increase_effects_strength", BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
-        CriteriaTriggers.register("true_full_power", BBCriteriaTriggers.TRUE_FULL_POWER);
+        CriteriaTriggers.register("better_beacons:redirect_beacon", BBCriteriaTriggers.REDIRECT_BEACON);
+        CriteriaTriggers.register("better_beacons:invisible_beam", BBCriteriaTriggers.INVISIBLE_BEAM);
+        CriteriaTriggers.register("better_beacons:increase_effects_strength", BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH);
+        CriteriaTriggers.register("better_beacons:true_full_power", BBCriteriaTriggers.TRUE_FULL_POWER);
     }
 }
