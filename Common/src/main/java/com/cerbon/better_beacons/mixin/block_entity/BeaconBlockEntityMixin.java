@@ -11,8 +11,10 @@ import com.cerbon.better_beacons.util.StringToIntMap;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
+import com.jcraft.jorbis.Block;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -32,7 +34,6 @@ import net.minecraft.world.inventory.BeaconMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -51,10 +52,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
@@ -227,60 +225,66 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     }
 
     @Inject(method = "updateBase", at = @At("HEAD"), cancellable = true)
-    private static void bb_makeBeaconBaseGoesTillLevelFiveAndChangeAmplifierBasedOnTheBeaconBaseBlock(Level level, int beaconX, int beaconY, int beaconZ, CallbackInfoReturnable<Integer> cir){
-        BlockEntity blockEntity = level.getBlockEntity(new BlockPos(beaconX, beaconY, beaconZ));
+    private static void bb_updateBeaconBaseAmplifier(Level level, int beaconX, int beaconY, int beaconZ, CallbackInfoReturnable<Integer> cir) {
+        BlockPos beaconPos = new BlockPos(beaconX, beaconY, beaconZ);
+        BlockEntity blockEntity = level.getBlockEntity(beaconPos);
+        if (!(blockEntity instanceof BeaconBlockEntity)) cir.setReturnValue(0);
+
+        IBeaconBlockEntityMixin beaconMixin = (IBeaconBlockEntityMixin) blockEntity;
+
         int pyramidMaxLevel = BetterBeacons.config.beaconEffects.isTertiaryEffectsEnabled ? 5 : 4;
-        int pyramidLevel = 0;
+        int currPyramidLevel = 0;
 
-        if (blockEntity instanceof BeaconBlockEntity beaconBlockEntity) {
-            IBeaconBlockEntityMixin beaconMixin = ((IBeaconBlockEntityMixin) beaconBlockEntity);
-            BlockState firstBlockState = null;
-            boolean canIncreaseAmplifier = true;
+        List<BlockState> pyramidBlocks = new ObjectArrayList<>();
 
-            int paymentItemRange = PaymentItemsRangeManager.getItemRangeMap().getOrDefault(beaconMixin.bb_getPaymentItem(), 0);
-            HashMap<Block, Integer> blockAmplifierMap = BaseBlocksAmplifierManager.getBlockAmplifierMap();
+        for(int pyramidLevel = 1; pyramidLevel <= pyramidMaxLevel; currPyramidLevel = pyramidLevel++) {
+            int y = beaconY - pyramidLevel;
+            if (y < level.getMinBuildHeight()) break;
 
-            for(int i = 1; i <= pyramidMaxLevel; pyramidLevel = i++) {
-                int y = beaconY - i;
-                if (y < level.getMinBuildHeight()) break;
+            boolean isBeaconBaseBlock = true;
+            for(int x = beaconX - pyramidLevel; x <= beaconX + pyramidLevel && isBeaconBaseBlock; x++) {
+                for(int z = beaconZ - pyramidLevel; z <= beaconZ + pyramidLevel; z++) {
+                    BlockState currentBlockState = level.getBlockState(new BlockPos(x, y, z));
 
-                boolean flag = true;
-                for(int x = beaconX - i; x <= beaconX + i && flag; x++) {
-                    for(int z = beaconZ - i; z <= beaconZ + i; z++) {
-                        BlockState currentBlockState = level.getBlockState(new BlockPos(x, y, z));
-
-                        if (!currentBlockState.is(BlockTags.BEACON_BASE_BLOCKS)) {
-                            flag = false;
-                            break;
-                        }
-
-                        if (firstBlockState == null) {
-                            firstBlockState = currentBlockState;
-
-                        } else if (currentBlockState.is(firstBlockState.getBlock()) && canIncreaseAmplifier && BetterBeacons.config.beaconRangeAndAmplifier.isBaseBlockAmplifierEnabled) {
-                            beaconMixin.bb_setPrimaryEffectAmplifier(blockAmplifierMap.getOrDefault(currentBlockState.getBlock(), 0));
-
-                        } else {
-                            beaconMixin.bb_setPrimaryEffectAmplifier(0);
-                            canIncreaseAmplifier = false;
-                        }
+                    if (!currentBlockState.is(BlockTags.BEACON_BASE_BLOCKS)) {
+                        isBeaconBaseBlock = false;
+                        break;
                     }
+                    else pyramidBlocks.add(currentBlockState);
+                }
+            }
+            if (!isBeaconBaseBlock) break;
+        }
+
+        int pyramidBlocksSize = pyramidBlocks.size();
+        int amplifier = pyramidBlocksSize > 0 ?
+                pyramidBlocks.stream()
+                        .mapToInt(blockState -> BaseBlocksAmplifierManager
+                                .getBlockAmplifierMap()
+                                .getOrDefault(blockState.getBlock(), 0))
+                        .sum() / pyramidBlocksSize
+                : 0;
+
+        beaconMixin.bb_setPrimaryEffectAmplifier(amplifier);
+
+        int paymentItemRange = PaymentItemsRangeManager
+                .getItemRangeMap()
+                .getOrDefault(beaconMixin.bb_getPaymentItem(), 0);
+
+        if (!level.isClientSide()) {
+            if (currPyramidLevel == pyramidMaxLevel && amplifier == BaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == PaymentItemsRangeManager.getHighestRange())
+                for (ServerPlayer serverPlayer : BBUtils.getPlayersNearBeacon(blockEntity.getLevel(), beaconX, beaconY, beaconZ)) {
+                    System.out.println("Giving advancement");
+                    BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverPlayer);
+                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverPlayer);
                 }
 
-                if (!flag) break;
-            }
-
-            if (!level.isClientSide() && canIncreaseAmplifier && beaconMixin.bb_getPrimaryEffectAmplifier() > BaseBlocksAmplifierManager.getLowestAmplifier()) {
-                for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beaconBlockEntity.getLevel(), beaconX, beaconY, beaconZ))
-                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverplayer);
-            }
-
-            if (!level.isClientSide() && canIncreaseAmplifier && pyramidLevel == pyramidMaxLevel && beaconMixin.bb_getPrimaryEffectAmplifier() == BaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == PaymentItemsRangeManager.getHighestRange()) {
-                for(ServerPlayer serverplayer : BBUtils.getPlayersNearBeacon(beaconBlockEntity.getLevel(), beaconX, beaconY, beaconZ))
-                    BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverplayer);
-            }
+            else if (amplifier > BaseBlocksAmplifierManager.getLowestAmplifier())
+                for (ServerPlayer serverPlayer : BBUtils.getPlayersNearBeacon(blockEntity.getLevel(), beaconX, beaconY, beaconZ))
+                    BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverPlayer);
         }
-        cir.setReturnValue(pyramidLevel);
+
+        cir.setReturnValue(currPyramidLevel);
     }
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
