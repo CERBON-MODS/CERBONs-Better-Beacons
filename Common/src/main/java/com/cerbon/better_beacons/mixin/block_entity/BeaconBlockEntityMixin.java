@@ -274,7 +274,6 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         if (!level.isClientSide()) {
             if (currPyramidLevel == pyramidMaxLevel && amplifier == BaseBlocksAmplifierManager.getHighestAmplifier() && paymentItemRange == PaymentItemsRangeManager.getHighestRange())
                 for (ServerPlayer serverPlayer : BBUtils.getPlayersNearBeacon(blockEntity.getLevel(), beaconX, beaconY, beaconZ)) {
-                    System.out.println("Giving advancement");
                     BBCriteriaTriggers.TRUE_FULL_POWER.trigger(serverPlayer);
                     BBCriteriaTriggers.INCREASE_EFFECTS_STRENGTH.trigger(serverPlayer);
                 }
