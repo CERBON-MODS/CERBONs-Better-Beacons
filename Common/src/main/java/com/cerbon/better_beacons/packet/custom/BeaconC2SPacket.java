@@ -46,6 +46,8 @@ public record BeaconC2SPacket(Optional<Holder<MobEffect>> primary, Optional<Hold
                 newBeaconMenu.updateEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiary());
             else
                 newBeaconMenu.removeActiveEffects();
+
+            player.closeContainer();
         }
     }
 

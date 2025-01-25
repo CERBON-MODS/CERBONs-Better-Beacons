@@ -1,6 +1,5 @@
 package com.cerbon.better_beacons.mixin.block;
 
-import com.cerbon.better_beacons.BetterBeacons;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
