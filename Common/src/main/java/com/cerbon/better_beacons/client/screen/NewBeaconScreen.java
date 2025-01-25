@@ -221,6 +221,8 @@ public class NewBeaconScreen extends AbstractContainerScreen<NewBeaconMenu> {
         public void onPress() {
             if (BetterBeacons.config.beaconButtons.cancelButtonRemoveEffects)
                 Dispatcher.sendToServer(new BeaconC2SPacket(Optional.empty(), Optional.empty(), Optional.empty()));
+            else
+                NewBeaconScreen.this.minecraft.player.closeContainer();
         }
 
         public void updateStatus(int beaconTier) {
