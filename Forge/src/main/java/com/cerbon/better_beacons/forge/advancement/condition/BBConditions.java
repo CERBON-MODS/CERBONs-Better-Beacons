@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class BBConditions {
     public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_SERIALIZERS = DeferredRegister.create(ForgeRegistries.CONDITION_SERIALIZERS, BBConstants.MOD_ID);
 
-    public static final RegistryObject<MapCodec<? extends ICondition>> IS_CONFIG_ENABLED = CONDITION_SERIALIZERS.register("is_config_enabled", () -> IsConfigEnabledCondition.CODEC);
+    public static final RegistryObject<MapCodec<IsConfigEnabledCondition>> IS_CONFIG_ENABLED = CONDITION_SERIALIZERS.register("is_config_enabled", () -> IsConfigEnabledCondition.CODEC);
 
     public static void register(IEventBus bus) {
         CONDITION_SERIALIZERS.register(bus);
