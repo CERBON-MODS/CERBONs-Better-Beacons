@@ -1,0 +1,35 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "better_beacons:is_config_enabled",
+      "config": "base_block_amplifier"
+    }
+  ],
+  "parent": "minecraft:nether/create_beacon",
+  "criteria": {
+    "increase_effects_strength": {
+      "trigger": "better_beacons:increase_effects_strength"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.better_beacons.increase_effects_strength.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "count": 1,
+      "id": "minecraft:beacon"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.better_beacons.increase_effects_strength.title"
+    }
+  },
+  "requirements": [
+    [
+      "increase_effects_strength"
+    ]
+  ]
+}

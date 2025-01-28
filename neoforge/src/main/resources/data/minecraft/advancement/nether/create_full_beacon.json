@@ -1,0 +1,39 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "better_beacons:is_config_enabled",
+      "config": "tertiary_effect"
+    }
+  ],
+  "parent": "minecraft:nether/create_beacon",
+  "criteria": {
+    "beacon": {
+      "conditions": {
+        "level": 5
+      },
+      "trigger": "minecraft:construct_beacon"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.nether.create_full_beacon.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "count": 1,
+      "id": "minecraft:beacon"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.nether.create_full_beacon.title"
+    }
+  },
+  "requirements": [
+    [
+      "beacon"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
