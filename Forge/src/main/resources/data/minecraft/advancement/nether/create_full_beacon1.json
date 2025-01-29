@@ -1,13 +1,16 @@
 {
   "forge:condition": {
-    "type": "better_beacons:is_config_enabled",
-    "config": "tertiary_effect"
+    "type": "forge:not",
+    "value": {
+      "type": "better_beacons:is_config_enabled",
+      "config": "tertiary_effect"
+    }
   },
   "parent": "minecraft:nether/create_beacon",
   "criteria": {
     "beacon": {
       "conditions": {
-        "level": 5
+        "level": 4
       },
       "trigger": "minecraft:construct_beacon"
     }
