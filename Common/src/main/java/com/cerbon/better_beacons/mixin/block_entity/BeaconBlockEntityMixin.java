@@ -11,7 +11,6 @@ import com.cerbon.better_beacons.util.StringToIntMap;
 import com.cerbon.better_beacons.util.mixin.BeaconRedirectionAndTransparency;
 import com.cerbon.better_beacons.util.mixin.IBeaconBlockEntityMixin;
 import com.cerbon.cerbons_api.api.static_utilities.MiscUtils;
-import com.jcraft.jorbis.Block;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -52,7 +51,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mixin(BeaconBlockEntity.class)
@@ -72,7 +73,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
     @Shadow private LockCode lockKey;
     @Shadow int levels;
 
-    @Shadow @Final private ContainerData dataAccess = new ContainerData() {
+    @Unique private final ContainerData bb_dataAccess = new ContainerData() {
 
         @Override
         public int get(int index) {
@@ -288,7 +289,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
 
     @Inject(method = "createMenu", at = @At("RETURN"), cancellable = true)
     private void better_beacons_addNewBeaconMenu(int containerId, Inventory playerInventory, Player player, @NotNull CallbackInfoReturnable<AbstractContainerMenu> cir) {
-        cir.setReturnValue(BaseContainerBlockEntity.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos())) : null);
+        cir.setReturnValue(BaseContainerBlockEntity.canUnlock(player, this.lockKey, this.getDisplayName()) ? new NewBeaconMenu(containerId, playerInventory, this.bb_dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos())) : null);
     }
 
     @Override
