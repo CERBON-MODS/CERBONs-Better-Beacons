@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.0] - 2025-01-29
 
+### Added
+
+- Add zh_cn translation (Thanks [crazyfl-exe](https://github.com/crazyfl-exe))
+
 ### Changed
 
 - Update to 1.21
 - Base blocks can now be mixed and keep a higher amplifier
+- Update ru_ru translation (Thanks [mpustovoi](https://github.com/mpustovoi))
 
 ## [2.0.0] - 2024-01-28
 
