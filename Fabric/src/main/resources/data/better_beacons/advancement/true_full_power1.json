@@ -1,19 +1,22 @@
 {
-  "neoforge:conditions": [
+  "fabric:load_conditions": [
     {
-      "type": "better_beacons:is_config_enabled",
+      "condition": "better_beacons:is_config_enabled",
       "config": "base_block_amplifier"
     },
     {
-      "type": "better_beacons:is_config_enabled",
+      "condition": "better_beacons:is_config_enabled",
       "config": "payment_item_range"
     },
     {
-      "type": "better_beacons:is_config_enabled",
-      "config": "tertiary_effect"
+      "condition": "fabric:not",
+      "value": {
+        "condition": "better_beacons:is_config_enabled",
+        "config": "tertiary_effect"
+      }
     }
   ],
-  "parent": "minecraft:nether/create_full_beacon",
+  "parent": "minecraft:nether/create_full_beacon1",
   "criteria": {
     "true_full_power": {
       "trigger": "better_beacons:true_full_power"

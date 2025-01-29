@@ -7,6 +7,10 @@
     {
       "condition": "better_beacons:is_config_enabled",
       "config": "payment_item_range"
+    },
+    {
+      "condition": "better_beacons:is_config_enabled",
+      "config": "tertiary_effect"
     }
   ],
   "parent": "minecraft:nether/create_full_beacon",

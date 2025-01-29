@@ -9,6 +9,10 @@
       {
         "type": "better_beacons:is_config_enabled",
         "config": "payment_item_range"
+      },
+      {
+        "type": "better_beacons:is_config_enabled",
+        "config": "tertiary_effect"
       }
     ]
   },

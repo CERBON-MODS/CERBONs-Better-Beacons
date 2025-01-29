@@ -9,11 +9,14 @@
       "config": "payment_item_range"
     },
     {
-      "type": "better_beacons:is_config_enabled",
-      "config": "tertiary_effect"
+      "type": "neoforge:not",
+      "value": {
+        "type": "better_beacons:is_config_enabled",
+        "config": "tertiary_effect"
+      }
     }
   ],
-  "parent": "minecraft:nether/create_full_beacon",
+  "parent": "minecraft:nether/create_full_beacon1",
   "criteria": {
     "true_full_power": {
       "trigger": "better_beacons:true_full_power"
