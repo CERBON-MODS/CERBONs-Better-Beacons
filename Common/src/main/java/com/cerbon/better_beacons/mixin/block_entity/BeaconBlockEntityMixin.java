@@ -232,6 +232,7 @@ public abstract class BeaconBlockEntityMixin extends BlockEntity implements IBea
         if (!(blockEntity instanceof BeaconBlockEntity)) cir.setReturnValue(0);
 
         IBeaconBlockEntityMixin beaconMixin = (IBeaconBlockEntityMixin) blockEntity;
+        if (beaconMixin == null) return;
 
         int pyramidMaxLevel = BetterBeacons.config.beaconEffects.isTertiaryEffectsEnabled ? 5 : 4;
         int currPyramidLevel = 0;
